@@ -1,0 +1,159 @@
+#img-top
+{
+	background-image: url("../img/mount.jpg");
+	background-size: cover;
+	background-attachment: fixed;
+	height: 100%;
+	width: 100%;
+	-webkit-clip-path:polygon(0% 0%, 0% 75%, 50% 100%, 100% 75%, 100% 0%);
+	clip-path:polygon(0% 0%, 0% 75%, 50% 100%, 100% 75%, 100% 0%);
+	position: relative;
+}
+.lyr-img-top
+{
+	position: absolute;
+	left: 50%;
+	top: 30%;
+	transform: translate(-90% , -100%);
+}
+.padding-lg
+{
+	padding:100px 7%;
+}
+.padding
+{
+	padding:10px;
+}
+#hiking
+{
+	margin:0 auto;
+	background-image: url("../img/hiking.jpg");
+	background-repeat: no-repeat;
+	height: 60%;
+	width: 40%;
+	-webkit-clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+	clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+.text-cent
+{
+	text-align: center;
+}
+.marg-cent
+{
+	margin:0 auto;
+}
+.title
+{
+	text-align: center;
+	padding: 10px;
+}
+.img-back-glry
+{
+	background-image: url("../img/mount3.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+/*	background-attachment: fixed;*/
+	height: 100%;
+	width: 100%;
+}
+[class*="img-galery-"]{
+	-webkit-clip-path:polygon(0% 0%, 0% 75%, 50% 100%, 100% 75%, 100% 0%);
+	clip-path:polygon(0% 0%, 0% 75%, 50% 100%, 100% 75%, 100% 0%);
+	height: 220px;
+	margin:0 5px;
+	background-color: #f2f2f2;
+}
+.img-cont
+{
+	width: 45%;
+}
+/*.img-galery-1
+{
+}
+.img-galery-2
+{
+}
+.img-galery-3
+{
+}*/
+.glry-img
+{
+	margin:0 5px;
+	position: relative;
+}
+.layer-glry
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+.glry-img:hover .layer-glry
+{
+	background-color: rgba(0,0,0,0.5);
+	transition: 0.5s;
+}
+.glry-img img
+{
+	width: 100%;
+	height: 150px;
+}
+.form-news input
+{
+	border:none;
+	border-radius: 50px;
+	height: 50px;
+	background-color: #D2D7D3;
+	display: inline;
+	outline: none;
+}
+.form-news input[type="email"]
+{
+	padding:10px 20px;
+	width: 80%;
+}
+.form-news input[type="submit"]
+{
+	padding:0 20px;
+	width: 20%;
+	cursor: pointer;
+}
+#footer
+{
+	width: 100%;
+	height: 60%;
+	background-image: url("../img/mount4.jpg");
+	clip-path: polygon(100% 10% , 0% 50% , 0% 100% , 100% 100%);
+	position: relative;
+	background-repeat: no-repeat;
+}
+#lyr-footer
+{
+	background-color: rgba(0,0,0,0.3);
+	width: 100%;
+	height: 100%;
+	clip-path:inherit;
+}
+.foot-col
+{
+	position: absolute;
+	top: 25%;
+	right: 10px;
+	width: 20%;
+}
+.foot-col h1
+{
+	padding: 10px;
+}
+.foot-col ul li
+{
+	list-style-type: none;
+	display: inline;
+	padding:0 10px;
+}
+.foot-col ul li a
+{
+	color: #fff;
+	text-transform: none;
+}
