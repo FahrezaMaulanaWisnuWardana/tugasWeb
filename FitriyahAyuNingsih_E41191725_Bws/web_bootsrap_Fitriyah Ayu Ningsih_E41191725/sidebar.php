@@ -38,6 +38,7 @@
       <h6 class="collapse-header">Form:</h6>
       <a class="collapse-item" href="registration.php">Registration</a>
       <a class="collapse-item" href="contact.php">Contact Us</a>
+      <a class="collapse-item" href="diskon.php">Diskon</a>
     </div>
   </div>
 </li>
