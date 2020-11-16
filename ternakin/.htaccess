@@ -1,0 +1,18 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ $1.php
+#Dash Route
+RewriteRule ^cms-dashboard/users/edit/(.*)$ ./cms-dashboard/pages/users/edit.php?id_user=$1
+RewriteRule ^cms-dashboard/transaksi ./cms-dashboard/pages/transaksi/index.php
+RewriteRule ^cms-dashboard/peternak ./cms-dashboard/pages/peternak/index.php
+RewriteRule ^cms-dashboard/artikel/edit/(.*)$ ./cms-dashboard/pages/artikel/edit-artikel.php?id_artikel=$1
+RewriteRule ^cms-dashboard/kategori/edit/(.*)$ ./cms-dashboard/pages/artikel/edit-kategori.php?id_kategori=$1
+RewriteRule ^cms-dashboard/about/edit/(.*)$ ./cms-dashboard/pages/cms/about-us.php?id_about=$1
+RewriteRule ^cms-dashboard/carousel/edit/(.*)$ ./cms-dashboard/pages/cms/carousel.php?id_about=$1
+
+
+#FrontEnd Route
+RewriteRule ^daftar ./pages/daftar/index.php
+
+php_value date.timezone Asia/Jakarta
