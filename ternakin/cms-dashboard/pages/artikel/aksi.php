@@ -14,7 +14,7 @@
 					'id_users' => $_SESSION['user']['id_users'],
 					'id_kategori' => implode(',', $_POST['kategori'])
 				];
-				$base_dir = $_SERVER['DOCUMENT_ROOT'].'/ternakin/assets/image/artikel/';
+				$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/artikel/';
 				if (move_uploaded_file($_FILES['foto']['tmp_name'], $base_dir.$foto) ) {
 					$sql = mysqli_query($con,"INSERT INTO tb_artikel VALUES(NULL,'".$arr['judul']."','".$arr['isi']."','".$arr['foto']."','".$arr['slug']."','".$arr['id_users']."','".$arr['id_kategori']."')") or die(mysqli_error());
 					($sql)?$_SESSION['alert']['berhasil'] ="Berhasil membuat artikel":$_SESSION['alert']['gagal'] ="Gagal membuat artikel";
@@ -45,7 +45,7 @@
 					'id_users' => $_SESSION['user']['id_users'],
 					'id_kategori' => implode(',', $_POST['kategori'])
 				];
-				$base_dir = $_SERVER['DOCUMENT_ROOT'].'/ternakin/assets/image/artikel/';
+				$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/artikel/';
 				if (move_uploaded_file($_FILES['foto']['tmp_name'], $base_dir.$foto) ) {
 					unlink($base_dir.$artSatu['foto']);
 					$sql = mysqli_query($con,"UPDATE tb_artikel SET judul='".$arr['judul']."', isi='".$arr['isi']."',foto='".$arr['foto']."',slug='".$arr['slug']."',id_kategori='".$arr['id_kategori']."' ") or die(mysqli_error());

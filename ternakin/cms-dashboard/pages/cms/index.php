@@ -144,6 +144,7 @@
 
   <?php require_once"../../templates/footer-dashboard.php" ?>
   <script src="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
       $("#tableKategori").DataTable();

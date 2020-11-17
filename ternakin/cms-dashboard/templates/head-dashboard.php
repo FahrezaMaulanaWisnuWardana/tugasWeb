@@ -6,7 +6,11 @@
  ?>
 <!DOCTYPE html>
 <html lang="en">
-
+    <?php 
+      $segments = explode('/', trim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH),'/'));
+      $numSegments = count($segments);
+      $current = $segments[$numSegments-1];
+     ?>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,6 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title><?=$title?></title>
+  <link rel="icon" type="image/png" sizes="16x16" href="https://static.thenounproject.com/png/6725-200.png">
 
   <!-- Custom fonts for this template-->
   <link href="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

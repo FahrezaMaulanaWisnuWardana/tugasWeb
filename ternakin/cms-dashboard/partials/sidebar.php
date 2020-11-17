@@ -13,7 +13,7 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
+      <li class="nav-item <?=($current=="home")?'active':'';?>">
         <a class="nav-link" href="<?=$_ENV['base_url']?>cms-dashboard/home">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
@@ -26,9 +26,8 @@
       <div class="sidebar-heading">
         Master
       </div>
-
       <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
+      <li class="nav-item <?=($current=="artikel"||$current=="kategori-artikel")?'active':'';?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#artikel" aria-expanded="true" aria-controls="artikel">
           <i class="fas fa-fw fa-clipboard"></i>
           <span>Artikel</span>
@@ -40,7 +39,7 @@
           </div>
         </div>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <?=($current=="peternak")?'active':'';?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#peternak" aria-expanded="true" aria-controls="peternak">
           <i class="fas fa-fw fa-users"></i>
           <span>Peternak</span>
@@ -51,7 +50,7 @@
           </div>
         </div>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <?=($current=="provinsi"||$current=="kota")?'active':'';?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#lokasi" aria-expanded="true" aria-controls="daerah">
           <i class="fas fa-fw fa-map-marker-alt"></i>
           <span>Lokasi</span>
@@ -63,7 +62,7 @@
           </div>
         </div>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <?=($current=="transaksi")?'active':'';?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#transaksi" aria-expanded="true" aria-controls="transaksi">
           <i class="fas fa-fw fa-list-alt"></i>
           <span>Transaksi</span>
@@ -74,7 +73,7 @@
           </div>
         </div>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <?=($current=="cms")?'active':'';?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#master-web" aria-expanded="true" aria-controls="master-web">
           <i class="fas fa-fw fa-network-wired"></i>
           <span>CMS</span>
@@ -85,7 +84,7 @@
           </div>
         </div>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <?=($current=="users" || $current=="profile")?'active':'';?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#master-user" aria-expanded="true" aria-controls="master-user">
           <i class="fas fa-fw fa-users"></i>
           <span>Users</span>

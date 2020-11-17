@@ -1,25 +1,14 @@
   <?php 
-    $title="Tentang Kami";
+    $title="Tambah Provinsi";
     require_once"../../../config/database.php";
     require_once"../../templates/head-dashboard.php";
    ?>
-   <script src="<?=$_ENV['base_url']?>assets/ckeditor/ckeditor.js"></script>
   <!-- Query -->
   <?php 
-    $id = $_GET['id_about'];
-    $sql = mysqli_query($con,"SELECT * FROM tb_about_us WHERE id_about='".$id."'");
-    $data = mysqli_fetch_assoc($sql);
-  ?>
+      $sql = mysqli_query($con,"SELECT * FROM tb_provinsi WHERE id_provinsi='".$_GET['id_provinsi']."'");
+      $data = mysqli_fetch_assoc($sql);
+   ?>
   <!-- End Query -->
-  <style type="text/css">
-    #img-live{
-      max-width: 380px;
-      margin-bottom: 20px;
-      padding:5px;
-      border:1px solid #f2f2f2;
-      display: none;
-    }
-  </style>
 </head>
 
 <body id="page-top">
@@ -59,17 +48,13 @@
                   <h6 class="m-0 font-weight-bold text-primary"><?=$title?></h6>
                 </div>
                 <div class="card-body">
-                  <form method="POST" action="<?=$_ENV['base_url']?>cms-dashboard/pages/cms/aksi" enctype="multipart/form-data">
+                  <form method="POST" action="<?=$_ENV['base_url']?>cms-dashboard/pages/lokasi/aksi">
+                    <input type="hidden" name="id_provinsi" value="<?=$data['id_provinsi']?>">
                     <div class="form-group">
-                      <input type="hidden" name="id_about" value="<?=$data['id_about']?>">
-                      <label>Isikan Tentang Kami</label>
-                      <textarea name="content" id="isi"><?=$data['isi']?></textarea>
-                      <script type="text/javascript">
-                        var editor = CKEDITOR.replace('isi');
-                        CKFinder.setupCKEditor(editor);
-                      </script>
+                      <label>Provinsi</label>
+                      <input type="text" name="provinsi" class="form-control" value="<?=$data['nama_provinsi']?>">
                     </div>
-                    <button type="submit" name="aksi" class="btn btn-primary" value="edit-tentang">Edit Tentang Kami</button>
+                    <button type="submit" name="aksi" class="btn btn-primary" value="edit-provinsi">Ubah Provinsi</button>
                   </form>
                 </div>
               </div>

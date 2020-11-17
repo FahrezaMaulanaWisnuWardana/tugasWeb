@@ -6,6 +6,7 @@
   <meta name="author" content="">
 
   <title>SB Admin 2 - Login</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="https://static.thenounproject.com/png/6725-200.png">
 
   <!-- Custom fonts for this template-->
   <link href="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

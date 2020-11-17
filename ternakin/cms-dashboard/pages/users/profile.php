@@ -35,7 +35,7 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800"><?=$title?></h1>
-            <a href="<?=$_ENV['base_url']?>cms-dashboard/pages/users/edit/<?=$_SESSION['user']['id_users']?>" class="btn btn-primary mr-1"><i class="fas fa-pencil-alt"></i> Edit Profile</a>
+            <a href="<?=$_ENV['base_url']?>cms-dashboard/users/edit/<?=$_SESSION['user']['id_users']?>" class="btn btn-primary mr-1"><i class="fas fa-pencil-alt"></i> Edit Profile</a>
           </div>
           <?php 
             if (isset($_SESSION['alert'])) {

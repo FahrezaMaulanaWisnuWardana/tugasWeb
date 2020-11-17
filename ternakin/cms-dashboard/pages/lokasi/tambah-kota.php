@@ -1,24 +1,14 @@
   <?php 
-    $title="Slider";
+    $title="Tambah Kota";
     require_once"../../../config/database.php";
     require_once"../../templates/head-dashboard.php";
    ?>
+   <link rel="stylesheet" type="text/css" href="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/bootstrap-select/css/bootstrap-select.min.css">
   <!-- Query -->
   <?php 
-    $id = $_GET['id_carousel'];
-    $sql = mysqli_query($con,"SELECT * FROM tb_carousel WHERE id_carousel='".$id."'");
-    $data = mysqli_fetch_assoc($sql);
+    $sql = mysqli_query($con,"SELECT * FROM tb_provinsi");
   ?>
   <!-- End Query -->
-  <style type="text/css">
-    .img-list{
-    }
-    .img-list img{
-      border:1px solid #f2f2f2;
-      padding:10px;
-      width: 100%;
-    }
-  </style>
 </head>
 
 <body id="page-top">
@@ -58,33 +48,29 @@
                   <h6 class="m-0 font-weight-bold text-primary"><?=$title?></h6>
                 </div>
                 <div class="card-body">
-                  <form method="POST" action="<?=$_ENV['base_url']?>cms-dashboard/pages/cms/aksi" enctype="multipart/form-data">
+                  <form method="POST" action="<?=$_ENV['base_url']?>cms-dashboard/pages/lokasi/aksi">
                     <div class="form-group">
-                      <input type="hidden" name="id_carousel" value="<?=$data['id_carousel']?>">
-                      <label>Slider</label>
-                      <input type="file" name="foto[]" class="form-control-file" id="foto" accept="image/png , image/jpeg" multiple>
+                      <label>id_kota</label>
+                      <input type="number" name="id_kota" id="id_kota" class="form-control" readonly>
                     </div>
-                    <div class="img-list">
-                      <div class="row d-flex align-items-center">
-                        <div class="col-12 my-2">
-                          <h3>Foto Lama.</h3>
-                        </div>
+                    <div class="form-group">
+                      <label>Provinsi</label>
+                      <select class="form-control selectpicker" name="provinsi" id="provinsi" data-live-search="true">
+                          <option>Pilih provinsi</option>
                         <?php 
-                            $s = explode(',', $data['img_carousel']);
-                              for ($i=0; $i <count($s); $i++) { 
-                              ?>
-                                <div class="col-lg-6 col-md-12">
-                                  <img src="<?=$_ENV['base_url']?>assets/image/slider/<?=$s[$i]?>">
-                                </div>
-                              <?php
-                              }
+                          while ($data = mysqli_fetch_array($sql)) {
+                            ?>
+                              <option value="<?=$data['id_provinsi']?>"><?=$data['nama_provinsi']?></option>
+                            <?php
+                          }
                          ?>
-                        <div class="col-12 my-5">
-                          <h3>Foto Baru.</h3>
-                        </div>
-                      </div>
+                      </select>
                     </div>
-                    <button type="submit" name="aksi" class="btn btn-primary" value="edit-slider">Edit Slider</button>
+                    <div class="form-group">
+                      <label>Kota</label>
+                      <input type="text" name="kota" class="form-control">
+                    </div>
+                    <button type="submit" name="aksi" class="btn btn-primary" value="tambah-kota">Tambah Kota</button>
                   </form>
                 </div>
               </div>
@@ -121,17 +107,26 @@
   </a>
 
   <?php require_once"../../templates/footer-dashboard.php" ?>
+  <script src="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
-      $("#foto").on('change',function(){
-        var fileList = this.files; 
-         for(var i = 0; i < fileList.length; i++)
-         {
-          var t = window.URL || window.webkitURL;
-          var objectUrl = t.createObjectURL(fileList[i]);
-          $('.img-list > .row').append('<div class="col-lg-6 col-md-12"><img src="' + objectUrl + '"></div>');
-         }
-      })
+        $("#provinsi").selectpicker()
+        $("#provinsi").on('change',function(){
+            let id = $(this).val()
+            let link ="<?=$_ENV['base_url']?>cms-dashboard/api/lokasi"
+            $.ajax({
+              url : link,
+              method:"POST",
+              data:{
+                aksi:'check-kota-id',
+                id:id
+              },
+              dataType:'json',
+              success:function(data){
+                $("#id_kota").val(parseInt(data.id_kota+1))
+              }
+            });
+        });
     });
   </script>
 </html>

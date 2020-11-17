@@ -1,13 +1,12 @@
   <?php 
-    $title="List Artikel";
+    $title="List Provinsi";
     require_once"../../../config/database.php";
     require_once"../../templates/head-dashboard.php";
    ?>
    <link rel="stylesheet" type="text/css" href="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/datatables/dataTables.bootstrap4.min.css">
-
   <!-- Query -->
-  <?php 
-    $sql = mysqli_query($con,"SELECT * FROM tb_artikel");
+  <?php
+    $sql = mysqli_query($con,"SELECT * FROM tb_provinsi");
   ?>
   <!-- End Query -->
 </head>
@@ -38,7 +37,6 @@
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800"><?=$title?></h1>
           </div>
-
           <?php 
             if (isset($_SESSION['alert'])) {
               if (isset($_SESSION['alert']['berhasil'])) {
@@ -65,54 +63,50 @@
               <div class="card shadow mb-4">
                 <div class="card-header py-3 d-sm-flex justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary"><?=$title?></h6>
-                  <a href="tambah-artikel"><i class="fas fa-plus"></i></a>
+                  <a href="tambah-provinsi"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table" id="tableArtikel">
-                      <thead>
-                        <tr>
-                          <th>Judul.</th>
-                          <th>Kategori.</th>
-                          <th class="text-center">Aksi.</th>
-                        </tr>
-                      </thead>
-                      <tfoot>
-                        <tr>
-                          <th>Judul.</th>
-                          <th>Kategori.</th>
-                          <th class="text-center">Aksi.</th>
-                        </tr>
-                      </tfoot>
-                      <tbody>
-                        <?php 
+                      <table class="table table-bordered" id="listProvinsi" width="100%" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>No.</th>
+                            <th>Provinsi.</th>
+                            <th>Aksi.</th>
+                          </tr>
+                        </thead>
+                        <tfoot>
+                          <tr>
+                            <th>No.</th>
+                            <th>Provinsi.</th>
+                            <th>Aksi.</th>
+                          </tr>
+                        </tfoot>
+                        <tbody>
+                          <?php 
+                          $no=1;
                             while ($data = mysqli_fetch_array($sql)) {
                               ?>
                                 <tr>
-                                  <td><?=$data['judul']?></td>
-                                  <td>
-                                    <?php
-                                      $sqlKat = mysqli_query($con,"SELECT * FROM tb_kategori WHERE id_kategori IN (".$data['id_kategori'].")");
-                                      while ($kat = mysqli_fetch_array($sqlKat)){
-                                        echo $kat['kategori'].' , ';
-                                      }
-                                    ?>
-                                  </td>
-                                  <td>
-                                    <div class="d-flex justify-content-center">
-                                      <a href="<?=$_ENV['base_url']?>cms-dashboard/artikel/edit/<?=$data['id_artikel']?>" class="btn btn-primary mr-1"><i class="fas fa-pencil-alt"></i></a>
-                                      <form method="POST" action="<?=$_ENV['base_url']?>cms-dashboard/pages/artikel/aksi">
-                                        <input type="hidden" name="id_artikel" value="<?=$data['id_artikel']?>">
-                                        <button type="submit" name="aksi" class="btn btn-danger" value="hapus-artikel" onclick="return confirm('Artikel akan dihapus??')"><i class="fas fa-trash"></i></button>
+                                  <td><?=$no++?></td>
+                                  <td><?=$data['nama_provinsi']?></td>
+                                  <td class="text-center">
+                                    <div class="d-flex">
+                                      <a href="<?=$_ENV['base_url']?>cms-dashboard/provinsi/edit/<?=$data['id_provinsi']?>" class="btn btn-primary mr-1"><i class="fas fa-pencil-alt"></i></a> 
+                                      <form method="POST" action="aksi">
+                                        <button type="submit" class="btn btn-danger" name="aksi" value="hapus-provinsi" onclick="return confirm('Yakin akan dihapus?')">
+                                          <i class="fas fa-trash"></i>
+                                          <input type="hidden" name="id_provinsi" value="<?=$data['id_provinsi']?>">
+                                        </button>
                                       </form>
                                     </div>
                                   </td>
                                 </tr>
                               <?php
                             }
-                         ?>
-                      </tbody>
-                    </table>
+                          ?>
+                        </tbody>
+                      </table>
                   </div>
                 </div>
               </div>
@@ -153,7 +147,7 @@
   <script src="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
-      $("#tableArtikel").DataTable();
+      $("#listProvinsi").DataTable();
     });
   </script>
 </html>

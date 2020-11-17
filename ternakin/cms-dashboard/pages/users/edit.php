@@ -85,7 +85,7 @@
                         <?php 
                           while ($dataKot = mysqli_fetch_array($kota)) {
                             ?>
-                              <option value="<?=$dataKot['id_kota']?>" <?=($data_user['id_provinsi']==$dataKot['id_kota'])?'selected':''; ?>><?=$dataKot['nama_kota']?></option>
+                              <option value="<?=$dataKot['id_kota']?>" <?=($data_user['id_kota']==$dataKot['id_kota'])?'selected':''; ?>><?=$dataKot['nama_kota']?></option>
                             <?php
                           }
                         ?>
