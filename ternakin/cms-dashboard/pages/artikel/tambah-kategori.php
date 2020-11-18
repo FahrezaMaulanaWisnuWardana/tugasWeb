@@ -8,6 +8,15 @@
   <?php 
   ?>
   <!-- End Query -->
+  <style type="text/css">
+    #img-live{
+      max-width: 380px;
+      margin-bottom: 20px;
+      padding:5px;
+      border:1px solid #f2f2f2;
+      display: none;
+    }
+  </style>
 </head>
 
 <body id="page-top">
@@ -47,10 +56,17 @@
                   <h6 class="m-0 font-weight-bold text-primary"><?=$title?></h6>
                 </div>
                 <div class="card-body">
-                  <form method="POST" action="<?=$_ENV['base_url']?>cms-dashboard/pages/artikel/aksi">
+                  <form method="POST" action="<?=$_ENV['base_url']?>cms-dashboard/pages/artikel/aksi" enctype="multipart/form-data">
                     <div class="form-group">
                       <label>Kategori</label>
                       <input type="text" name="kategori" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label>Foto Kategori</label>
+                      <input type="file" name="foto" class="form-control-file" id="foto" accept="image/png , image/jpeg">
+                    </div>
+                    <div id="preview-img">
+                      <img src="" id="img-live">
                     </div>
                     <button type="submit" name="aksi" class="btn btn-primary" value="tambah-kategori">Tambah Kategori</button>
                   </form>
@@ -89,4 +105,24 @@
   </a>
 
   <?php require_once"../../templates/footer-dashboard.php" ?>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      function readURL(input){
+        if(input.files && input.files[0])
+        {
+          var reader = new FileReader();
+          reader.onload = function(e)
+          {
+            $('#preview-img').css({'display':'block'});
+            $('#img-live').attr('src', e.target.result);
+          }
+              reader.readAsDataURL(input.files[0]);
+        }
+      }
+      $('#foto').change(function(){
+        readURL(this);
+        $("#img-live").css({'display':'block'});
+      });
+    });
+  </script>
 </html>

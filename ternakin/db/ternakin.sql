@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2020 at 03:54 PM
+-- Generation Time: Nov 18, 2020 at 10:38 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -72,7 +72,7 @@ CREATE TABLE `tb_carousel` (
 --
 
 INSERT INTO `tb_carousel` (`id_carousel`, `img_carousel`) VALUES
-(1, 'test');
+(1, 'Screenshot_1.png,Screenshot_2.png,Screenshot_3.png,Screenshot_4.png');
 
 -- --------------------------------------------------------
 
@@ -126,14 +126,16 @@ CREATE TABLE `tb_kategori` (
   `kategori` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tb_kategori`
+-- Table structure for table `tb_kategori_img`
 --
 
-INSERT INTO `tb_kategori` (`id_kategori`, `kategori`) VALUES
-(1, 'romance'),
-(2, 'adventure'),
-(3, 'comedy');
+CREATE TABLE `tb_kategori_img` (
+  `id_kategori` int(2) NOT NULL,
+  `img_kategori` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -900,7 +902,7 @@ ALTER TABLE `tb_about_us`
 -- AUTO_INCREMENT for table `tb_artikel`
 --
 ALTER TABLE `tb_artikel`
-  MODIFY `id_artikel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_artikel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tb_carousel`
@@ -924,7 +926,7 @@ ALTER TABLE `tb_jenis_hewan`
 -- AUTO_INCREMENT for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
-  MODIFY `id_kategori` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_kategori` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tb_peternak`
@@ -954,7 +956,7 @@ ALTER TABLE `tb_ulasan`
 -- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `id_users` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_users` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

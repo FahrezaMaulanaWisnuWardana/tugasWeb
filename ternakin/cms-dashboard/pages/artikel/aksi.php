@@ -65,10 +65,10 @@
 					'id_users' => $_SESSION['user']['id_users'],
 					'id_kategori' => implode(',', $_POST['kategori'])
 				];
-					$sql = mysqli_query($con,"UPDATE tb_artikel SET judul='".$arr['judul']."', isi='".$arr['isi']."',slug='".$arr['slug']."',id_kategori='".$arr['id_kategori']."' WHERE id_artikel='".$arr['id_artikel']."' ") or die(mysqli_error());
+				$sql = mysqli_query($con,"UPDATE tb_artikel SET judul='".$arr['judul']."', isi='".$arr['isi']."',slug='".$arr['slug']."',id_kategori='".$arr['id_kategori']."' WHERE id_artikel='".$arr['id_artikel']."' ") or die(mysqli_error());
 
-					($sql)?$_SESSION['alert']['berhasil'] ="Berhasil ubah artikel":$_SESSION['alert']['gagal'] ="Gagal ubah artikel";
-					header("location:{$_ENV['base_url']}".'cms-dashboard/pages/artikel'."");
+				($sql)?$_SESSION['alert']['berhasil'] ="Berhasil ubah artikel":$_SESSION['alert']['gagal'] ="Gagal ubah artikel";
+				header("location:{$_ENV['base_url']}".'cms-dashboard/pages/artikel'."");
 			}
 			break;
 		case 'hapus-artikel':
@@ -79,21 +79,60 @@
 			break;
 		case 'tambah-kategori':
 			$kategori = $_POST['kategori'];
-				$sql = mysqli_query($con,"INSERT INTO tb_kategori VALUES(NULL,'".$kategori."')");
-				($sql)?$_SESSION['alert']['berhasil'] ="Berhasil tambah kategori":$_SESSION['alert']['gagal'] ="Gagal tambah kategori";
-				header("location:{$_ENV['base_url']}".'cms-dashboard/pages/artikel/kategori-artikel'."");
+			$file = explode(".", $_FILES['foto']['name']);
+			$foto = microtime(true).'.'.end($file);
+			$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/kategori/';
+			
+			if (move_uploaded_file($_FILES['foto']['tmp_name'], $base_dir.$foto) ) {
+				$sql = mysqli_query($con,"INSERT INTO tb_kategori VALUES(NULL,'".$kategori."')") or die(mysqli_error($con));
+				if ($sql) {
+					$last = $con->insert_id;
+					$sqlImgKat = mysqli_query($con,"INSERT INTO tb_kategori_img VALUES('".$last."','".$foto."')") or die(mysqli_error($con));
+					($sqlImgKat)? $_SESSION['alert']['berhasil'] ="Berhasil tambah kategori" : $_SESSION['alert']['gagal'] ="Oops ada yang salah";
+				}
+			}else{
+				$_SESSION['alert']['gagal'] ="Gagal tambah kategori";
+			}
+			header("location:{$_ENV['base_url']}".'cms-dashboard/pages/artikel/kategori-artikel'."");
 			break;
 		case 'update-kategori':
 			$id = $_POST['id_kategori'];
 			$kategori = $_POST['kategori'];
-				$sql = mysqli_query($con,"UPDATE tb_kategori SET kategori='".$kategori."' WHERE id_kategori='".$id."'");
-				($sql)?$_SESSION['alert']['berhasil'] ="Berhasil ubah kategori":$_SESSION['alert']['gagal'] ="Gagal ubah kategori";
+
+			$sqlImgKat = mysqli_query($con,"SELECT * FROM tb_kategori_img WHERE id_kategori='".$id."'");
+			$dataImg = mysqli_fetch_assoc($sqlImgKat);
+
+			$file = explode(".", $_FILES['foto']['name']);
+			$foto = microtime(true).'.'.end($file);
+			$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/kategori/';
+
+
+				if ($_FILES['foto']['name']!=""){
+					if (move_uploaded_file($_FILES['foto']['tmp_name'], $base_dir.$foto)) {
+						unlink($base_dir.$dataImg['img_kategori']);
+						$sql = mysqli_query($con,"UPDATE tb_kategori SET kategori='".$kategori."' WHERE id_kategori='".$id."'");
+						if ($sql) {
+							$sqlImgKat = mysqli_query($con,"UPDATE tb_kategori_img SET img_kategori='".$foto."' WHERE id_kategori='".$id."' ") or die(mysqli_error($con));
+							($sqlImgKat)?$_SESSION['alert']['berhasil'] ="Berhasil ubah kategori":$_SESSION['alert']['gagal'] ="Oops ada yang salah";
+						}
+					}
+				}else{
+					$sql = mysqli_query($con,"UPDATE tb_kategori SET kategori='".$kategori."' WHERE id_kategori='".$id."'");
+					($sql)?$_SESSION['alert']['berhasil'] ="Berhasil ubah kategori":$_SESSION['alert']['gagal'] ="Gagal ubah kategori";
+				}
 				header("location:{$_ENV['base_url']}".'cms-dashboard/pages/artikel/kategori-artikel'."");
 			break;
 		case 'hapus-kategori':
 			$id = $_POST['id_kategori'];
-				$sql = mysqli_query($con,"DELETE FROM tb_kategori WHERE id_kategori='".$id."'");
-				($sql)?$_SESSION['alert']['berhasil'] ="Berhasil hapus kategori":$_SESSION['alert']['gagal'] ="Gagal hapus kategori";
+			$sql = mysqli_query($con,"DELETE FROM tb_kategori WHERE id_kategori='".$id."'");
+			$sqlImgKat = mysqli_query($con,"SELECT * FROM tb_kategori_img WHERE id_kategori='".$id."'");
+			$dataImg = mysqli_fetch_assoc($sqlImgKat);
+			$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/kategori/';
+				if ($sql) {
+					unlink($base_dir.$dataImg['img_kategori']);
+					$sqlImg = mysqli_query($con,"DELETE FROM tb_kategori_img WHERE id_kategori='".$id."'");
+					($sqlImg)?$_SESSION['alert']['berhasil'] ="Berhasil hapus kategori":$_SESSION['alert']['gagal'] ="Gagal hapus kategori";
+				}
 				header("location:{$_ENV['base_url']}".'cms-dashboard/pages/artikel/kategori-artikel'."");
 			break;
 		default:

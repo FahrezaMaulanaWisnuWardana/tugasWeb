@@ -27,15 +27,15 @@
         Master
       </div>
       <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item <?=($current=="artikel"||$current=="kategori-artikel")?'active':'';?>">
+      <li class="nav-item <?=($current=="artikel"||$current=="kategori-artikel" || $currentSub=="artikel" || $currentSub=="kategori")?'active':'';?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#artikel" aria-expanded="true" aria-controls="artikel">
           <i class="fas fa-fw fa-clipboard"></i>
           <span>Artikel</span>
         </a>
         <div id="artikel" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=$_ENV['base_url']?>cms-dashboard/pages/artikel">List Artikel</a>
-            <a class="collapse-item" href="<?=$_ENV['base_url']?>cms-dashboard/pages/artikel/kategori-artikel">Kategori Artikel</a>
+            <a class="collapse-item <?=($current=="artikel"|| $currentSub=="artikel")?'active':'';?>" href="<?=$_ENV['base_url']?>cms-dashboard/pages/artikel">Daftar Artikel</a>
+            <a class="collapse-item <?=($current=="kategori-artikel" || $currentSub=="kategori")?'active':'';?>" href="<?=$_ENV['base_url']?>cms-dashboard/pages/artikel/kategori-artikel">Kategori Artikel</a>
           </div>
         </div>
       </li>
@@ -46,19 +46,19 @@
         </a>
         <div id="peternak" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=$_ENV['base_url']?>cms-dashboard/peternak">Data Peternak</a>
+            <a class="collapse-item <?=($current=="peternak")?'active':'';?>" href="<?=$_ENV['base_url']?>cms-dashboard/peternak">Daftar Peternak</a>
           </div>
         </div>
       </li>
-      <li class="nav-item <?=($current=="provinsi"||$current=="kota")?'active':'';?>">
+      <li class="nav-item <?=($current=="provinsi"||$current=="kota"|| $currentSub=="provinsi"|| $currentSub=="kota")?'active':'';?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#lokasi" aria-expanded="true" aria-controls="daerah">
           <i class="fas fa-fw fa-map-marker-alt"></i>
           <span>Lokasi</span>
         </a>
         <div id="lokasi" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=$_ENV['base_url']?>cms-dashboard/pages/lokasi/provinsi">Provinsi</a>
-            <a class="collapse-item" href="<?=$_ENV['base_url']?>cms-dashboard/pages/lokasi/kota">Kota</a>
+            <a class="collapse-item <?=($current=="provinsi" || $currentSub=="provinsi")?'active':'';?>" href="<?=$_ENV['base_url']?>cms-dashboard/pages/lokasi/provinsi">Provinsi</a>
+            <a class="collapse-item <?=($current=="kota" || $currentSub=="kota")?'active':'';?>" href="<?=$_ENV['base_url']?>cms-dashboard/pages/lokasi/kota">Kota</a>
           </div>
         </div>
       </li>
@@ -69,7 +69,7 @@
         </a>
         <div id="transaksi" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=$_ENV['base_url']?>cms-dashboard/transaksi">Data Transaksi</a>
+            <a class="collapse-item <?=($current=="transaksi")?'active':'';?>" href="<?=$_ENV['base_url']?>cms-dashboard/transaksi">Daftar Transaksi</a>
           </div>
         </div>
       </li>
@@ -80,18 +80,18 @@
         </a>
         <div id="master-web" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=$_ENV['base_url']?>cms-dashboard/pages/cms">Data CMS</a>
+            <a class="collapse-item <?=($current=="cms")?'active':'';?>" href="<?=$_ENV['base_url']?>cms-dashboard/pages/cms">Data CMS</a>
           </div>
         </div>
       </li>
-      <li class="nav-item <?=($current=="users" || $current=="profile")?'active':'';?>">
+      <li class="nav-item <?=($current=="users" || $current=="profile" || $currentSub=="users")?'active':'';?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#master-user" aria-expanded="true" aria-controls="master-user">
           <i class="fas fa-fw fa-users"></i>
           <span>Users</span>
         </a>
         <div id="master-user" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?=$_ENV['base_url']?>cms-dashboard/pages/users">Daftar Users</a>
+            <a class="collapse-item <?=($current=="users" || $currentSub=="users")?'active':'';?>" href="<?=$_ENV['base_url']?>cms-dashboard/pages/users">Daftar Users</a>
           </div>
         </div>
       </li>

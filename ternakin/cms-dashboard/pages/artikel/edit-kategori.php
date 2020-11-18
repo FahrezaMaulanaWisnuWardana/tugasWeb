@@ -8,9 +8,19 @@
   <?php 
     $id = $_GET['id_kategori'];
     $sql = mysqli_query($con,"SELECT * FROM tb_kategori WHERE id_kategori='".$id."'");
+    $sqlImgKat = mysqli_query($con,"SELECT * FROM tb_kategori_img WHERE id_kategori='".$id."'");
     $data = mysqli_fetch_assoc($sql);
+    $dataImg = mysqli_fetch_assoc($sqlImgKat);
   ?>
   <!-- End Query -->
+  <style type="text/css">
+    #img-live{
+      max-width: 380px;
+      margin-bottom: 20px;
+      padding:5px;
+      border:1px solid #f2f2f2;
+    }
+  </style>
 </head>
 
 <body id="page-top">
@@ -50,11 +60,18 @@
                   <h6 class="m-0 font-weight-bold text-primary"><?=$title?></h6>
                 </div>
                 <div class="card-body">
-                  <form method="POST" action="<?=$_ENV['base_url']?>cms-dashboard/pages/artikel/aksi">
+                  <form method="POST" action="<?=$_ENV['base_url']?>cms-dashboard/pages/artikel/aksi" enctype="multipart/form-data">
                     <input type="hidden" name="id_kategori" value="<?=$data['id_kategori']?>">
                     <div class="form-group">
                       <label>Kategori</label>
                       <input type="text" name="kategori" class="form-control" value="<?=$data['kategori']?>">
+                    </div>
+                    <div class="form-group">
+                      <label>Foto Kategori</label>
+                      <input type="file" name="foto" class="form-control-file" id="foto" accept="image/png , image/jpeg">
+                    </div>
+                    <div id="preview-img">
+                      <img src="<?=$_ENV['base_url']?>assets/image/kategori/<?=$dataImg['img_kategori']?>" id="img-live">
                     </div>
                     <button type="submit" name="aksi" class="btn btn-primary" value="update-kategori">Ubah Kategori</button>
                   </form>
@@ -93,4 +110,24 @@
   </a>
 
   <?php require_once"../../templates/footer-dashboard.php" ?>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      function readURL(input){
+        if(input.files && input.files[0])
+        {
+          var reader = new FileReader();
+          reader.onload = function(e)
+          {
+            $('#preview-img').css({'display':'block'});
+            $('#img-live').attr('src', e.target.result);
+          }
+              reader.readAsDataURL(input.files[0]);
+        }
+      }
+      $('#foto').change(function(){
+        readURL(this);
+        $("#img-live").css({'display':'block'});
+      });
+    });
+  </script>
 </html>
