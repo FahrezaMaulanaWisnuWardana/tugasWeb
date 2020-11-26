@@ -64,28 +64,48 @@
                       <label>Slider</label>
                       <input type="file" name="foto[]" class="form-control-file" id="foto" accept="image/png , image/jpeg" multiple>
                     </div>
-                    <div class="img-list">
-                      <div class="row d-flex align-items-center">
-                        <div class="col-12 my-2">
-                          <h3>Foto Lama.</h3>
-                        </div>
-                        <?php 
-                            $s = explode(',', $data['img_carousel']);
-                              for ($i=0; $i <count($s); $i++) { 
-                              ?>
-                                <div class="col-lg-6 col-md-12">
-                                  <img src="<?=$_ENV['base_url']?>assets/image/slider/<?=$s[$i]?>">
-                                </div>
-                              <?php
-                              }
-                         ?>
-                        <div class="col-12 my-5">
-                          <h3>Foto Baru.</h3>
+                    <div class="form-group">
+                      <label>Judul</label>
+                      <textarea class="form-control" name="judul"></textarea>
+                      <small class="text-danger">Pisahkan dengan simbol (<b> | </b>)</small>
+                    </div>
+                    <div class="form-group">
+                      <label>Sub judul</label>
+                      <textarea class="form-control" name="subjudul"></textarea>
+                      <small class="p text-danger">Pisahkan dengan simbol (<b> | </b>)</small>
+                    </div>
+                    <div class="form-group">
+                      <label>Deskripsi</label>
+                      <textarea class="form-control" name="deskripsi"></textarea>
+                      <small class="p text-danger">Maksimal 50 karakter per baris & Pisahkan dengan simbol (<b> | </b>)</small>
+                    </div>
+                    <div class="form-group">
+                      <label>Url/link</label>
+                      <textarea class="form-control" name="link"></textarea>
+                      <small class="text-danger">Pisahkan dengan simbol (<b> | </b>)</small>
+                    </div>
+                    <button type="submit" name="aksi" id="btn-edit" disabled class="btn btn-primary" value="edit-slider">Edit Slider</button>
+                  </form>
+                      <div class="img-list">
+                        <div class="row d-flex align-items-center">
+                          <div class="col-12 my-2">
+                            <h3>Foto Lama.</h3>
+                          </div>
+                          <?php 
+                              $s = explode(',', $data['img_carousel']);
+                                for ($i=0; $i <count($s); $i++) { 
+                                ?>
+                                  <div class="col-lg-6 col-md-12">
+                                    <img src="<?=$_ENV['base_url']?>assets/image/slider/<?=$s[$i]?>">
+                                  </div>
+                                <?php
+                                }
+                           ?>
+                          <div class="col-12 my-5">
+                            <h3>Foto Baru.</h3>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <button type="submit" name="aksi" class="btn btn-primary" value="edit-slider">Edit Slider</button>
-                  </form>
                 </div>
               </div>
 
@@ -125,12 +145,19 @@
     $(document).ready(function(){
       $("#foto").on('change',function(){
         var fileList = this.files; 
-         for(var i = 0; i < fileList.length; i++)
-         {
-          var t = window.URL || window.webkitURL;
-          var objectUrl = t.createObjectURL(fileList[i]);
-          $('.img-list > .row').append('<div class="col-lg-6 col-md-12"><img src="' + objectUrl + '"></div>');
-         }
+          if (fileList.length>3) {
+            $(this).val(null)
+            $("#btn-edit").prop('disabled','disabled');
+            alert('Maksimal 3 gambar saja!');
+          }else{
+            $("#btn-edit").prop('disabled',false);
+             for(var i = 0; i < fileList.length; i++)
+             {
+                var t = window.URL || window.webkitURL;
+                var objectUrl = t.createObjectURL(fileList[i]);
+                $('.img-list > .row').append('<div class="col-lg-6 col-md-12"><img src="' + objectUrl + '"></div>');
+             }
+          }
       })
     });
   </script>

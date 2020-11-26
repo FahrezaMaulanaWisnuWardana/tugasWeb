@@ -3,7 +3,7 @@
     require_once"../../../config/database.php";
     require_once"../../templates/head-dashboard.php";
   // Query
-    $id = substr($_GET['id_user'], -1);
+    $id = $_GET['id_user'];
     $user = mysqli_query($con , "SELECT * FROM tb_users WHERE id_users='".$id."'");
     $data_user = mysqli_fetch_assoc($user);
     $provinsi = mysqli_query($con,"SELECT * FROM tb_provinsi");

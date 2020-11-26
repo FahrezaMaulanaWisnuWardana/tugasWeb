@@ -7,7 +7,7 @@
   <?php 
     $sqlAllPeternak = mysqli_query($con,"SELECT * FROM tb_peternak");
     $sqlAllPenjual = mysqli_query($con,"SELECT * FROM tb_peternak WHERE level='2'");
-    $sqlAllHewan = mysqli_query($con,"SELECT * FROM tb_hewan");
+    $sqlAllHewan = mysqli_query($con,"SELECT * FROM tb_produk");
     $sqlAllTransaksi = mysqli_query($con,"SELECT * FROM tb_transaksi");
   ?>
   <!-- End Query -->
@@ -83,7 +83,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Hewan</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Produk</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><?=mysqli_num_rows($sqlAllHewan)?></div>
                     </div>
                     <div class="col-auto">
@@ -133,17 +133,17 @@
 
             <div class="col-lg-12 mb-4">
 
-              <!-- Illustrations -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Statistik transaksi</h6>
                 </div>
                 <div class="card-body">
-                  <div class="text-center">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="">
-                  </div>
-                  <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!</p>
-                  <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 </div>
               </div>
 
