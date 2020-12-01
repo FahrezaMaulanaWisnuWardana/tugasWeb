@@ -9,7 +9,7 @@
 				$email = $_POST['email'];
 				$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 				$hp = $_POST['hp'];
-				$sql = mysqli_query($con,"INSERT INTO tb_peternak VALUES(NULL,'".$nama."','".$email."','".$password."','".$hp."', NULL , NULL , NULL , '1','".date("Y-m-d h:i:s")."')");
+				$sql = mysqli_query($con,"INSERT INTO tb_peternak VALUES(NULL,'".$nama."','".$email."','".$password."','".$hp."', NULL , NULL , NULL , NULL , '1','".date("Y-m-d h:i:s")."')") or die(mysqli_error($con));
 				if ($sql){
 					$_SESSION['alert']['berhasil'] ="Berhasil daftar";
 					header("location:{$_ENV['base_url']}".'daftar'."");

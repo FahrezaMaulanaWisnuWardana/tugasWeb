@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2020 at 10:38 AM
+-- Generation Time: Dec 01, 2020 at 06:39 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -53,7 +53,27 @@ CREATE TABLE `tb_artikel` (
   `foto` text NOT NULL,
   `slug` text NOT NULL,
   `id_users` int(3) NOT NULL,
-  `id_kategori` varchar(10) NOT NULL
+  `id_kategori` varchar(10) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_artikel`
+--
+
+INSERT INTO `tb_artikel` (`id_artikel`, `judul`, `isi`, `foto`, `slug`, `id_users`, `id_kategori`, `created_at`) VALUES
+(9, 'z', '<p>rezatest judul dan slug lagi dongtest judul dan slug lagi dongtest judul dan slug lagi dongtest judul dan slug lagi dongtest judul dan slug lagi dong</p>\r\n\r\n<figure class=\"easyimage easyimage-full\"><img alt=\"\" src=\"blob:http://localhost/363638fb-306a-4914-aae0-bcb6b49bc097\" width=\"1134\" />\r\n<figcaption></figcaption>\r\n</figure>\r\n\r\n<p>&nbsp;</p>\r\n', '1606481064.5038.jpg', 'z', 7, '17,18', '2020-11-27 13:03:03'),
+(11, 'testing sajs', '<p><div style=\"text-align: center;\"><span style=\"font-size: 1rem;\">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span></div><span style=\"font-size: 1rem;\"><div style=\"text-align: center;\"><span style=\"font-size: 1rem;\">tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</span></div></span><span style=\"font-size: 1rem;\"><div style=\"text-align: center;\"><span style=\"font-size: 1rem;\">quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo</span></div></span><span style=\"font-size: 1rem;\"><div style=\"text-align: center;\"><span style=\"font-size: 1rem;\">consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse</span></div></span><span style=\"font-size: 1rem;\"><div style=\"text-align: center;\"><span style=\"font-size: 1rem;\">cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non</span></div></span><span style=\"font-size: 1rem;\"><div style=\"text-align: center;\"><span style=\"font-size: 1rem;\">proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></div></span></p>\r\n', '1606481951.8702.png', 'testing-sajs', 7, '18', '2020-11-30 19:42:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_bukti_tf`
+--
+
+CREATE TABLE `tb_bukti_tf` (
+  `id_transaksi` int(11) NOT NULL,
+  `img_bukti_tf` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -64,56 +84,19 @@ CREATE TABLE `tb_artikel` (
 
 CREATE TABLE `tb_carousel` (
   `id_carousel` int(4) NOT NULL,
-  `img_carousel` text NOT NULL
+  `img_carousel` text NOT NULL,
+  `judul` text NOT NULL,
+  `sub_judul` text NOT NULL,
+  `deskripsi` text NOT NULL,
+  `url` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tb_carousel`
 --
 
-INSERT INTO `tb_carousel` (`id_carousel`, `img_carousel`) VALUES
-(1, 'Screenshot_1.png,Screenshot_2.png,Screenshot_3.png,Screenshot_4.png');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tb_hewan`
---
-
-CREATE TABLE `tb_hewan` (
-  `id_hewan` int(11) NOT NULL,
-  `thumbnail_hewan` varchar(50) NOT NULL,
-  `image_hewan` text NOT NULL,
-  `nama_hewan` varchar(50) NOT NULL,
-  `id_jenis_hewan` tinyint(3) NOT NULL,
-  `jumlah` tinyint(3) NOT NULL,
-  `harga` int(8) NOT NULL,
-  `id_peternak` int(10) NOT NULL,
-  `deskripsi` text NOT NULL,
-  `catatan` varchar(200) NOT NULL,
-  `id_provinsi` int(2) NOT NULL,
-  `id_kota` int(4) NOT NULL,
-  `alamat` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tb_jenis_hewan`
---
-
-CREATE TABLE `tb_jenis_hewan` (
-  `id_jenis_hewan` tinyint(3) NOT NULL,
-  `jenis_hewan` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tb_jenis_hewan`
---
-
-INSERT INTO `tb_jenis_hewan` (`id_jenis_hewan`, `jenis_hewan`) VALUES
-(1, 'kambing');
+INSERT INTO `tb_carousel` (`id_carousel`, `img_carousel`, `judul`, `sub_judul`, `deskripsi`, `url`) VALUES
+(1, '1-min.jpg,2-min.jpg,3-min.jpg', 'Hewan ternak|Pakan ternak|Olahan ternak', 'Hewan ternak pilihan|Pakan ternak pilihan|Olahan ternak terbaik', 'Sapi , Ayam , Kambing dan lainnya|Ubi cincang , Pelet , Jerami dan lainnya|Daging , Susu , Keju dan lainnya', 'http://localhost/tugasweb/ternakin/kategori/hewan|http://localhost/tugasweb/ternakin/kategori/pakan|http://localhost/tugasweb/ternakin/kategori/olahan');
 
 -- --------------------------------------------------------
 
@@ -126,6 +109,14 @@ CREATE TABLE `tb_kategori` (
   `kategori` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `tb_kategori`
+--
+
+INSERT INTO `tb_kategori` (`id_kategori`, `kategori`) VALUES
+(17, 'Adventure'),
+(18, 'Comedy');
+
 -- --------------------------------------------------------
 
 --
@@ -135,6 +126,18 @@ CREATE TABLE `tb_kategori` (
 CREATE TABLE `tb_kategori_img` (
   `id_kategori` int(2) NOT NULL,
   `img_kategori` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_kontak`
+--
+
+CREATE TABLE `tb_kontak` (
+  `id_kontak` tinyint(1) NOT NULL,
+  `nama` text NOT NULL,
+  `icon` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -682,11 +685,62 @@ CREATE TABLE `tb_peternak` (
   `password` varchar(60) NOT NULL,
   `no_hp` varchar(13) NOT NULL,
   `alamat` text DEFAULT NULL,
+  `no_rek` varchar(50) DEFAULT NULL,
   `id_provinsi` int(2) DEFAULT NULL,
   `id_kota` int(4) DEFAULT NULL,
   `level` enum('1','2') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_peternak`
+--
+
+INSERT INTO `tb_peternak` (`id_peternak`, `nama_lengkap`, `email`, `password`, `no_hp`, `alamat`, `no_rek`, `id_provinsi`, `id_kota`, `level`, `created_at`) VALUES
+(4, 'Fahrizal Maulinda Mardial', 'reza11.6a@gmail.com', '$2y$10$nYMpMfvmFL5YlsZgVVQPSuf54IGNqTeJHlEwJcJ0VLHnSMwB2GEZW', '085816504185', NULL, NULL, NULL, NULL, '1', '2020-12-01 04:21:29'),
+(5, 'oong suratno', 'useradmin@gmail.com', '$2y$10$lCBQs1eyA9QhxLZv1hWIbuPV78LS82A4IUmX28Rw80ivbc6ZYX0i6', '085818185302', NULL, NULL, NULL, NULL, '1', '2020-12-01 04:21:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_produk`
+--
+
+CREATE TABLE `tb_produk` (
+  `id_hewan` int(11) NOT NULL,
+  `thumbnail_produk` varchar(50) NOT NULL,
+  `nama_produk` varchar(50) NOT NULL,
+  `id_jenis_produk` tinyint(3) NOT NULL,
+  `jumlah` tinyint(3) NOT NULL,
+  `harga` int(8) NOT NULL,
+  `id_peternak` int(10) NOT NULL,
+  `deskripsi` text NOT NULL,
+  `catatan` varchar(200) NOT NULL,
+  `id_provinsi` int(2) NOT NULL,
+  `id_kota` int(4) NOT NULL,
+  `alamat` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_produk_jenis`
+--
+
+CREATE TABLE `tb_produk_jenis` (
+  `id_jenis_produk` tinyint(3) NOT NULL,
+  `jenis_produk` enum('1','2','3') NOT NULL COMMENT '1.Hewan\r\n2.Hasil Olahan\r\n3.Pakan Ternak',
+  `nama_jenis_produk` varchar(10) NOT NULL,
+  `produk_jenis_img` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_produk_jenis`
+--
+
+INSERT INTO `tb_produk_jenis` (`id_jenis_produk`, `jenis_produk`, `nama_jenis_produk`, `produk_jenis_img`) VALUES
+(1, '1', 'kambing', '');
 
 -- --------------------------------------------------------
 
@@ -804,7 +858,9 @@ CREATE TABLE `tb_users` (
 --
 
 INSERT INTO `tb_users` (`id_users`, `nama`, `username`, `password`, `id_provinsi`, `id_kota`, `alamat`, `level`, `created_at`, `updated_at`) VALUES
-(7, 'Fahrizal Maulinda Mardial', 'K1D007', '$2y$10$NcWK2guKr1TkUCLJDn7Y9O2YcGHk8xuyQYDCRQVSvKjTT91t9XO6y', 35, 3511, '  pelita', '1', '2020-11-14 13:33:12', '2020-11-14 01:33:12');
+(7, 'Fahrizal Maulinda Mardial', 'K1D007', '$2y$10$NcWK2guKr1TkUCLJDn7Y9O2YcGHk8xuyQYDCRQVSvKjTT91t9XO6y', 35, 3511, '  pelita', '1', '2020-11-14 13:33:12', '2020-11-14 01:33:12'),
+(12, 'Aq', 'K1D009', '$2y$10$Kz7fDugcAF7jDSyfnMsy4eKeb2jwFTVZKo7On9qWdwMgX5l1N.Zf.', 35, 0, 'Bondowoso', '1', '2020-11-18 00:56:23', '0000-00-00 00:00:00'),
+(13, 'y', 'K1D010', '$2y$10$uWea8NuxtDBfEKSai1DOweAPAXgnBIgiqG1Yv/cNmoo3HCrL96uX2', 35, 3511, ' bondowoso', '2', '2020-11-18 13:05:27', '2020-11-18 01:05:27');
 
 --
 -- Indexes for dumped tables
@@ -829,22 +885,16 @@ ALTER TABLE `tb_carousel`
   ADD PRIMARY KEY (`id_carousel`);
 
 --
--- Indexes for table `tb_hewan`
---
-ALTER TABLE `tb_hewan`
-  ADD PRIMARY KEY (`id_hewan`);
-
---
--- Indexes for table `tb_jenis_hewan`
---
-ALTER TABLE `tb_jenis_hewan`
-  ADD PRIMARY KEY (`id_jenis_hewan`);
-
---
 -- Indexes for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
   ADD PRIMARY KEY (`id_kategori`);
+
+--
+-- Indexes for table `tb_kontak`
+--
+ALTER TABLE `tb_kontak`
+  ADD PRIMARY KEY (`id_kontak`);
 
 --
 -- Indexes for table `tb_kota`
@@ -857,6 +907,18 @@ ALTER TABLE `tb_kota`
 --
 ALTER TABLE `tb_peternak`
   ADD PRIMARY KEY (`id_peternak`);
+
+--
+-- Indexes for table `tb_produk`
+--
+ALTER TABLE `tb_produk`
+  ADD PRIMARY KEY (`id_hewan`);
+
+--
+-- Indexes for table `tb_produk_jenis`
+--
+ALTER TABLE `tb_produk_jenis`
+  ADD PRIMARY KEY (`id_jenis_produk`);
 
 --
 -- Indexes for table `tb_provinsi`
@@ -902,7 +964,7 @@ ALTER TABLE `tb_about_us`
 -- AUTO_INCREMENT for table `tb_artikel`
 --
 ALTER TABLE `tb_artikel`
-  MODIFY `id_artikel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_artikel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tb_carousel`
@@ -911,28 +973,34 @@ ALTER TABLE `tb_carousel`
   MODIFY `id_carousel` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `tb_hewan`
---
-ALTER TABLE `tb_hewan`
-  MODIFY `id_hewan` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tb_jenis_hewan`
---
-ALTER TABLE `tb_jenis_hewan`
-  MODIFY `id_jenis_hewan` tinyint(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
-  MODIFY `id_kategori` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_kategori` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `tb_kontak`
+--
+ALTER TABLE `tb_kontak`
+  MODIFY `id_kontak` tinyint(1) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_peternak`
 --
 ALTER TABLE `tb_peternak`
-  MODIFY `id_peternak` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_peternak` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tb_produk`
+--
+ALTER TABLE `tb_produk`
+  MODIFY `id_hewan` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tb_produk_jenis`
+--
+ALTER TABLE `tb_produk_jenis`
+  MODIFY `id_jenis_produk` tinyint(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tb_rating`
@@ -956,7 +1024,7 @@ ALTER TABLE `tb_ulasan`
 -- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `id_users` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_users` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

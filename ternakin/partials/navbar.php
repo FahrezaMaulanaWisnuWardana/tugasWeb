@@ -1,3 +1,10 @@
+
+    <?php 
+      $segments = explode('/', trim(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH),'/'));
+      $numSegments = count($segments);
+      $current = $segments[$numSegments-1];
+      $current2 = $segments[$numSegments-2];
+     ?>
     <nav class="navbar navbar-expand-md navbar-light bg-light main-menu" style="box-shadow:none">
       <div class="container">
 
@@ -30,7 +37,7 @@
               <a class="btn text-secondary position-relative cart-relative" href="#"><i class="bx bxs-cart icon-single"></i> <span class="badge badge-success position-absolute" id="count-cart">3</span></a>
             </li>
             <li class="nav-item ml-md-3">
-              <a class="btn btn-success" href="#"><i class="bx bxs-user-circle mr-1"></i> Log In / Register</a>
+              <a class="btn btn-success" href="<?=$_ENV['base_url']?>login"><i class="bx bxs-user-circle mr-1"></i> Log In / Register</a>
             </li>
           </ul>
         </div>
@@ -42,14 +49,14 @@
       <div class="container">
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="navbar-nav mx-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Beranda</a>
+            <li class="nav-item <?=($current=="ternakin")?'active':'';?>">
+              <a class="nav-link" href="<?=$_ENV['base_url']?>">Beranda</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Produk</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Artikel</a>
+            <li class="nav-item <?=($current=="artikel" || $current2=="a")?'active':'';?>">
+              <a class="nav-link" href="<?=$_ENV['base_url']?>artikel">Artikel</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Tentang Kami</a>
@@ -114,13 +121,6 @@
         <li>
           <a href="#"><i class="bx bx-phone mr-3"></i> Contact</a>
         </li>
-      </ul>
-
-      <ul class="social-icons">
-        <li><a href="#" target="_blank" title=""><i class="bx bxl-facebook-square"></i></a></li>
-        <li><a href="#" target="_blank" title=""><i class="bx bxl-twitter"></i></a></li>
-        <li><a href="#" target="_blank" title=""><i class="bx bxl-linkedin"></i></a></li>
-        <li><a href="#" target="_blank" title=""><i class="bx bxl-instagram"></i></a></li>
       </ul>
 
     </nav>

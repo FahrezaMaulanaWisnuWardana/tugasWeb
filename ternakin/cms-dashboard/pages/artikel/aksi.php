@@ -16,7 +16,7 @@
 				];
 				$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/artikel/';
 				if (move_uploaded_file($_FILES['foto']['tmp_name'], $base_dir.$foto) ) {
-					$sql = mysqli_query($con,"INSERT INTO tb_artikel VALUES(NULL,'".$arr['judul']."','".$arr['isi']."','".$arr['foto']."','".$arr['slug']."','".$arr['id_users']."','".$arr['id_kategori']."')") or die(mysqli_error());
+					$sql = mysqli_query($con,"INSERT INTO tb_artikel VALUES(NULL,'".$arr['judul']."','".$arr['isi']."','".$arr['foto']."','".$arr['slug']."','".$arr['id_users']."','".$arr['id_kategori']."','".date("Y-m-d h:i:s")."')") or die(mysqli_error());
 					($sql)?$_SESSION['alert']['berhasil'] ="Berhasil membuat artikel":$_SESSION['alert']['gagal'] ="Gagal membuat artikel";
 					header("location:{$_ENV['base_url']}".'cms-dashboard/pages/artikel'."");
 				}else{
@@ -82,16 +82,22 @@
 			$file = explode(".", $_FILES['foto']['name']);
 			$foto = microtime(true).'.'.end($file);
 			$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/kategori/';
-			
-			if (move_uploaded_file($_FILES['foto']['tmp_name'], $base_dir.$foto) ) {
-				$sql = mysqli_query($con,"INSERT INTO tb_kategori VALUES(NULL,'".$kategori."')") or die(mysqli_error($con));
-				if ($sql) {
-					$last = $con->insert_id;
-					$sqlImgKat = mysqli_query($con,"INSERT INTO tb_kategori_img VALUES('".$last."','".$foto."')") or die(mysqli_error($con));
-					($sqlImgKat)? $_SESSION['alert']['berhasil'] ="Berhasil tambah kategori" : $_SESSION['alert']['gagal'] ="Oops ada yang salah";
+			if ($_FILES['foto']['name']!="") {
+				if (move_uploaded_file($_FILES['foto']['tmp_name'], $base_dir.$foto) ) {
+					$sql = mysqli_query($con,"INSERT INTO tb_kategori VALUES(NULL,'".$kategori."')") or die(mysqli_error($con));
+					if ($sql) {
+						$last = $con->insert_id;
+						$sqlImgKat = mysqli_query($con,"INSERT INTO tb_kategori_img VALUES('".$last."','".$foto."')") or die(mysqli_error($con));
+						($sqlImgKat)? $_SESSION['alert']['berhasil'] ="Berhasil tambah kategori" : $_SESSION['alert']['gagal'] ="Oops ada yang salah";
+					}
+				}else{
+					$_SESSION['alert']['gagal'] ="Gagal tambah kategori";
 				}
 			}else{
-				$_SESSION['alert']['gagal'] ="Gagal tambah kategori";
+				$sql = mysqli_query($con,"INSERT INTO tb_kategori VALUES(NULL,'".$kategori."')") or die(mysqli_error($con));
+					if ($sql) {
+						($sql)? $_SESSION['alert']['berhasil'] ="Berhasil tambah kategori" : $_SESSION['alert']['gagal'] ="Oops ada yang salah";
+					}
 			}
 			header("location:{$_ENV['base_url']}".'cms-dashboard/pages/artikel/kategori-artikel'."");
 			break;

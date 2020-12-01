@@ -3,7 +3,6 @@
     require_once"../../../config/database.php";
     require_once"../../templates/head-dashboard.php";
    ?>
-   <script src="<?=$_ENV['base_url']?>assets/ckeditor/ckeditor.js"></script>
    <link rel="stylesheet" type="text/css" href="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/bootstrap-select/css/bootstrap-select.min.css">
   <!-- Query -->
   <?php 
@@ -84,11 +83,7 @@
                     </div>
                     <div class="form-group">
                       <label>Isi</label>
-                      <textarea name="content" id="isi"></textarea>
-                      <script type="text/javascript">
-                        var editor = CKEDITOR.replace('isi');
-                        CKFinder.setupCKEditor(editor);
-                      </script>
+                      <textarea name="content" id="summernote"></textarea>
                     </div>
                     <button type="submit" name="aksi" class="btn btn-primary" value="tambah-artikel">Buat Artikel</button>
                   </form>
@@ -127,9 +122,13 @@
   </a>
 
   <?php require_once"../../templates/footer-dashboard.php" ?>
+
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
   <script src="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
+      $('#summernote').summernote();
       $('select').selectpicker();
       function readURL(input){
         if(input.files && input.files[0])

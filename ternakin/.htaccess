@@ -16,5 +16,10 @@ RewriteRule ^cms-dashboard/kota/edit/([0-9a-zA-Z]+) ./cms-dashboard/pages/lokasi
 
 #FrontEnd Route
 RewriteRule ^daftar ./pages/daftar/index.php
+RewriteRule ^login ./pages/login/index.php
+RewriteRule ^keluar ./config/keluar.php
+RewriteRule ^artikel ./pages/artikel/index.php
+RewriteRule ^a/(.+) ./pages/artikel/detail-artikel.php?slug=$1
+RewriteRule ^profile ./pages/profile/index.php
 
 php_value date.timezone Asia/Jakarta
