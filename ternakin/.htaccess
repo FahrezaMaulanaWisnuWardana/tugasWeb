@@ -4,8 +4,8 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ $1.php
 #Dash Route
 RewriteRule ^cms-dashboard/users/edit/([0-9a-zA-Z]+) ./cms-dashboard/pages/users/edit.php?id_user=$1
-RewriteRule ^cms-dashboard/transaksi ./cms-dashboard/pages/transaksi/index.php
-RewriteRule ^cms-dashboard/peternak ./cms-dashboard/pages/peternak/index.php
+RewriteRule ^cms-dashboard/transaksi ./cms-dashboard/pages/transaksi/index.php [L,QSA]
+RewriteRule ^cms-dashboard/peternak ./cms-dashboard/pages/peternak/index.php [L,QSA]
 RewriteRule ^cms-dashboard/artikel/edit/([0-9a-zA-Z]+) ./cms-dashboard/pages/artikel/edit-artikel.php?id_artikel=$1
 RewriteRule ^cms-dashboard/kategori/edit/([0-9a-zA-Z]+) ./cms-dashboard/pages/artikel/edit-kategori.php?id_kategori=$1
 RewriteRule ^cms-dashboard/about/edit/([0-9a-zA-Z]+) ./cms-dashboard/pages/cms/about-us.php?id_about=$1
