@@ -2,6 +2,7 @@
 	$title = "Login Ternakin";
 	include"../../config/database.php";
   	include"../../templates/header.php";
+    (isset($_SESSION['user']['id']))?header("location:{$_ENV['base_url']}profile"):'';
  ?>
 </head>
     <?php 
@@ -40,7 +41,7 @@
 					        </div>
 					        <input type="email" class="form-control" name="email" placeholder="Email...">
 				      	</div>
-	  					<div class="input-group mb-2">
+	  					  <div class="input-group mb-2">
 					        <div class="input-group-prepend">
 					          <div class="input-group-text"><i class="bx bxs-key"></i></div>
 					        </div>

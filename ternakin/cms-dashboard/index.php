@@ -5,7 +5,7 @@
   <?php 
     $title="Login Ternakin";
     require_once"templates/head-login.php"; 
-    if (isset($_SESSION['user'])) {
+    if (isset($_SESSION['user']['id_users'])) {
         header("location:{$_ENV['base_url']}".'cms-dashboard/home'."");
     }
   ?>

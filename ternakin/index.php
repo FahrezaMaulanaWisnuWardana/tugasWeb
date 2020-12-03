@@ -3,6 +3,7 @@
   include"config/database.php";
   include"templates/header.php";
   $sqlCarousel = mysqli_query($con,"SELECT * FROM tb_carousel");
+  $sqlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk LIMIT 4");
   $dataCarousel = mysqli_fetch_assoc($sqlCarousel);
 ?>
 <style type="text/css">
@@ -16,7 +17,7 @@
       include"partials/navbar.php"; 
       include"partials/carousel.php"; 
     ?>
-    <div class="container-fluid">
+    <div class="container">
 
       <div class="col-lg-9 info-panel">
         <div class="row text-center">
@@ -48,33 +49,43 @@
         <div class="w-100 text-center mb-4">
           <h3>Produk Terbaru</h3>
         </div>
-        <div class="col-3 my-1">
-          <div class="card overflow-hidden">
-            <div class="text-center">
-              <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" class="card-img-top" style="width:200px;">
-            </div>
-            <div class="card-body">
-              <small class="card-text"><span class="badge badge-secondary">Sapi</span><span class="badge badge-secondary">Hewan ternak</span></small>
-              <h5 class="card-title">Sapi Gahar Cak Wang</h5>
-              <div class="info-card pb-2">
-                <span class="text-primary font-weight-bold d-inline">Rp.15.000.000</span>
-                <div class="rating float-right">
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
+        <?php 
+            while ($dataProduk = mysqli_fetch_array($sqlProduk)){
+              $img = explode(',', $dataProduk['foto_produk']);
+              ?>
+              <div class="col-3 my-1">
+                <a href="<?=$_ENV['base_url']?>" style="text-decoration: none; color: inherit;">
+                <div class="card overflow-hidden">
+                  <div class="text-center">
+                    <img src="<?=$_ENV['base_url']?>assets/image/produk/<?=$dataProduk['id_peternak'].'/'.$img[0]?>" class="card-img-top" style="width:200px;">
+                  </div>
+                  <div class="card-body">
+                    <small class="card-text"><span class="badge badge-secondary"><?=$dataProduk['nama_jenis_produk']?></span></small>
+                    <h5 class="card-title"><?=$dataProduk['nama_produk']?></h5>
+                    <div class="info-card pb-2">
+                      <span class="text-primary font-weight-bold d-inline">Rp.<?=number_format($dataProduk['harga'],2,',','.')?></span>
+                      <div class="rating">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        (200)
+                      </div>
+                    </div>
+                  </div>
+      <!--             <div class="card-body-hidden">
+                    <a href="#" class="btn border btn-sm mb-2"><i class="bx bxs-cart icon-single"></i> Tambahkan ke keranjang</a>
+                    <div class="text-center">
+                      <a class="nav-link-style font-size-ms" href="#quick-view" data-toggle="modal"><i class="bx bxs-book-open mr-1"></i>Quick view</a>
+                    </div>
+                  </div> -->
                 </div>
+                </a>
               </div>
-            </div>
-<!--             <div class="card-body-hidden">
-              <a href="#" class="btn border btn-sm mb-2"><i class="bx bxs-cart icon-single"></i> Tambahkan ke keranjang</a>
-              <div class="text-center">
-                <a class="nav-link-style font-size-ms" href="#quick-view" data-toggle="modal"><i class="bx bxs-book-open mr-1"></i>Quick view</a>
-              </div>
-            </div> -->
-          </div>
-        </div>
+              <?php
+            }
+         ?>
 
         <div class="w-100 text-center my-4">
           <a href="#" class="btn btn-success">Semua Produk <i class="fas fa-chevron-right"></i></a>

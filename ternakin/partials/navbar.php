@@ -37,7 +37,10 @@
               <a class="btn text-secondary position-relative cart-relative" href="#"><i class="bx bxs-cart icon-single"></i> <span class="badge badge-success position-absolute" id="count-cart">3</span></a>
             </li>
             <li class="nav-item ml-md-3">
-              <a class="btn btn-success" href="<?=$_ENV['base_url']?>login"><i class="bx bxs-user-circle mr-1"></i> Log In / Register</a>
+              <a class="btn btn-success" href="<?=(isset($_SESSION['user']['id']))?$_ENV['base_url'].'profile':$_ENV['base_url'].'login'?>">
+                <i class="bx bxs-user-circle mr-1"></i>
+                <?=(isset($_SESSION['user']['id']))?' Halo '.$_SESSION['user']['nama'].'':' Log In / Register'?>
+              </a>
             </li>
           </ul>
         </div>

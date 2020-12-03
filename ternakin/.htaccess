@@ -21,5 +21,7 @@ RewriteRule ^keluar ./config/keluar.php
 RewriteRule ^artikel ./pages/artikel/index.php
 RewriteRule ^a/(.+) ./pages/artikel/detail-artikel.php?slug=$1
 RewriteRule ^profile ./pages/profile/index.php
+RewriteRule ^edit-profile ./pages/profile/edit-profile.php
+RewriteRule ^tambah-produk ./pages/profile/tambah-produk.php
 
 php_value date.timezone Asia/Jakarta

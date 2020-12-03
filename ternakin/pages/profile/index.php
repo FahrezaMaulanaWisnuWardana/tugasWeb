@@ -19,22 +19,41 @@
 </head>
 <body>
 <?php require_once"../../partials/navbar-profile.php"; ?>
-<div class="container" style="margin: 100px;">
+<div class="container" style="margin: 100px auto;">
 	<div class="jumbotron">
 		<div class="d-flex justify-content-between">
 			<div class="card card-profile" style="width: 120px;background: #f2f2f2;">
 				<img src="https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png" style="width: 100%;">
 			</div>
 			<div class="card-profile d-flex align-items-center">
-				<a href="#" class="btn btn-success">Edit Profile</a>
+				<a href="<?=$_ENV['base_url']?>edit-profile" class="btn btn-success">Edit Profile</a>
 			</div>
 		</div>
 		<ul class="list-group list-group-flush mt-2">
 		  <li class="list-group-item">Nama: <?=$data['nama_lengkap']?></li>
 		  <li class="list-group-item">Email: <?=$data['email']?></li>
-		  <li class="list-group-item">Alamat: <?=($data['id_provinsi']==null && $data['alamat']==null && $data['id_kota']==null)?'-':$dataProv['nama_provinsi'].' - '.$dataProv['nama_kota'].' - '.$data['alamat']?></li>
+		  <li class="list-group-item">No Hp: <?=$data['no_hp']?></li>
+		  <li class="list-group-item"><?=($data['id_provinsi']==null && $data['alamat']==null && $data['id_kota']==null)?'-':'Provinsi: '.$dataProv['nama_provinsi'].' <br> Kota : '.$dataKota['nama_kota'].' <br> Alamat: '.$data['alamat']?></li>
 		</ul>
 	</div>
+        <?php 
+          if (isset($_SESSION['alert'])) {
+            if (isset($_SESSION['alert']['berhasil'])) {
+              ?>
+              <div class="alert alert-success" role="alert">
+                <?=$_SESSION['alert']['berhasil']?>
+              </div>
+              <?php
+            }else{
+              ?>
+              <div class="alert alert-danger text-center" role="alert">
+                <?=$_SESSION['alert']['gagal']?>
+              </div>
+              <?php
+            }
+            unset($_SESSION['alert']);
+          }
+        ?>
 		<!-- Tabs -->
 		<ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
 		  <li class="nav-item">
@@ -128,10 +147,12 @@
 		  </div>
 		  <div class="tab-pane fade" id="penjual" role="tabpanel" aria-labelledby="penjual-tab">
 		  	<?php 
-		  		if ($_SESSION['user']['level']==1) {
+		  		if ($data['level']==1) {
 		  			?>
 		  			<div class="text-center mt-5">
-		  				<a href="#" class="btn btn-success">Gabung Menjadi Penjual</a>
+		  				<form method="POST" action="<?=$_ENV['base_url']?>pages/profile/aksi.php">
+		  					<button type="submit" name="aksi" value="gabung" class="btn btn-success">Gabung Menjadi Penjual</button>
+		  				</form>
 		  			</div>
 		  			<?php
 		  		}else{

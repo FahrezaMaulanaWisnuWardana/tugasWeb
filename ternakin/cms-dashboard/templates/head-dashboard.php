@@ -1,5 +1,5 @@
 <?php 
-  if (!isset($_SESSION['user'])) {
+  if (!isset($_SESSION['user']['id_users'])) {
     $_SESSION['alert']['gagal'] = "Silahkan Login Dahulu";
     header("location:{$_ENV['base_url']}".'cms-dashboard'."");
   }

@@ -145,10 +145,10 @@
     $(document).ready(function(){
       $("#foto").on('change',function(){
         var fileList = this.files; 
-          if (fileList.length>3) {
+          if (fileList.length>3 || fileList.length<3) {
             $(this).val(null)
             $("#btn-edit").prop('disabled','disabled');
-            alert('Maksimal 3 gambar saja!');
+            alert('3 gambar!');
           }else{
             $("#btn-edit").prop('disabled',false);
              for(var i = 0; i < fileList.length; i++)

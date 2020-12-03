@@ -10,7 +10,7 @@
 					'judul' => $_POST['judul'],
 					'isi' => $_POST['content'],
 					'foto' => $foto,
-					'slug' => str_replace(" ", "-", $_POST['judul']),
+					'slug' => str_replace(" ", "-", str_shuffle(md5($_POST['judul']))),
 					'id_users' => $_SESSION['user']['id_users'],
 					'id_kategori' => implode(',', $_POST['kategori'])
 				];

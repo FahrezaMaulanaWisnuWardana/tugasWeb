@@ -16,32 +16,6 @@
       include"partials/navbar.php"; 
       include"partials/carousel.php"; 
     ?>
-    <div class="container-fluid">
-
-      <div class="col-lg-9 info-panel">
-        <div class="row text-center">
-          <div class="col-lg">
-            <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width: 150px;">
-            <div class="h5 pb-5">
-              Hewan Ternak
-            </div>
-          </div>
-          <div class="col-lg">
-            <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width: 150px;">
-            <div class="h5 pb-5">
-              Pakan Ternak
-            </div>
-          </div>
-          <div class="col-lg">
-            <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width: 150px;">
-            <div class="h5 pb-5">
-              Olahan Ternak
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
     <div class="container">
       <!-- Produk 8 -->
       <div class="row my-5">
