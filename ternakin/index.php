@@ -6,11 +6,6 @@
   $sqlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk LIMIT 4");
   $dataCarousel = mysqli_fetch_assoc($sqlCarousel);
 ?>
-<style type="text/css">
-  .checked {
-    color: orange;
-  }
-</style>
   </head>
   <body>
     <?php 
@@ -54,7 +49,7 @@
               $img = explode(',', $dataProduk['foto_produk']);
               ?>
               <div class="col-3 my-1">
-                <a href="<?=$_ENV['base_url']?>" style="text-decoration: none; color: inherit;">
+                <a href="<?=$_ENV['base_url']?>p/<?=$dataProduk['id_hewan']?>" style="text-decoration: none; color: inherit;">
                 <div class="card overflow-hidden">
                   <div class="text-center">
                     <img src="<?=$_ENV['base_url']?>assets/image/produk/<?=$dataProduk['id_peternak'].'/'.$img[0]?>" class="card-img-top" style="width:200px;">
@@ -73,22 +68,19 @@
                         (200)
                       </div>
                     </div>
-                  </div>
-      <!--             <div class="card-body-hidden">
-                    <a href="#" class="btn border btn-sm mb-2"><i class="bx bxs-cart icon-single"></i> Tambahkan ke keranjang</a>
-                    <div class="text-center">
-                      <a class="nav-link-style font-size-ms" href="#quick-view" data-toggle="modal"><i class="bx bxs-book-open mr-1"></i>Quick view</a>
-                    </div>
-                  </div> -->
-                </div>
                 </a>
+                  </div>
+                    <div class="card-body-hidden text-center pb-4">
+                      <div class="btn border btn-sm mb-2 cart" data-id=<?=$dataProduk['id_hewan']?>><i class="bx bxs-cart icon-single"></i> Tambahkan ke keranjang</div>
+                    </div>
+                </div>
               </div>
               <?php
             }
          ?>
 
         <div class="w-100 text-center my-4">
-          <a href="#" class="btn btn-success">Semua Produk <i class="fas fa-chevron-right"></i></a>
+          <a href="#" class="btn btn-outline-success">Semua Produk <i class="fas fa-chevron-right"></i></a>
         </div>
 
       </div>
@@ -237,7 +229,7 @@
         </div>
 
         <div class="w-100 text-center my-4">
-          <a href="#" class="btn btn-success">Semua Kategori <i class="fas fa-chevron-right"></i></a>
+          <a href="#" class="btn btn-outline-success">Semua Kategori <i class="fas fa-chevron-right"></i></a>
         </div>
 
       </div>

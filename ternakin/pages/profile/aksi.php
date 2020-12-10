@@ -26,22 +26,22 @@
 			}
 			break;
 		case 'edit-profile':
-					$sql = mysqli_query($con,"UPDATE tb_peternak SET 
-						nama_lengkap='".$_POST['nama']."',
-						email='".$_POST['email']."',
-						no_hp='".$_POST['no_hp']."',
-						alamat='".$_POST['alamat']."',
-						no_rek='".$_POST['no_rek']."',
-						id_provinsi= '".$_POST['provinsi']."',
-						id_kota='".$_POST['kota']."'
-						WHERE id_peternak='".$id."'");
-					if ($sql) {
-						$_SESSION['alert']['berhasil'] ="Berhasil update profile";
-						header("location:{$_ENV['base_url']}profile");
-					}else{
-						$_SESSION['alert']['gagal'] ="Gagal update profile";
-						header("location:{$_ENV['base_url']}profile");
-					}
+				$sql = mysqli_query($con,"UPDATE tb_peternak SET 
+					nama_lengkap='".$_POST['nama']."',
+					email='".$_POST['email']."',
+					no_hp='".$_POST['no_hp']."',
+					alamat='".$_POST['alamat']."',
+					no_rek='".$_POST['no_rek']."',
+					id_provinsi= '".$_POST['provinsi']."',
+					id_kota='".$_POST['kota']."'
+					WHERE id_peternak='".$id."'");
+				if ($sql) {
+					$_SESSION['alert']['berhasil'] ="Berhasil update profile";
+					header("location:{$_ENV['base_url']}profile");
+				}else{
+					$_SESSION['alert']['gagal'] ="Gagal update profile";
+					header("location:{$_ENV['base_url']}profile");
+				}
 			break;
 		case 'tambah-produk':
 			$total = count($_FILES['foto']['name']);

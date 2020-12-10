@@ -5,7 +5,7 @@
       $current = $segments[$numSegments-1];
       $current2 = $segments[$numSegments-2];
      ?>
-    <nav class="navbar navbar-expand-md navbar-light bg-light main-menu" style="box-shadow:none">
+    <nav class="navbar navbar-expand-md navbar-light bg-light main-menu" id="navbar" style="box-shadow:none; z-index: 99; width: 100%;">
       <div class="container">
 
         <span id="sidebarCollapse" class="btn text-success d-block d-md-none">
@@ -18,7 +18,7 @@
 
         <ul class="navbar-nav ml-auto d-block d-md-none">
           <li class="nav-item">
-            <a class="btn text-secondary position-relative cart-relative" href="#"><i class="bx bxs-cart icon-single"></i> <span class="badge badge-success" id="count-cart">3</span></a>
+              <a class="btn text-secondary position-relative cart-relative" href="<?=$_ENV['base_url']?>cart"><i class="bx bxs-cart icon-single"></i> <span class="badge badge-success position-absolute count-cart">0</span></a>
           </li>
         </ul>
 
@@ -34,7 +34,7 @@
           </form>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="btn text-secondary position-relative cart-relative" href="#"><i class="bx bxs-cart icon-single"></i> <span class="badge badge-success position-absolute" id="count-cart">3</span></a>
+              <a class="btn text-secondary position-relative cart-relative" href="<?=$_ENV['base_url']?>cart"><i class="bx bxs-cart icon-single"></i> <span class="badge badge-success position-absolute count-cart">0</span></a>
             </li>
             <li class="nav-item ml-md-3">
               <a class="btn btn-success" href="<?=(isset($_SESSION['user']['id']))?$_ENV['base_url'].'profile':$_ENV['base_url'].'login'?>">

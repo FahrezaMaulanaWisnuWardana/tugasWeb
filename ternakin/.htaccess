@@ -23,5 +23,6 @@ RewriteRule ^a/(.+) ./pages/artikel/detail-artikel.php?slug=$1
 RewriteRule ^profile ./pages/profile/index.php
 RewriteRule ^edit-profile ./pages/profile/edit-profile.php
 RewriteRule ^tambah-produk ./pages/profile/tambah-produk.php
+RewriteRule ^cart ./pages/cart/index.php
 
 php_value date.timezone Asia/Jakarta
