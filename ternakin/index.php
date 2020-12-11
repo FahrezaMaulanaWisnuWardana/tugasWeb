@@ -71,7 +71,7 @@
                 </a>
                   </div>
                     <div class="card-body-hidden text-center pb-4">
-                      <div class="btn border btn-sm mb-2 cart" data-id=<?=$dataProduk['id_hewan']?>><i class="bx bxs-cart icon-single"></i> Tambahkan ke keranjang</div>
+                      <div class="btn border btn-sm mb-2 cart" data-id="<?=$dataProduk['id_hewan']?>" data-harga="<?=$dataProduk['harga']?>"><i class="bx bxs-cart icon-single"></i> Tambahkan ke keranjang</div>
                     </div>
                 </div>
               </div>

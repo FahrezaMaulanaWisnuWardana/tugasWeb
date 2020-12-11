@@ -39,7 +39,7 @@
             <li class="nav-item ml-md-3">
               <a class="btn btn-success" href="<?=(isset($_SESSION['user']['id']))?$_ENV['base_url'].'profile':$_ENV['base_url'].'login'?>">
                 <i class="bx bxs-user-circle mr-1"></i>
-                <?=(isset($_SESSION['user']['id']))?' Halo '.$_SESSION['user']['nama'].'':' Log In / Register'?>
+                <?=(isset($_SESSION['user']['id']))?' Halo '.$_SESSION['user']['nama'].'':' Masuk / Daftar'?>
               </a>
             </li>
           </ul>
@@ -96,7 +96,10 @@
         <div class="container">
           <div class="row align-items-center">
             <div class="col-10 pl-0">
-              <a class="btn btn-primary" href="#"><i class="bx bxs-user-circle mr-1"></i> Log In</a>
+              <a class="btn btn-success" href="<?=(isset($_SESSION['user']['id']))?$_ENV['base_url'].'profile':$_ENV['base_url'].'login'?>">
+                <i class="bx bxs-user-circle mr-1"></i>
+                <?=(isset($_SESSION['user']['id']))?' Halo '.$_SESSION['user']['nama'].'':' Masuk / Daftar'?>
+              </a>
             </div>
 
             <div class="col-2 text-left">

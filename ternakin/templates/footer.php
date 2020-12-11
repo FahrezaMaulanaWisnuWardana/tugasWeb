@@ -6,7 +6,7 @@
   $(document).ready(function(){
       // Cart
       let cart =localStorage.getItem('id') ? JSON.parse(localStorage.getItem('id')) : []
-        count = 0;
+      count = 0;
       function countValues(array, countItem) {
         array.forEach(itm => {
           if (itm == countItem) count++;
@@ -15,10 +15,21 @@
       }
         let unique = cart.filter((v,i,a)=>a.indexOf(v)===i)
       $(".cart").on('click',function(){
-        cart.push(""+$(this).data("id")+"")
-        localStorage.setItem("id",JSON.stringify(cart))
+        cart.push($(this).data('id'))
+        localStorage.setItem('id',JSON.stringify(cart))
+        totalCart($(this).data('harga'))
         $(".count-cart").text(cart.length)
+
       })
+      function totalCart(harga){
+        let total = localStorage.getItem('total')
+        if (total != null) {
+          total = parseInt(total)
+          localStorage.setItem('total',total + harga)
+        }else{
+          localStorage.setItem('total',harga)
+        }
+      }
       let url = window.location.href;
       let split = url.split('/');
       if (cart !== null) {

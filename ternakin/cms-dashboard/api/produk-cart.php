@@ -8,7 +8,7 @@
 			while ($data = mysqli_fetch_array($sql)) {
 				$img = explode(',', $data['foto_produk']);
 				$arr[] =array(
-					'id'=>$data['id_hewan'],
+					'id'=>intval($data['id_hewan']),
 					'id_peternak' => $data['id_peternak'],
 					'img'=>$img[0],
 					'jenis'=>$data['nama_jenis_produk'],
