@@ -12,14 +12,14 @@
     <div class="container my-5">
       <div class="row" id="cart-list"></div>
       <div class="row">
-      	<div class="col-lg-12">
+      	<div class="col-lg-12" id="total-harganya">
       		<h5>Jumlah : <span id="jml"></span></h5>
       	</div>
-        <div class="col-lg-12">
+        <div class="col-lg-12" id="btn-process">
           <?php 
               if (isset($_SESSION['user']['id'])) {
                 ?>
-                <button class="btn btn-success form-control">yuk proses</button>
+                <button class="btn btn-success form-control" id="bayar">Buat pesanan</button>
                 <?php   
               }else{
                 ?>
@@ -40,8 +40,10 @@
     		let cart =localStorage.getItem('id') ? JSON.parse(localStorage.getItem('id')) : []
         let total = localStorage.getItem('total')
         if (cart.length<1) {
+          $("#btn-process").remove()
+          $("#total-harganya").remove()
           $("#cart-list").addClass('text-center')
-          $("#cart-list").html('<h1 class="my-5 mx-auto">Yuk belanja</h1>')
+          $("#cart-list").html('<h1 class="my-5 mx-auto text-secondary">Keranjang Kosong... <p>Yuk Belanja :)</p></h1>')
         }else{
           $("#cart-list").removeClass('text-center')
         }
@@ -163,6 +165,22 @@
               localStorage.setItem('total',harga)
             }
         }
+
+        $("#bayar").click(function(){
+          $.ajax({
+            url : link,
+            method:"POST",
+            data:{
+              aksi:'proses-produk',
+              produk:cart
+            },
+            dataType:'json',
+            success:function(data){
+              localStorage.clear()
+              location.reload()
+            }
+          })
+        })
     	});
     </script>
 </html>

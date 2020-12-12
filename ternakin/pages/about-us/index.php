@@ -1,31 +1,15 @@
-<!DOCTYPE html>
-<html style="font-size: 16px;">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <meta name="keywords" content="Ternakin, TERNAKIN">
-    <meta name="description" content="">
-    <meta name="page_type" content="np-template-header-footer-from-plugin">
-    <title>Page 1</title>
-    <link rel="stylesheet" href="nicepage.css" media="screen">
-    <link rel="stylesheet" href="Page-1.css" media="screen">
-    <meta property="og:title" content="Page 1">
-    <meta property="og:type" content="website">
-    <meta name="theme-color" content="#478ac9">
-    <link rel="canonical" href="index.html">
-    <meta property="og:url" content="index.html">
     <?php 
-    $title="Situs jual beli hewan dan hasil hewan";
-    include"../../config/database.php";
-    include"../../templates/header.php";
-    include"../../partials/navbar.php";
-    ?>
-  </head>
-  <body data-home-page="Page-1.html" data-home-page-title="Page 1" class="u-body">
-    <?php 
+      $title="Situs jual beli hewan dan hasil hewan";
+      include"../../config/database.php";
+      include"../../templates/header.php";
       $sqldaerah = mysqli_query($con,"SELECT * FROM tb_kota");
       $sqlpeternak = mysqli_query($con,"SELECT * FROM tb_peternak");
       $sqlproduk = mysqli_query($con,"SELECT * FROM tb_produk");
+    ?>
+  </head>
+  <body>
+    <?php 
+      include"../../partials/navbar.php";
     ?>
     <section class="u-align-center u-clearfix u-section-1" id="sec-8b67">
       <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xl u-sheet-1">

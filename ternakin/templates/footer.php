@@ -37,6 +37,9 @@
           $(".count-cart").text(cart.length)
         }
       }
+      $("#logout").on('click',function(){
+        localStorage.clear()
+      })
       // End Cart
   })
 </script>

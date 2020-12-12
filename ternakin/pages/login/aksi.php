@@ -12,7 +12,6 @@
 				
                 $_SESSION['user']['id'] = $data['id_peternak']; 
                 $_SESSION['user']['nama'] = $data['nama_lengkap'];
-                $_SESSION['user']['level'] = $data['level'];
 				header("location:{$_ENV['base_url']}".'profile'."");
 			}else{
 				$_SESSION['alert']['gagal'] ="Gagal Login Username atau Password anda salah";

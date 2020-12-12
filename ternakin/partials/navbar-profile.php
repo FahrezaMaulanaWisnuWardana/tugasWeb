@@ -23,7 +23,7 @@
       </li>
     </ul>
     <span class="navbar-text">
-      <a href="<?=$_ENV['base_url']?>keluar" class="nav-link"><i class="bx bxs-log-out"></i> Keluar</a>
+      <a href="<?=$_ENV['base_url']?>keluar" id="logout" class="nav-link"><i class="bx bxs-log-out"></i> Keluar</a>
     </span>
   </div>
 </nav>

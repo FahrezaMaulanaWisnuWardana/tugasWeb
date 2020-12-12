@@ -10,6 +10,13 @@
 	  $sqlKota = mysqli_query($con,"SELECT * FROM tb_kota WHERE id_kota='".$data['id_kota']."'");
 	  $dataKota = mysqli_fetch_assoc($sqlKota);
   }
+  $sqlTransku = mysqli_query($con,"SELECT * FROM tb_transaksi tt 
+  	LEFT JOIN tb_produk tp ON tt.id_hewan = tp.id_hewan 
+  	LEFT JOIN tb_peternak tk ON tk.id_peternak = tp.id_peternak WHERE tt.id_peternak='".$_SESSION['user']['id']."'") OR die(mysqli_error($con));
+  $sqlTrans = mysqli_query($con,"SELECT * FROM tb_transaksi tt 
+  	LEFT JOIN tb_produk tp ON tt.id_hewan = tp.id_hewan 
+  	LEFT JOIN tb_peternak tk ON tk.id_peternak = tp.id_peternak WHERE tk.id_peternak='".$_SESSION['user']['id']."'") OR die(mysqli_error($con));
+  $sqlBukti = mysqli_query($con,"SELECT * FROM tb_bukti_tf");
  ?>
  <style type="text/css">
  	.card-profile{
@@ -57,93 +64,72 @@
 		<!-- Tabs -->
 		<ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
 		  <li class="nav-item">
-		    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Profile</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Data Transaksi</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Upload Bukti Transaksi</a>
+		    <a class="nav-link" id="history-transaksi-tab" data-toggle="tab" href="#history-transaksi" role="tab" aria-controls="history-transaksi" aria-selected="false">Data Transaksiku</a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" id="penjual-tab" data-toggle="tab" href="#penjual" role="tab" aria-controls="penjual" aria-selected="false">Data Produk</a>
 		  </li>
+		  <?php if ($data['level']==2): ?>
+			  <li class="nav-item">
+			    <a class="nav-link" id="check-transaksi-tab" data-toggle="tab" href="#check-transaksi" role="tab" aria-controls="check-transaksi" aria-selected="false">Transaksi Produk</a>
+			  </li>
+		  <?php endif ?>
 		</ul>
 		<div class="tab-content" id="myTabContent">
-		  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+		  <div class="tab-pane fade" id="history-transaksi" role="tabpanel" aria-labelledby="history-transaksi-tab">
 		  	<div class="table-responsive">
 		  		<table class="table">
 				  <thead>
 				    <tr>
 				      <th scope="col">#</th>
-				      <th scope="col">First</th>
-				      <th scope="col">Last</th>
-				      <th scope="col">Handle</th>
+				      <th scope="col">Nama Produk</th>
+				      <th scope="col">Harga</th>
+				      <th scope="col">Kurir</th>
+				      <th scope="col">No Resi</th>
+				      <th scope="col">Status</th>
+				      <th scope="col">Upload Bukti Transaksi</th>
 				    </tr>
 				  </thead>
 				  <tbody>
-				    <tr>
-				      <th scope="row">1</th>
-				      <td>Mark</td>
-				      <td>Otto</td>
-				      <td>@mdo</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">2</th>
-				      <td>Jacob</td>
-				      <td>Thornton</td>
-				      <td>@fat</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">3</th>
-				      <td>Larry</td>
-				      <td>the Bird</td>
-				      <td>@twitter</td>
-				    </tr>
+				  	<?php 
+				  		$no = 0;
+				  		while ($dataTransku = mysqli_fetch_array($sqlTransku)) {
+				  			?>
+				  			<tr>
+				  				<td><?=$no++?></td>
+				  				<td><?=$dataTransku['nama_produk']?></td>
+				  				<td><?=number_format($dataTransku['harga'],2,',','.')?></td>
+				  				<td><?=$dataTransku['kurir']?></td>
+				  				<td><?=$dataTransku['no_resi']?></td>
+				  				<td>
+				  				<?php if ($dataTransku['status']===1) {
+				  						echo "Silahkan upload bukti pembayaran";
+				  					}else if($dataTransku['status']===2){
+				  						echo "Pesanan sedang disiapkan";
+				  					}else if($dataTransku['status']===3){
+				  						echo "Pesanan sedang dikirim";
+				  					}else if($dataTransku['status']===4){
+				  						echo "Pesanan telah sampai";
+				  					} ?>
+				  				</td>
+				  				<td>
+				  					<?php while ($dataBukti = mysqli_fetch_array($sqlBukti)) {
+				  						if ($dataBukti['id_transaksi'] == $dataTransku['id_transaksi']){
+				  							?>
+				  							<h1><i class="fas fa-check"></i></h1>
+				  							<?php
+				  						}else{
+				  						?>
+				  						ok
+				  						<?php }} ?>
+				  				</td>
+				  			</tr>
+				  			<?php
+				  		}
+				  	 ?>
 				  </tbody>
 				</table>
 		  	</div>
-		  </div>
-		  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-		  	<div class="table-responsive">
-		  		<table class="table">
-				  <thead>
-				    <tr>
-				      <th scope="col">#</th>
-				      <th scope="col">First</th>
-				      <th scope="col">Last</th>
-				      <th scope="col">Handle</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				    <tr>
-				      <th scope="row">1</th>
-				      <td>Mark</td>
-				      <td>Otto</td>
-				      <td>@mdo</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">2</th>
-				      <td>Jacob</td>
-				      <td>Thornton</td>
-				      <td>@fat</td>
-				    </tr>
-				    <tr>
-				      <th scope="row">3</th>
-				      <td>Larry</td>
-				      <td>the Bird</td>
-				      <td>@twitter</td>
-				    </tr>
-				  </tbody>
-				</table>
-		  	</div></div>
-		  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-		  	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		  	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		  	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		  	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-		  	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		  	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		  </div>
 		  <div class="tab-pane fade" id="penjual" role="tabpanel" aria-labelledby="penjual-tab">
 		  	<?php 
@@ -160,6 +146,71 @@
 		  		}
 		  	 ?>
 		  </div>
+		  <?php if ($data['level']==2): ?>
+			  <div class="tab-pane fade" id="check-transaksi" role="tabpanel" aria-labelledby="check-transaksi-tab">
+			  	<div class="table-responsive">
+			  		<table class="table">
+					  <thead>
+					    <tr>
+					      <th scope="col">#</th>
+					      <th scope="col">Nama Produk</th>
+					      <th scope="col">Harga</th>
+					      <th scope="col">Kurir</th>
+					      <th scope="col">No Resi</th>
+					      <th scope="col">Status</th>
+					      <th scope="col">Bukti Transaksi</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					  	<?php 
+					  		$no = 0;
+					  		while ($dataTrans = mysqli_fetch_array($sqlTrans)) {
+					  			?>
+					  			<tr>
+					  				<td><?=$no++?></td>
+					  				<td><?=$dataTrans['nama_produk']?></td>
+					  				<td><?=number_format($dataTrans['harga'],2,',','.')?></td>
+					  				<td><?=$dataTrans['kurir']?></td>
+					  				<td><?=$dataTrans['no_resi']?></td>
+					  				<td>
+					  					<form method="POST">
+							  				<?php if ($dataTransku['status']===1) {
+							  					?>
+						  						<button type="submit" class="btn btn-success" name="aksi" value="udpate-status">Proses Transaksi</button>
+						  						<input type="hidden" name="status" value="1">
+						  						<input type="hidden" name="id" value="<?=$dataTrans['id_transaksi']?>">
+						  						<small class="text-danger">Silahkan cek Bukti pembayaran terlebih dahulu</small>
+						  						<small class="text-danger">Silahkan tekan tombol jika pembayaran telah tervalidasi</small>
+							  					<?php
+							  					}else if($dataTransku['status']===2){
+							  					?>
+						  						<button type="submit" class="btn btn-success" name="aksi" value="udpate-status">Siapkan Barang</button>
+						  						<input type="hidden" name="status" value="2">
+						  						<input type="hidden" name="id" value="<?=$dataTrans['id_transaksi']?>">
+						  						<small class="text-danger">Silahkan cek Bukti pembayaran terlebih dahulu</small>
+						  						<small class="text-danger">Silahkan tekan tombol jika pembayaran telah tervalidasi</small>
+							  					<?php
+							  					}else if($dataTransku['status']===3){
+							  					?>
+							  					<?php
+							  					}else if($dataTransku['status']===4){
+							  					?>
+							  					<?php
+							  					} ?>
+					  					</form>
+					  				</td>
+					  				<td>
+					  					<a href="#">check bukti</a>
+					  				</td>
+					  			</tr>
+					  			<?php
+					  		}
+					  	 ?>
+					  </tbody>
+					</table>
+			  	</div>
+			  </div>
+		  <?php endif ?>
 		</div>
 		<!-- End Tabs -->
 </div>
