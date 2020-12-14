@@ -2,7 +2,7 @@
   require_once"../../config/database.php";
   $title="Profile | ".$_SESSION['user']['nama'];
   require_once"../../templates/header.php";
-  $sql = mysqli_query($con,"SELECT id_peternak , nama_lengkap , email , no_hp , alamat , no_rek , id_provinsi , id_kota , level FROM tb_peternak WHERE id_peternak='".$_SESSION['user']['id']."'");
+  $sql = mysqli_query($con,"SELECT id_peternak , img_profile , nama_lengkap , email , no_hp , alamat , no_rek , id_provinsi , id_kota , level FROM tb_peternak WHERE id_peternak='".$_SESSION['user']['id']."'");
   $data = mysqli_fetch_assoc($sql);
   $sqlProvinsi = mysqli_query($con,"SELECT * FROM tb_provinsi");
   $sqlKota = mysqli_query($con,"SELECT * FROM tb_kota");
@@ -20,14 +20,20 @@
 	<div class="jumbotron">
 		<div class="d-flex justify-content-between">
 			<div class="card card-profile" style="width: 120px;background: #f2f2f2;">
-				<img src="https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png" style="width: 100%;">
+				<img src="<?=is_null($data['img_profile'])?'https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png':$_ENV['base_url'].'assets/profile/'.$data['id_peternak'].'/'.$_data['img_profile'];?>" style="width: 100%;">
 			</div>
 			<div class="card-profile d-flex align-items-center">
 				<a href="<?=$_ENV['base_url']?>profile" class="btn btn-success">Profile</a>
 			</div>
 		</div>
-		<form method="POST" action="<?=$_ENV['base_url']?>pages/profile/aksi">
+		<form method="POST" action="<?=$_ENV['base_url']?>pages/profile/aksi" enctype="multipart/form-data">
 			<ul class="list-group list-group-flush mt-2">
+			  <li class="list-group-item">
+			  	<div class="form-group">
+			  		<label>Foto Profile</label>
+			  		<input type="file" name="file" class="form-control-file">
+			  	</div>
+			  </li>
 			  <li class="list-group-item">
 			  	<div class="form-group">
 			  		<label>Nama Lengkap</label>

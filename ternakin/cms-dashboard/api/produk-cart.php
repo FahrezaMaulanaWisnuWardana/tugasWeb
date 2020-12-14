@@ -21,50 +21,98 @@
 			break;
 		case 'proses-produk':
 				$total = count($_POST['produk']);
-				$sql = mysqli_query($con,"SELECT COUNT(DISTINCT(kd_transaksi)) as id FROM tb_transaksi") or die(mysqli_error($con));
-				$data = mysqli_fetch_assoc($sql);
-				if ($data['id']==0) {
-					$kd = "TR01";
+				$sql = mysqli_query($con,"SELECT COUNT(DISTINCT(kd_transaksi)) as jml FROM tb_transaksi") or die(mysqli_error($con));
+				$jml = mysqli_num_rows($sql);
+				if ($jml < 1) {
+					for ($i=0; $i < $total; $i++) { 
+						$arr[] = array(
+							'id_transaksi'=>NULL,
+							'kd_transaksi'=>"TR01",
+							'kd_tr_peternak'=>"TR01.".$_POST['peternak'][$i],
+							'id_hewan'=>$_POST['produk'][$i],
+							'id_peternak'=>$_SESSION['user']['id'],
+							'kurir'=>NULL,
+							'no_resi'=>NULL,
+							'status'=>1
+						);
+						$arrid[] = $_POST['produk'][$i];
+					}
 				}else{
-					$num = intval($data['id'])+1;
-					$kd = "TR0".$num;
-				}
-				for ($i=0; $i < $total; $i++) { 
-					$arr[] = array(
-						'id_transaksi'=>NULL,
-						'kd_transaksi'=>$kd,
-						'id_hewan'=>$_POST['produk'][$i],
-						'id_peternak'=>$_SESSION['user']['id'],
-						'kurir'=>NULL,
-						'no_resi'=>NULL,
-						'status'=>1
-					);
-					$arrid[] = $_POST['produk'][$i];
+					while($data = mysqli_fetch_array($sql)){
+						$num = intval($data['jml'])+1;
+					}
+						for ($i=0; $i < $total; $i++) { 
+							$arr[] = array(
+								'id_transaksi'=>NULL,
+								'kd_transaksi'=>"TR0".$num,
+								'kd_tr_peternak'=>"TR0".$num.".".$_POST['peternak'][$i]."",
+								'id_hewan'=>$_POST['produk'][$i],
+								'id_peternak'=>$_SESSION['user']['id'],
+								'kurir'=>NULL,
+								'no_resi'=>NULL,
+								'status'=>1
+							);
+							$arrid[] = $_POST['produk'][$i];
+						}
 				}
 				foreach ($arr as $key) {
-					$vaz = "(NULL,'".$key['kd_transaksi']."','".$key['id_hewan']."','".$key['id_peternak']."',NULL,NULL,'".$key['status']."')";
+					$vaz = "(NULL,'".$key['kd_transaksi']."','".$key['kd_tr_peternak']."','".$key['id_hewan']."','".$key['id_peternak']."',NULL,NULL,'".$key['status']."')";
 					$sqlIns = mysqli_query($con,"INSERT INTO tb_transaksi VALUES".$vaz."");
 				}
 				if ($sqlIns) {
 					$totalData = array_values(array_count_values($arrid));
 					$uniq = array_values(array_unique($arrid));
 					for ($i=0; $i < count($totalData) ; $i++){
-						$sqlUpdate = mysqli_query($con,"UPDATE tb_produk SET jumlah =jumlah-'".$totalData[$i]."' WHERE id_hewan='".$uniq[$i]."'  ");
+						$sqlUpdate = mysqli_query($con,"UPDATE tb_produk SET jumlah =jumlah-'".$totalData[$i]."' WHERE id_hewan='".$uniq[$i]."' ");
 					}
-					if ($sqlUpdate){
-						$json = array('status'=> 'berhasil');
-						echo json_encode($json);
-					}else{
-						$json = array('status'=> 'gagal update');
-						echo json_encode($json);
-					}
+					($sqlUpdate) ? $json = array('status'=> 'berhasil'):$json = array('status'=> 'gagal update');
 				}else{
 					$json = array('status'=> 'gagal');
-					echo json_encode($json);
 				}
+					echo json_encode($json);
 			break;
+			case 'check-transaksiku':
+				$kode = $_POST['kode'];
+				$name = $_FILES['foto']['name'];
+				$tmp = $_FILES['foto']['tmp_name'];
+				$base_dir = $_SERVER['DOCUMENT_ROOT']."/tugasWeb/ternakin/assets/image/bukti_tf/".$_SESSION['user']['id']."/";
+				if (!is_dir($base_dir)) {
+					mkdir($base_dir);
+				}
+				if (move_uploaded_file($tmp, $base_dir.basename($name))) {
+					$sql = mysqli_query($con,"INSERT INTO tb_bukti_tf VALUES('".$kode."','".$name."')");
+					if($sql){
+						$sqlUpdate = mysqli_query($con,"UPDATE tb_transaksi SET status='99' WHERE kd_tr_peternak='".$kode."'");
+						($sqlUpdate)? $json = array('status'=> 'berhasil upload') : $json = array('status'=> 'gagal upload');
+					}else{
+						$json = array('status'=> 'gagal upload');
+					}
+				}else{
+					$json = array('status'=> 'gagal update');
+				}
+				echo json_encode($json);
+				break;
+			case 'validasi-bukti':
+				$kd = $_POST['kd'];
+				$sql = mysqli_query($con, "SELECT DISTINCT(kd_transaksi) as kode , img_bukti_tf FROM tb_bukti_tf WHERE kd_transaksi='".$kd."'");
+				$jml = mysqli_num_rows($sql);
+				if ($jml<1) {
+					$arr[] =array(
+						'img' => NULL
+					);
+					$json = array('data' => $arr);
+				}else{
+					while ($data = mysqli_fetch_array($sql)) {
+						$arr[] =array(
+							'img' => $data['img_bukti_tf']
+						);
+					}
+					$json = array('data' => $arr);
+				}
+				echo json_encode($arr);
+				break;
 		default:
-			# code...
+			header("HTTP/1.0 404 Not Found");
 			break;
 	}
  ?>

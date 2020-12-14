@@ -2,7 +2,7 @@
   require_once"../../config/database.php";
   $title="Profile | ".$_SESSION['user']['nama'];
   require_once"../../templates/header.php";
-  $sql = mysqli_query($con,"SELECT id_peternak , nama_lengkap , email , no_hp , alamat , no_rek , id_provinsi , id_kota , level FROM tb_peternak WHERE id_peternak='".$_SESSION['user']['id']."'");
+  $sql = mysqli_query($con,"SELECT id_peternak , img_profile , nama_lengkap , email , no_hp , alamat , no_rek , id_provinsi , id_kota , level FROM tb_peternak WHERE id_peternak='".$_SESSION['user']['id']."'");
   $data = mysqli_fetch_assoc($sql);
   if ($data['id_provinsi']!=null && $data['id_kota']!=null) {
 	  $sqlProvinsi = mysqli_query($con,"SELECT * FROM tb_provinsi WHERE id_provinsi='".$data['id_provinsi']."'");
@@ -10,12 +10,15 @@
 	  $sqlKota = mysqli_query($con,"SELECT * FROM tb_kota WHERE id_kota='".$data['id_kota']."'");
 	  $dataKota = mysqli_fetch_assoc($sqlKota);
   }
-  $sqlTransku = mysqli_query($con,"SELECT * FROM tb_transaksi tt 
+  $sqlProdukku = mysqli_query($con,"SELECT * FROM tb_produk WHERE id_peternak='".$_SESSION['user']['id']."'");
+  $sqlTransku = mysqli_query($con,"SELECT tt.kd_transaksi , tt.kd_tr_peternak , COUNT(tt.kd_transaksi) as jumlah , tt.kurir , tt.no_resi , tt.status , SUM(tp.harga) as harga 
+  	  FROM tb_transaksi tt 
+  	  LEFT JOIN tb_produk tp ON tt.id_hewan = tp.id_hewan 
+  	  LEFT JOIN tb_peternak tk ON tk.id_peternak = tp.id_peternak 
+  	  WHERE tt.id_peternak='".$_SESSION['user']['id']."' GROUP BY tt.kd_tr_peternak") OR die(mysqli_error($con));
+  $sqlTrans = mysqli_query($con,"SELECT  tt.kd_transaksi , tt.kd_tr_peternak , COUNT(tt.kd_transaksi) as jumlah , tt.id_peternak AS pembeli , tt.kurir , tt.no_resi , tt.status , SUM(tp.harga) as harga FROM tb_transaksi tt 
   	LEFT JOIN tb_produk tp ON tt.id_hewan = tp.id_hewan 
-  	LEFT JOIN tb_peternak tk ON tk.id_peternak = tp.id_peternak WHERE tt.id_peternak='".$_SESSION['user']['id']."'") OR die(mysqli_error($con));
-  $sqlTrans = mysqli_query($con,"SELECT * FROM tb_transaksi tt 
-  	LEFT JOIN tb_produk tp ON tt.id_hewan = tp.id_hewan 
-  	LEFT JOIN tb_peternak tk ON tk.id_peternak = tp.id_peternak WHERE tk.id_peternak='".$_SESSION['user']['id']."'") OR die(mysqli_error($con));
+  	LEFT JOIN tb_peternak tk ON tk.id_peternak = tp.id_peternak WHERE tk.id_peternak='".$_SESSION['user']['id']."' GROUP BY tt.kd_tr_peternak") OR die(mysqli_error($con));
   $sqlBukti = mysqli_query($con,"SELECT * FROM tb_bukti_tf");
  ?>
  <style type="text/css">
@@ -30,7 +33,7 @@
 	<div class="jumbotron">
 		<div class="d-flex justify-content-between">
 			<div class="card card-profile" style="width: 120px;background: #f2f2f2;">
-				<img src="https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png" style="width: 100%;">
+				<img src="<?=is_null($data['img_profile'])?'https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png':$_ENV['base_url'].'assets/profile/'.$data['id_peternak'].'/'.$_data['img_profile'];?>" style="width: 100%;">
 			</div>
 			<div class="card-profile d-flex align-items-center">
 				<a href="<?=$_ENV['base_url']?>edit-profile" class="btn btn-success">Edit Profile</a>
@@ -82,46 +85,60 @@
 				  <thead>
 				    <tr>
 				      <th scope="col">#</th>
-				      <th scope="col">Nama Produk</th>
-				      <th scope="col">Harga</th>
+				      <th scope="col">Kode Transaksi</th>
 				      <th scope="col">Kurir</th>
 				      <th scope="col">No Resi</th>
+				      <th scope="col">Harga</th>
 				      <th scope="col">Status</th>
 				      <th scope="col">Upload Bukti Transaksi</th>
 				    </tr>
 				  </thead>
 				  <tbody>
 				  	<?php 
-				  		$no = 0;
+				  		$no = 1;
 				  		while ($dataTransku = mysqli_fetch_array($sqlTransku)) {
 				  			?>
 				  			<tr>
 				  				<td><?=$no++?></td>
-				  				<td><?=$dataTransku['nama_produk']?></td>
-				  				<td><?=number_format($dataTransku['harga'],2,',','.')?></td>
-				  				<td><?=$dataTransku['kurir']?></td>
-				  				<td><?=$dataTransku['no_resi']?></td>
-				  				<td>
-				  				<?php if ($dataTransku['status']===1) {
+				  				<td><?=$dataTransku['kd_transaksi'].'('.$dataTransku['jumlah'].' Produk)'?></td>
+				  				<td class="text-secondary"><?=is_null($dataTransku['kurir'])?'Kosong':$dataTransku['kurir'];?></td>
+				  				<td class="text-secondary"><?=is_null($dataTransku['no_resi'])?'Kosong':$dataTransku['no_resi'];?></td>
+				  				<td><?='Rp. '.number_format($dataTransku['harga'],2,',','.')?></td>
+				  				<td class="text-center">
+				  				<?php if ($dataTransku['status']==="1") {
 				  						echo "Silahkan upload bukti pembayaran";
-				  					}else if($dataTransku['status']===2){
+				  					}else if($dataTransku['status']==="2"){
 				  						echo "Pesanan sedang disiapkan";
-				  					}else if($dataTransku['status']===3){
+				  					}else if($dataTransku['status']==="3"){
+				  						echo "Barang telah siap";
+				  					}else if($dataTransku['status']==="4"){
 				  						echo "Pesanan sedang dikirim";
-				  					}else if($dataTransku['status']===4){
-				  						echo "Pesanan telah sampai";
+				  						?>
+				  						<small class="d-block mb-1 text-danger">Tekan tombol jika pesanan telah sampai</small>
+			  							<form method="POST" action="<?=$_ENV['base_url']?>pages/profile/aksi">
+					  						<button type="submit" class="btn btn-success" name="aksi" value="update-status">Barang telah sampai</button>
+					  						<input type="hidden" name="status" value="5">
+					  						<input type="hidden" name="id" value="<?=$dataTransku['kd_tr_peternak']?>">
+			  							</form>
+				  						<?php
+				  					}else if($dataTransku['status']=="5"){
+				  						echo"Pesanan telah sampai<br>";
+				  						echo"beri rating";
+				  					}else if($dataTransku['status']==="99"){
+				  						echo "Silahkan tunggu verifikasi dari penjual";
 				  					} ?>
 				  				</td>
-				  				<td>
-				  					<?php while ($dataBukti = mysqli_fetch_array($sqlBukti)) {
-				  						if ($dataBukti['id_transaksi'] == $dataTransku['id_transaksi']){
-				  							?>
-				  							<h1><i class="fas fa-check"></i></h1>
-				  							<?php
-				  						}else{
+				  				<td class="text-center">
+				  					<?php if ($dataTransku['status']==="1") {
 				  						?>
-				  						ok
-				  						<?php }} ?>
+				  						<input type="file" name="bukti_tf" class="form-control-files bukti" accept="image/*">
+				  						<input type="hidden" class="kd_transaksi" value="<?=$dataTransku['kd_tr_peternak']?>">
+				  						<?php
+				  					}else{
+				  						?>
+				  						<i class="bx bx-check text-success" style="font-size: 2em;"></i>
+				  						<?php
+				  					} ?>
 				  				</td>
 				  			</tr>
 				  			<?php
@@ -142,7 +159,10 @@
 		  			</div>
 		  			<?php
 		  		}else{
-		  			echo"data peternak";
+		  			while ($produk = mysqli_fetch_array($sqlProdukku)) {
+		  				?>
+		  				<?php
+		  			}
 		  		}
 		  	 ?>
 		  </div>
@@ -153,54 +173,78 @@
 					  <thead>
 					    <tr>
 					      <th scope="col">#</th>
-					      <th scope="col">Nama Produk</th>
+					      <th scope="col">Kode Produk</th>
 					      <th scope="col">Harga</th>
 					      <th scope="col">Kurir</th>
 					      <th scope="col">No Resi</th>
-					      <th scope="col">Status</th>
+					      <th scope="col" class="text-center">Status</th>
 					      <th scope="col">Bukti Transaksi</th>
 					    </tr>
 					  </thead>
 					  <tbody>
 					  	<?php 
-					  		$no = 0;
+					  		$no = 1;
 					  		while ($dataTrans = mysqli_fetch_array($sqlTrans)) {
 					  			?>
 					  			<tr>
 					  				<td><?=$no++?></td>
-					  				<td><?=$dataTrans['nama_produk']?></td>
+					  				<td><?=$dataTrans['kd_transaksi'].'('.$dataTrans['jumlah'].')'?></td>
 					  				<td><?=number_format($dataTrans['harga'],2,',','.')?></td>
-					  				<td><?=$dataTrans['kurir']?></td>
-					  				<td><?=$dataTrans['no_resi']?></td>
-					  				<td>
-					  					<form method="POST">
-							  				<?php if ($dataTransku['status']===1) {
-							  					?>
-						  						<button type="submit" class="btn btn-success" name="aksi" value="udpate-status">Proses Transaksi</button>
-						  						<input type="hidden" name="status" value="1">
-						  						<input type="hidden" name="id" value="<?=$dataTrans['id_transaksi']?>">
-						  						<small class="text-danger">Silahkan cek Bukti pembayaran terlebih dahulu</small>
-						  						<small class="text-danger">Silahkan tekan tombol jika pembayaran telah tervalidasi</small>
-							  					<?php
-							  					}else if($dataTransku['status']===2){
-							  					?>
-						  						<button type="submit" class="btn btn-success" name="aksi" value="udpate-status">Siapkan Barang</button>
-						  						<input type="hidden" name="status" value="2">
-						  						<input type="hidden" name="id" value="<?=$dataTrans['id_transaksi']?>">
-						  						<small class="text-danger">Silahkan cek Bukti pembayaran terlebih dahulu</small>
-						  						<small class="text-danger">Silahkan tekan tombol jika pembayaran telah tervalidasi</small>
-							  					<?php
-							  					}else if($dataTransku['status']===3){
-							  					?>
-							  					<?php
-							  					}else if($dataTransku['status']===4){
-							  					?>
-							  					<?php
-							  					} ?>
+					  				<td><?=is_null($dataTrans['kurir'])?'Kosong':$dataTrans['kurir'];?></td>
+					  				<td><?=is_null($dataTrans['no_resi'])?'Kosong':$dataTrans['no_resi'];?></td>
+					  				<td class="text-center">
+					  				<?php if ($dataTrans['status']==="1") {
+					  					?>
+					  					<h5>Hai ada pesanan</h5>
+					  					<h6>Pastikan anda cek pembayaran dengan benar!</h6>
+					  					<small class="text-danger">Semua resiko sepenuhnya ditanggung penjual</small>
+					  					<?php
+					  					}else if($dataTrans['status']==="2"){
+					  					?>
+			  							<form method="POST" action="<?=$_ENV['base_url']?>pages/profile/aksi">
+					  						<button type="submit" class="btn btn-success" name="aksi" value="update-status">Siapkan Barang</button>
+					  						<input type="hidden" name="status" value="3">
+					  						<input type="hidden" name="id" value="<?=$dataTrans['kd_tr_peternak']?>">
+			  							</form>
+					  					<?php
+					  					}else if($dataTrans['status']==="3"){
+					  					?>
+			  							<form method="POST" action="<?=$_ENV['base_url']?>pages/profile/aksi">
+					  						<button type="submit" class="btn btn-success" name="aksi" value="update-status">Kirim Barang</button>
+					  						<input type="hidden" name="status" value="4">
+					  						<input type="hidden" name="id" value="<?=$dataTrans['kd_tr_peternak']?>">
 					  					</form>
+					  						<small class="text-danger">Silahkan cek Bukti pembayaran terlebih dahulu</small>
+					  						<small class="text-danger">Silahkan tekan tombol jika pembayaran telah tervalidasi</small>
+					  					<?php
+					  					}else if($dataTrans['status']==="4"){
+					  					?>
+					  						<h5>Status pesanan sedang dikirim</h5>
+					  					<?php
+					  					}else if($dataTrans['status']==="5"){
+					  					?>
+					  						<h5>Selamat pesanan anda telah sampai</h5>
+					  					<?php
+					  					}else if($dataTrans['status']==="99"){
+				  						?>
+			  							<form method="POST" action="<?=$_ENV['base_url']?>pages/profile/aksi">
+					  						<button type="submit" class="btn btn-success mb-1" name="aksi" value="update-status">Validasi Pembayaran</button>
+					  						<input type="hidden" name="status" value="2">
+					  						<input type="hidden" name="id" value="<?=$dataTrans['kd_tr_peternak']?>">
+					  					</form>
+			  							<form method="POST" action="<?=$_ENV['base_url']?>pages/profile/aksi">
+					  						<button type="submit" class="btn btn-danger mb-1" name="aksi" value="update-status">Bukti tidak valid</button>
+					  						<input type="hidden" name="status" value="1">
+					  						<input type="hidden" name="id" value="<?=$dataTrans['kd_tr_peternak']?>">
+					  					</form>
+				  						<small class="d-block text-danger">Silahkan cek Bukti pembayaran terlebih dahulu</small>
+				  						<small class="d-block text-danger">Silahkan tekan tombol jika pembayaran telah tervalidasi</small>
+				  						<small class="d-block text-danger">*Resiko Sepenuhnya ditanggung oleh penjual*</small>
+				  						<?php
+					  				}?>
 					  				</td>
 					  				<td>
-					  					<a href="#">check bukti</a>
+					  					<a class="check" data-kd="<?=$dataTrans['kd_tr_peternak']?>" data-b="<?=$dataTrans['pembeli']?>">Cek Bukti</a>
 					  				</td>
 					  			</tr>
 					  			<?php
@@ -212,9 +256,97 @@
 			  </div>
 		  <?php endif ?>
 		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Bukti Transfer</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" id="simpan">Simpan data</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<div class="modal fade" id="check-modal" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Bukti Transfer</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body check-modal">
+		        
+		      </div>
+		    </div>
+		  </div>
+		</div>
 		<!-- End Tabs -->
 </div>
     <?php include"../../partials/footer.php"; ?>
   </body>
     <?php include"../../templates/footer.php"; ?>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+	    	let link = "<?=$_ENV['base_url']?>cms-dashboard/api/produk-cart"
+    		$(".bukti").on('change',function(){
+        		var fileList = $(this)[0].files[0];
+                var t = window.URL || window.webkitURL;
+                var objectUrl = t.createObjectURL(fileList);
+                $('.modal-body').html('<img src="' + objectUrl + '" style="width:100%">');
+    			$("#modal").modal('show')
+    			let kd = $(this).next('.kd_transaksi').val()
+	    		$("#simpan").on('click',function(){
+	    			let files = new FormData
+	    			files.append('aksi','check-transaksiku')
+	    			files.append('kode',kd)
+	    			files.append('foto',fileList)
+			          $.ajax({
+			            url : link,
+			            method:"POST",
+			            data:files,
+					    dataType: 'json',
+					    mimeType: 'multipart/form-data',
+					    contentType: false,
+					    cache: false,
+					    processData: false,
+			            success:function(data){
+			              location.reload()
+			            }
+			          })
+	    		})
+    		})
+    		$(".check").on('click',function(){
+    			$("#check-modal").modal('show')
+    			let kdModal = $(this).data("kd")
+    			let buy = $(this).data("b").toString()
+    			$.ajax({
+    				url : link,
+    				method: "POST",
+    				data:{
+    					aksi:'validasi-bukti',
+    					kd:kdModal
+    				},
+    				dataType:'json',
+    				success:function(data){
+    					if (data[0].img === null) {
+    						$('.check-modal').html('Kosong!');
+    					}else{
+               				$('.check-modal').html('<img src="<?=$_ENV['base_url']?>assets/image/bukti_tf/'+buy+'/'+data[0].img+'" style="width:100%">');
+    					}
+    				}
+    			})
+    		});
+    	})
+    </script>
 </html>

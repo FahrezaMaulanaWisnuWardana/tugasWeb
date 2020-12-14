@@ -37,7 +37,8 @@
     <script type="text/javascript">
     	$(document).ready(function(){
     		// Cart
-    		let cart =localStorage.getItem('id') ? JSON.parse(localStorage.getItem('id')) : []
+        let cart =localStorage.getItem('id') ? JSON.parse(localStorage.getItem('id')) : []
+        let peternak =localStorage.getItem('peternak') ? JSON.parse(localStorage.getItem('peternak')) : []
         let total = localStorage.getItem('total')
         if (cart.length<1) {
           $("#btn-process").remove()
@@ -83,7 +84,7 @@
                 if (unique.includes(data[i].id)) {
                     var html = `<div class="col-3 my-1 produk-hewan">
                     <div class="card overflow-hidden">
-                      <button class="rounded-circle btn btn-danger position-absolute btn-cancel"  data-harga="${data[i].harga * countValues(cart, data[i].id)}" data-id="${data[i].id}" data-totalcart="${countValues(cart, data[i].id)}" style="width:40px; height:40px; top:-20px; right:-20px;"><i class="fas fa-times"></i></button>
+                      <button class="rounded-circle btn btn-danger position-absolute btn-cancel" data-peternak="${data[i].id_peternak}" data-harga="${data[i].harga * countValues(cart, data[i].id)}" data-id="${data[i].id}" data-totalcart="${countValues(cart, data[i].id)}" style="width:40px; height:40px; top:-20px; right:-20px;"><i class="fas fa-times"></i></button>
                       <div class="text-center">
                       <img src="<?=$_ENV['base_url']?>assets/image/produk/${data[i].id_peternak}/${data[i].img}" class="card-img-top" style="width:200px;">
                       </div>
@@ -115,6 +116,13 @@
             if (cart[i] === $(this).data("id")){
                 cart.splice(i,$(this).data("totalcart"))
                 localStorage.setItem('id',JSON.stringify(cart))
+
+            }
+          }
+          for (var a = 0; a < peternak.length; a++) {
+            if (peternak[a]=== $(this).data("peternak")){
+              peternak.splice(a,$(this).data("totalcart"))
+              localStorage.setItem('peternak',JSON.stringify(peternak))
             }
           }
           kurangCart($(this).data('id'),$(this).data('harga'))
@@ -172,7 +180,8 @@
             method:"POST",
             data:{
               aksi:'proses-produk',
-              produk:cart
+              produk:cart,
+              peternak:peternak
             },
             dataType:'json',
             success:function(data){

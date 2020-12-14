@@ -20,7 +20,7 @@
 			break;
 		
 		default:
-			# code...
+			header("HTTP/1.0 404 Not Found");
 			break;
 	}
  ?>

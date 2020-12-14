@@ -8,7 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.2/css/boxicons.min.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link href="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="<?=$_ENV['base_url']?>assets/css/navbar.css" rel="stylesheet" type="text/css">
     <link href="<?=$_ENV['base_url']?>assets/css/style.css" rel="stylesheet" type="text/css">

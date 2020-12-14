@@ -6,6 +6,7 @@
   $(document).ready(function(){
       // Cart
       let cart =localStorage.getItem('id') ? JSON.parse(localStorage.getItem('id')) : []
+      let peternak =localStorage.getItem('peternak') ? JSON.parse(localStorage.getItem('peternak')) : []
       count = 0;
       function countValues(array, countItem) {
         array.forEach(itm => {
@@ -16,7 +17,11 @@
         let unique = cart.filter((v,i,a)=>a.indexOf(v)===i)
       $(".cart").on('click',function(){
         cart.push($(this).data('id'))
+        peternak.push($(this).data('penjual'))
+
         localStorage.setItem('id',JSON.stringify(cart))
+        localStorage.setItem('peternak',JSON.stringify(peternak))
+        
         totalCart($(this).data('harga'))
         $(".count-cart").text(cart.length)
 

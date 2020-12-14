@@ -73,12 +73,23 @@
 						$_SESSION['alert']['gagal'] ="Gagal tambah produk";
 					}
 				}else{
-						$_SESSION['alert']['gagal'] ="Gagal tambah produk";
+					$_SESSION['alert']['gagal'] ="Gagal tambah produk";
 				}
-						header("location:{$_ENV['base_url']}profile");
+				header("location:{$_ENV['base_url']}profile");
 			break;
+			case 'update-status':
+				$id = $_POST['id'];
+				$status = $_POST['status'];
+				$sql = mysqli_query($con,"UPDATE tb_transaksi SET status='".$status."' WHERE kd_tr_peternak='".$id."'") or die(mysqli_error($con));
+				if ($sql) {
+					$_SESSION['alert']['berhasil'] ="Berhasil validasi produk";
+				}else{
+					$_SESSION['alert']['gagal'] ="Gagal validasi produk";
+				}
+				header("location:{$_ENV['base_url']}profile");
+				break;
 		default:
-			# code...
+			header("HTTP/1.0 404 Not Found");
 			break;
 	}
  ?>

@@ -3,7 +3,7 @@
   include"config/database.php";
   include"templates/header.php";
   $sqlCarousel = mysqli_query($con,"SELECT * FROM tb_carousel");
-  $sqlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk LIMIT 4");
+  $sqlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk WHERE jumlah>0 LIMIT 8");
   $dataCarousel = mysqli_fetch_assoc($sqlCarousel);
 ?>
   </head>
@@ -48,7 +48,7 @@
             while ($dataProduk = mysqli_fetch_array($sqlProduk)){
               $img = explode(',', $dataProduk['foto_produk']);
               ?>
-              <div class="col-3 my-1">
+              <div class="col-lg-3 col-md-6 col-sm-12 my-1">
                 <a href="<?=$_ENV['base_url']?>p/<?=$dataProduk['id_hewan']?>" style="text-decoration: none; color: inherit;">
                 <div class="card overflow-hidden">
                   <div class="text-center">
@@ -60,18 +60,14 @@
                     <div class="info-card pb-2">
                       <span class="text-primary font-weight-bold d-inline">Rp.<?=number_format($dataProduk['harga'],2,',','.')?></span>
                       <div class="rating">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
+                      	<span>4/5</span>
                         (200)
                       </div>
                     </div>
                 </a>
                   </div>
                     <div class="card-body-hidden text-center pb-4">
-                      <div class="btn border btn-sm mb-2 cart" data-id="<?=$dataProduk['id_hewan']?>" data-harga="<?=$dataProduk['harga']?>"><i class="bx bxs-cart icon-single"></i> Tambahkan ke keranjang</div>
+                      <div disabled class="btn border btn-sm mb-2 <?=($dataProduk['id_peternak']==$_SESSION['user']['id'])?'':'cart'?>" data-id="<?=$dataProduk['id_hewan']?>" data-penjual="<?=$dataProduk['id_peternak']?>" data-harga="<?=$dataProduk['harga']?>"><i class="bx bxs-cart icon-single"></i> Tambahkan ke keranjang</div>
                     </div>
                 </div>
               </div>
@@ -115,7 +111,7 @@
           <h3>Kategori Hewan</h3>
         </div>
 
-        <div class="col-3 col-custom-card my-1">
+        <div class="col-lg-3 col-md-6 col-sm-12 col-custom-card my-1">
           
           <div class="card" style="height: 200px;">
               <div class="text-center">
@@ -129,105 +125,6 @@
           </div>
 
         </div>
-        <div class="col-3 col-custom-card my-1">
-          
-          <div class="card" style="height: 200px;">
-              <div class="text-center">
-                <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width:200px; z-index: -1">
-              </div>
-              <div class="custom-card">
-                <div class="card-title-custom text-center">
-                  <h4>Sapi</h4>
-                </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-3 col-custom-card my-1">
-          
-          <div class="card" style="height: 200px;">
-              <div class="text-center">
-                <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width:200px; z-index: -1">
-              </div>
-              <div class="custom-card">
-                <div class="card-title-custom text-center">
-                  <h4>Sapi</h4>
-                </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-3 col-custom-card my-1">
-          
-          <div class="card" style="height: 200px;">
-              <div class="text-center">
-                <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width:200px; z-index: -1">
-              </div>
-              <div class="custom-card">
-                <div class="card-title-custom text-center">
-                  <h4>Sapi</h4>
-                </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-3 col-custom-card my-1">
-          
-          <div class="card" style="height: 200px;">
-              <div class="text-center">
-                <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width:200px; z-index: -1">
-              </div>
-              <div class="custom-card">
-                <div class="card-title-custom text-center">
-                  <h4>Sapi</h4>
-                </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-3 col-custom-card my-1">
-          
-          <div class="card" style="height: 200px;">
-              <div class="text-center">
-                <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width:200px; z-index: -1">
-              </div>
-              <div class="custom-card">
-                <div class="card-title-custom text-center">
-                  <h4>Sapi</h4>
-                </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-3 col-custom-card my-1">
-          
-          <div class="card" style="height: 200px;">
-              <div class="text-center">
-                <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width:200px; z-index: -1">
-              </div>
-              <div class="custom-card">
-                <div class="card-title-custom text-center">
-                  <h4>Sapi</h4>
-                </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-3 col-custom-card my-1">
-          
-          <div class="card" style="height: 200px;">
-              <div class="text-center">
-                <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width:200px; z-index: -1">
-              </div>
-              <div class="custom-card">
-                <div class="card-title-custom text-center">
-                  <h4>Sapi</h4>
-                </div>
-              </div>
-          </div>
-
-        </div>
-
         <div class="w-100 text-center my-4">
           <a href="#" class="btn btn-outline-success">Semua Kategori <i class="fas fa-chevron-right"></i></a>
         </div>
