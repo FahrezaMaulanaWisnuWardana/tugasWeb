@@ -6,6 +6,8 @@
       $sqlpeternak = mysqli_query($con,"SELECT * FROM tb_peternak");
       $sqlproduk = mysqli_query($con,"SELECT * FROM tb_produk");
     ?>
+    <link rel="stylesheet" href="Page-1.css">
+    <link rel="stylesheet" href="nicepage.css">
   </head>
   <body>
     <?php 
