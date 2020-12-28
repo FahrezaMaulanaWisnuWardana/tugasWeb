@@ -111,6 +111,42 @@
 				}
 				echo json_encode($arr);
 				break;
+			case 'update-resi-kurir':
+				$resi = $_POST['resi'];
+				$kurir = $_POST['kurir'];
+				$kd = $_POST['kd'];
+				$sql = mysqli_query($con, "UPDATE tb_transaksi SET no_resi='".$resi."' , kurir='".$kurir."' WHERE kd_tr_peternak='".$kd."'");
+				if ($sql) {
+					$json = array('status'=> 'berhasil update');
+				}else{
+					$json = array('status'=> 'gagal update');
+				}
+				echo json_encode($json);
+				break;
+			case 'tambah-rating':
+				$id = $_SESSION['user']['id'];
+				$rating = $_POST['rating'];
+				$kd_tr = $_POST['kd_tr'];
+				$sql = mysqli_query($con, "INSERT INTO tb_rating VALUES(NULL,'".$kd_tr."','".$id."','".$rating."')");
+				if ($sql) {
+					$sqlUp = mysqli_query($con,"UPDATE tb_transaksi SET status='6' WHERE kd_tr_peternak='".$kd_tr."' ");
+					$json = array('status'=> 'berhasil beri rating');
+				}else{
+					$json = array('status'=> 'gagal beri rating');
+				}
+				echo json_encode($json);
+				break;
+			case 'cek-alamat':
+				$id = $_POST['id_peternak'];
+				$sql = mysqli_query($con,"SELECT * FROM tb_peternak LEFT JOIN tb_provinsi ON tb_peternak.id_provinsi = tb_provinsi.id_provinsi LEFT JOIN tb_kota ON tb_kota.id_provinsi = tb_provinsi.id_provinsi WHERE id_peternak='".$id."'") or die(mysqli_error($con));
+				$data = mysqli_fetch_assoc($sql);
+				$json[] = array(
+					'alamat'=>$data['alamat'],
+					'provinsi'=>$data['nama_provinsi'],
+					'kota'=>$data['nama_kota'],
+				);
+				echo json_encode($json);
+				break;
 		default:
 			header("HTTP/1.0 404 Not Found");
 			break;

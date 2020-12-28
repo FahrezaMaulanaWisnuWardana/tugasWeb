@@ -11,7 +11,7 @@
 	  $dataKota = mysqli_fetch_assoc($sqlKota);
   }
   $sqlProdukku = mysqli_query($con,"SELECT * FROM tb_produk WHERE id_peternak='".$_SESSION['user']['id']."'");
-  $sqlTransku = mysqli_query($con,"SELECT tt.kd_transaksi , tt.kd_tr_peternak , COUNT(tt.kd_transaksi) as jumlah , tt.kurir , tt.no_resi , tt.status , SUM(tp.harga) as harga 
+  $sqlTransku = mysqli_query($con,"SELECT tt.kd_transaksi , tt.kd_tr_peternak , tt.id_hewan , COUNT(tt.kd_transaksi) as jumlah , tt.kurir , tt.no_resi , tt.status , tk.no_rek , SUM(tp.harga) as harga 
   	  FROM tb_transaksi tt 
   	  LEFT JOIN tb_produk tp ON tt.id_hewan = tp.id_hewan 
   	  LEFT JOIN tb_peternak tk ON tk.id_peternak = tp.id_peternak 
@@ -19,7 +19,6 @@
   $sqlTrans = mysqli_query($con,"SELECT  tt.kd_transaksi , tt.kd_tr_peternak , COUNT(tt.kd_transaksi) as jumlah , tt.id_peternak AS pembeli , tt.kurir , tt.no_resi , tt.status , SUM(tp.harga) as harga FROM tb_transaksi tt 
   	LEFT JOIN tb_produk tp ON tt.id_hewan = tp.id_hewan 
   	LEFT JOIN tb_peternak tk ON tk.id_peternak = tp.id_peternak WHERE tk.id_peternak='".$_SESSION['user']['id']."' GROUP BY tt.kd_tr_peternak") OR die(mysqli_error($con));
-  $sqlBukti = mysqli_query($con,"SELECT * FROM tb_bukti_tf");
  ?>
  <style type="text/css">
  	.card-profile{
@@ -86,6 +85,7 @@
 				    <tr>
 				      <th scope="col">#</th>
 				      <th scope="col">Kode Transaksi</th>
+					  <th scope="col">No Rek</th>
 				      <th scope="col">Kurir</th>
 				      <th scope="col">No Resi</th>
 				      <th scope="col">Harga</th>
@@ -101,6 +101,10 @@
 				  			<tr>
 				  				<td><?=$no++?></td>
 				  				<td><?=$dataTransku['kd_transaksi'].'('.$dataTransku['jumlah'].' Produk)'?></td>
+				  				<td class="text-center">
+				  					<?=$dataTransku['no_rek'];?>
+				  					<small class="d-block text-danger">Bayar Ke nomor rekening ini</small>
+				  				</td>
 				  				<td class="text-secondary"><?=is_null($dataTransku['kurir'])?'Kosong':$dataTransku['kurir'];?></td>
 				  				<td class="text-secondary"><?=is_null($dataTransku['no_resi'])?'Kosong':$dataTransku['no_resi'];?></td>
 				  				<td><?='Rp. '.number_format($dataTransku['harga'],2,',','.')?></td>
@@ -123,7 +127,11 @@
 				  						<?php
 				  					}else if($dataTransku['status']=="5"){
 				  						echo"Pesanan telah sampai<br>";
-				  						echo"beri rating";
+				  						?>
+				  						<span class="rating" data-tr="<?=$dataTransku['kd_tr_peternak']?>" style="cursor: pointer;">beri rating</span>
+				  						<?php
+				  					}else if($dataTransku['status']=="6"){
+				  						echo"Pesanan telah sampai";
 				  					}else if($dataTransku['status']==="99"){
 				  						echo "Silahkan tunggu verifikasi dari penjual";
 				  					} ?>
@@ -188,10 +196,10 @@
 					  			?>
 					  			<tr>
 					  				<td><?=$no++?></td>
-					  				<td><?=$dataTrans['kd_transaksi'].'('.$dataTrans['jumlah'].')'?></td>
+					  				<td class="alamat" data-id="<?=$dataTrans['pembeli']?>"><?=$dataTrans['kd_transaksi'].'('.$dataTrans['jumlah'].')'?></td>
 					  				<td><?=number_format($dataTrans['harga'],2,',','.')?></td>
-					  				<td><?=is_null($dataTrans['kurir'])?'Kosong':$dataTrans['kurir'];?></td>
-					  				<td><?=is_null($dataTrans['no_resi'])?'Kosong':$dataTrans['no_resi'];?></td>
+					  				<td><?=($dataTrans['status']==="1")?'':is_null($dataTrans['kurir'])?'<a class="reku" data-kd="'.$dataTrans['kd_tr_peternak'].'">Kosong</a>':$dataTrans['kurir'];?></td>
+					  				<td><?=($dataTrans['status']==="1")?'':is_null($dataTrans['no_resi'])?'<a class="reku" data-kd="'.$dataTrans['kd_tr_peternak'].'">Kosong</a>':$dataTrans['no_resi'];?></td>
 					  				<td class="text-center">
 					  				<?php if ($dataTrans['status']==="1") {
 					  					?>
@@ -222,6 +230,10 @@
 					  						<h5>Status pesanan sedang dikirim</h5>
 					  					<?php
 					  					}else if($dataTrans['status']==="5"){
+					  					?>
+					  						<h5>Selamat pesanan anda telah sampai</h5>
+					  					<?php
+					  					}else if($dataTrans['status']==="6"){
 					  					?>
 					  						<h5>Selamat pesanan anda telah sampai</h5>
 					  					<?php
@@ -276,6 +288,7 @@
 		    </div>
 		  </div>
 		</div>
+		<!-- cek bukti tf -->
 		<div class="modal fade" id="check-modal" tabindex="-1" role="dialog" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
@@ -287,6 +300,79 @@
 		      </div>
 		      <div class="modal-body check-modal">
 		        
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- Update resi dan kurir -->
+		<div class="modal fade" id="resi-kurir" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Update Resi dan Kurir</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <div class="form-group">
+		        	<input type="text" id="resi" placeholder="Resi..." class="form-control">
+		        </div>
+		        <div class="form-group">
+		        	<input type="text" id="kurir" placeholder="Kurir..." class="form-control">
+		        </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" id="simpan-reku" data-kd="0">Simpan data</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- Rating -->
+		<div class="modal fade" id="rating" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Beri rating</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <div class="form-group">
+		        	<select class="form-control rating">
+		        		<?php 
+		        			for ($i=1; $i <= 5 ; $i++) { 
+		        				?>
+		        				<option value="<?=$i?>"><?=$i?></option>
+		        				<?php
+		        			}
+		        		 ?>
+		        	</select>
+		        </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" id="simpan-rating" data-tr="0">Simpan data</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- alamat -->
+		<div class="modal fade" id="alamatbuyer" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Info alamat</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<ul class="list-group list-group-flush mt-2">
+				  <li class="list-group-item">Provinsi: <span class="provinsinya"></span></li>
+				  <li class="list-group-item">Kota: <span class="kotanya"></span></li>
+				  <li class="list-group-item">Alamat: <span class="alamatnya"></span></li>
+				</ul>
 		      </div>
 		    </div>
 		  </div>
@@ -347,6 +433,62 @@
     				}
     			})
     		});
+    		$(".reku").on('click',function(){
+    			$("#resi-kurir").modal('show')
+    			$("#simpan-reku").attr('data-kd',$(this).data('kd'))
+    		});
+			$("#simpan-reku").on('click',function(){
+    			$.ajax({
+    				url : link,
+    				method: "POST",
+    				data:{
+    					aksi:'update-resi-kurir',
+    					resi:$("#resi").val(),
+    					kurir:$("#kurir").val(),
+    					kd:$(this).data('kd')
+    				},
+    				dataType:'json',
+    				success:function(data){
+    					location.reload()
+    				}
+    			})
+			})
+			$(".rating").on('click',function(){
+    			$("#rating").modal('show')
+    			$("#simpan-rating").attr('data-tr',$(this).data('tr'))
+			})
+			$("#simpan-rating").on('click',function(){
+    			$.ajax({
+    				url : link,
+    				method: "POST",
+    				data:{
+    					aksi:'tambah-rating',
+    					rating:$(".rating :selected").val(),
+    					kd_tr:$(this).data('tr')
+    				},
+    				dataType:'json',
+    				success:function(data){
+    					location.reload()
+    				}
+    			})
+			})
+			$(".alamat").on('click',function(){
+				$("#alamatbuyer").modal('show')
+				$.ajax({
+					url : link,
+					method: "POST",
+					data:{
+						aksi:'cek-alamat',
+						id_peternak:$(this).data('id')
+					},
+					dataType:'json',
+					success:function(data){
+						$('.alamatnya').html(data[0].alamat)
+						$('.provinsinya').html(data[0].provinsi)
+						$('.kotanya').html(data[0].kota)
+					}
+				})
+			})
     	})
     </script>
 </html>
