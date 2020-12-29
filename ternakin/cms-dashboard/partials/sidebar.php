@@ -95,6 +95,17 @@
           </div>
         </div>
       </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#kontak" aria-expanded="true" aria-controls="kontak">
+          <i class="fas fa-fw fa-clipboard"></i>
+          <span>Kontak</span>
+        </a>
+        <div id="kontak" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="<?=$_ENV['base_url']?>cms-dashboard/pages/kontak">Kontak</a>
+          </div>
+        </div>
+      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider">

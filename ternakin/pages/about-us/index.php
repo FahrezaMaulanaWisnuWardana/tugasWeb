@@ -13,7 +13,21 @@
     <?php 
       include"../../partials/navbar.php";
     ?>
-    <section class="u-align-center u-clearfix u-section-1" id="sec-8b67">
+    <section class="u-align-center u-clearfix u-image u-shading u-section-2">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <h1 class="u-align-center-md u-align-center-sm u-align-center-xs u-text u-text-default u-title u-text-1">Ternakin</h1>
+        <p class="u-align-center u-large-text u-text u-text-variant u-text-2">Ternakin merupakan Marketplace di mana para peternak dapat memperjual belikan hasil ternaknya sekaligus mendapatkan informasi tentang harga pasaran ataupun informasi cara beternak yang dapat menyejahterakan peternak di Indonesia.</p>
+      </div>
+    </section>
+    <div class="u-align-center u-clearfix u-section-3" id="sec-d9e7">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <h1 class="u-text u-text-1">TERNAKIN</h1>
+        <p class="u-custom-font u-text u-text-2">Menyediakan Hewan Ternak Pilihan Serta Olahan Ternak Terbaik.</p>
+        <p class="u-custom-font u-text u-text-2">Sapi , Ayam , Kambing , Daging , Susu , Keju dan lainnya.</p>
+        <a href="../login/index.php" class="u-active-none u-border-5 u-border-active-palette-2-dark-1 u-border-custom-color-2 u-border-hover-custom-color-2 u-btn u-button-style u-custom-font u-heading-font u-hover-none u-none u-text-custom-color-2 u-btn-1">Pasarkan Sekarang</a>
+      </div>
+    </div>
+    <div class="u-align-center u-clearfix u-section-1" id="sec-8b67">
       <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xl u-sheet-1">
         <div class="u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xl u-table u-table-responsive u-table-1">
           <table class="u-table-entity">
@@ -37,21 +51,7 @@
           </table>
         </div>
       </div>
-    </section>
-    <section class="u-align-center u-clearfix u-image u-shading u-section-2" src="" id="sec-2360">
-      <div class="u-clearfix u-sheet u-sheet-1">
-        <h1 class="u-align-center-md u-align-center-sm u-align-center-xs u-text u-text-default u-title u-text-1">Ternakin</h1>
-        <p class="u-align-center u-large-text u-text u-text-variant u-text-2">Menyediakan Hewan Ternak Pilihan Serta Olahan Ternak Terbaik.<br>Sapi , Ayam , Kambing , Daging , Susu , Keju dan lainnya.
-        </p>
-      </div>
-    </section>
-    <section class="u-align-center u-clearfix u-section-3" id="sec-d9e7">
-      <div class="u-clearfix u-sheet u-sheet-1">
-        <h1 class="u-text u-text-1">TERNAKIN</h1>
-        <p class="u-custom-font u-heading-font u-text u-text-2">Ternakin merupakan Marketplace di mana para peternak dapat memperjual belikan hasil ternaknya sekaligus mendapatkan informasi tentang harga pasaran ataupun informasi cara beternak yang dapat menyejahterakan peternak di Indonesia.</p>
-        <a href="../login/index.php" class="u-active-none u-border-5 u-border-active-palette-2-dark-1 u-border-custom-color-2 u-border-hover-custom-color-2 u-btn u-button-style u-custom-font u-heading-font u-hover-none u-none u-text-custom-color-2 u-btn-1">Pasarkan Sekarang</a>
-      </div>
-    </section>
+    </div>
     <?php 
     include "../../templates/footer.php";
     include "../../partials/footer.php"; 
