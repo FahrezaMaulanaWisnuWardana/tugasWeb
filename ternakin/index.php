@@ -3,7 +3,7 @@
   include"config/database.php";
   include"templates/header.php";
   $sqlCarousel = mysqli_query($con,"SELECT * FROM tb_carousel");
-  $sqlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk WHERE jumlah>0 LIMIT 8");
+  $sqlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk WHERE jumlah>0 LIMIT 4");
   $dataCarousel = mysqli_fetch_assoc($sqlCarousel);
 ?>
   </head>

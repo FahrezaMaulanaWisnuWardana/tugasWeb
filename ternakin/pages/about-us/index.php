@@ -6,8 +6,8 @@
       $sqlpeternak = mysqli_query($con,"SELECT * FROM tb_peternak");
       $sqlproduk = mysqli_query($con,"SELECT * FROM tb_produk");
     ?>
-    <link rel="stylesheet" href="Page-1.css">
-    <link rel="stylesheet" href="nicepage.css">
+    <link rel="stylesheet" href="<?=$_ENV['base_url']?>pages/about-us/Page-1.css" type="text/css">
+    <link rel="stylesheet" href="<?=$_ENV['base_url']?>pages/about-us/nicepage.css" type="text/css">
   </head>
   <body>
     <?php 
@@ -24,7 +24,7 @@
         <h1 class="u-text u-text-1">TERNAKIN</h1>
         <p class="u-custom-font u-text u-text-2">Menyediakan Hewan Ternak Pilihan Serta Olahan Ternak Terbaik.</p>
         <p class="u-custom-font u-text u-text-2">Sapi , Ayam , Kambing , Daging , Susu , Keju dan lainnya.</p>
-        <a href="../login/index.php" class="u-active-none u-border-5 u-border-active-palette-2-dark-1 u-border-custom-color-2 u-border-hover-custom-color-2 u-btn u-button-style u-custom-font u-heading-font u-hover-none u-none u-text-custom-color-2 u-btn-1">Pasarkan Sekarang</a>
+        <a href="<?=$_ENV['base_url']?>login" class="u-active-none u-border-5 u-border-active-palette-2-dark-1 u-border-custom-color-2 u-border-hover-custom-color-2 u-btn u-button-style u-custom-font u-heading-font u-hover-none u-none u-text-custom-color-2 u-btn-1">Pasarkan Sekarang</a>
       </div>
     </div>
     <div class="u-align-center u-clearfix u-section-1" id="sec-8b67">

@@ -53,7 +53,6 @@
   					</form>
 			      	<div class="d-flex justify-content-between">
 			      		<a href="<?=$_ENV['base_url']?>daftar">Daftar</a>
-			      		<a href="#">Lupa Password</a>
 			      	</div>
   				</div>
   			</div>
