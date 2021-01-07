@@ -1,10 +1,17 @@
-.gallery-wrap .img-big-wrap img {
+.gallery-wrap .img-big-wrap{
     height: 450px;
-    width: auto;
+    width: 450px;
     display: inline-block;
-    cursor: zoom-in;
+    overflow: hidden;
+    position: relative;
 }
-
+.img-big-wrap .zoo-item{
+    width: 100%;
+    height: 100%;
+}
+.zoo-img{
+    cursor: zoom-in !important;
+}
 
 .gallery-wrap .img-small-wrap .item-gallery {
     width: 60px;

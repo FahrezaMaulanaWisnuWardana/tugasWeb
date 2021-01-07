@@ -2,7 +2,17 @@
   $title="Situs jual beli hewan dan hasil hewan";
   include"../../config/database.php";
   include"../../templates/header.php";
-    $sqlProd = mysqli_query($con,"SELECT AVG(rating) as rating , tp.id_peternak , tp.id_hewan , tp.foto_produk , tp.nama_produk , tp.harga ,tp.jumlah , tb_produk_jenis.nama_jenis_produk FROM tb_produk tp LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tp.id_jenis_produk LEFT JOIN tb_transaksi tt ON tp.id_hewan = tt.id_hewan LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 GROUP BY tp.id_hewan");
+
+    $halaman = isset($_GET['halaman'])?(int)$_GET['halaman'] : 1;
+    $halaman_awal = ($halaman>1) ? ($halaman * 8) - 8 : 0;
+    $previous = $halaman - 1;
+    $next = $halaman + 1;
+
+    $sqlProduk = mysqli_query($con,"SELECT AVG(rating) as rating , tp.id_peternak , tp.id_hewan , tp.foto_produk , tp.nama_produk , tp.harga ,tp.jumlah , tb_produk_jenis.nama_jenis_produk FROM tb_produk tp LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tp.id_jenis_produk LEFT JOIN tb_transaksi tt ON tp.id_hewan = tt.id_hewan LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 GROUP BY tp.id_hewan LIMIT $halaman_awal, 8");
+    $jmlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk");
+    $jml = mysqli_num_rows($jmlProduk);
+    $total_halaman = ceil($jml/8);
+    $nomor = $halaman_awal+1;
   ?>
   </head>
   <body>
@@ -14,7 +24,7 @@
       <div class="row my-5">
 
         <?php 
-            while ($dataProduk = mysqli_fetch_array($sqlProd)){
+            while ($dataProduk = mysqli_fetch_array($sqlProduk)){
               $img = explode(',', $dataProduk['foto_produk']);
               ?>
               <div class="col-lg-3 col-md-6 col-sm-12 my-1">
@@ -43,6 +53,25 @@
               <?php
             }
          ?>
+         <div class="col-12">
+            <nav>
+              <ul class="pagination justify-content-center">
+                <li class="page-item">
+                  <a class="page-link" <?php if($halaman > 1){ echo "href='?halaman=$previous'"; } ?>>Previous</a>
+                </li>
+                <?php 
+                for($x=1;$x<=$total_halaman;$x++){
+                  ?> 
+                  <li class="page-item"><a class="page-link" href="?halaman=<?php echo $x ?>"><?php echo $x; ?></a></li>
+                  <?php
+                }
+                ?>        
+                <li class="page-item">
+                  <a  class="page-link" <?php if($halaman < $total_halaman) { echo "href='?halaman=$next'"; } ?>>Next</a>
+                </li>
+              </ul>
+            </nav>
+         </div>
          
          </div>
         </div>

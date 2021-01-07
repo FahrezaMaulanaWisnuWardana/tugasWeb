@@ -55,8 +55,8 @@
             <li class="nav-item <?=($current=="ternakin")?'active':'';?>">
               <a class="nav-link" href="<?=$_ENV['base_url']?>">Beranda</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href=" <?=$_ENV['base_url']?>pages/produk">Produk</a>
+            <li class="nav-item <?=($current=="produk")?'active':'';?>">
+              <a class="nav-link" href=" <?=$_ENV['base_url']?>produk">Produk</a>
             </li>
             <li class="nav-item <?=($current=="artikel" || $current2=="a")?'active':'';?>">
               <a class="nav-link" href="<?=$_ENV['base_url']?>artikel">Artikel</a>

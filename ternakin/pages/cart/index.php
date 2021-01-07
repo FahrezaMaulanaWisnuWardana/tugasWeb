@@ -12,18 +12,18 @@
     <div class="container my-5">
       <div class="row" id="cart-list"></div>
       <div class="row">
-      	<div class="col-lg-12" id="total-harganya">
-      		<h5>Jumlah : <span id="jml"></span></h5>
-      	</div>
+        <div class="col-lg-12" id="total-harganya">
+          <h5>Jumlah : <span id="jml"></span></h5>
+        </div>
         <div class="col-lg-12" id="btn-process">
           <?php 
               if (isset($_SESSION['user']['id'])) {
                 ?>
-                <button class="btn btn-success form-control" id="bayar">Buat pesanan</button>
+                <button class="btn btn-success form-control text-uppercase" id="bayar">Buat pesanan</button>
                 <?php   
               }else{
                 ?>
-                <button class="btn btn-secondary form-control">Login Duls</button>
+                <a href="<?=$_ENV['base_url']?>/login" class="btn btn-secondary form-control text-uppercase">Silahkan login untuk melakukan pemesanan</a>
                 <?php
               }
            ?>
@@ -35,8 +35,8 @@
   </body>
     <?php include"../../templates/footer.php"; ?>
     <script type="text/javascript">
-    	$(document).ready(function(){
-    		// Cart
+      $(document).ready(function(){
+        // Cart
         let cart =localStorage.getItem('id') ? JSON.parse(localStorage.getItem('id')) : []
         let peternak =localStorage.getItem('peternak') ? JSON.parse(localStorage.getItem('peternak')) : []
         let total = localStorage.getItem('total')
@@ -62,14 +62,14 @@
               return rupiah =""
             }
         }
-		    function countValues(array, countItem) {
-		      count = 0;
-		      array.forEach(itm => {
-		        if (itm == countItem) count++;
-		      });
-		      return `${count}`;
-		    }
-    		let unique = cart.filter((v,i,a)=>a.indexOf(v)===i)
+        function countValues(array, countItem) {
+          count = 0;
+          array.forEach(itm => {
+            if (itm == countItem) count++;
+          });
+          return `${count}`;
+        }
+        let unique = cart.filter((v,i,a)=>a.indexOf(v)===i)
 
         let link ="<?=$_ENV['base_url']?>cms-dashboard/api/produk-cart"
           $.ajax({
@@ -81,36 +81,46 @@
             dataType:'json',
             success:function(data){
               for (var i = 0; i < data.length; i++) {
-                if (unique.includes(data[i].id)) {
-                    var html = `<div class="col-3 my-1 produk-hewan">
-                    <div class="card overflow-hidden">
-                      <button class="rounded-circle btn btn-danger position-absolute btn-cancel" data-peternak="${data[i].id_peternak}" data-harga="${data[i].harga * countValues(cart, data[i].id)}" data-id="${data[i].id}" data-totalcart="${countValues(cart, data[i].id)}" style="width:40px; height:40px; top:-20px; right:-20px;"><i class="fas fa-times"></i></button>
-                      <div class="text-center">
-                      <img src="<?=$_ENV['base_url']?>assets/image/produk/${data[i].id_peternak}/${data[i].img}" class="card-img-top" style="width:200px;">
-                      </div>
-                      <div class="card-body">
-                      <small class="card-text"><span class="badge badge-secondary">${data[i].jenis}</span></small>
-                      <h5 class="card-title">${data[i].nama}</h5>
-                      <div class="d-flex justify-content-between">
-                      <h6 class="card-title">Jumlah : <span class="jml"> ${countValues(cart, data[i].id)}</span></h6>
-                        <div>
-                          <button type="button" class="btn btn-primary mr-1 btn-minus" data-totalcart="${countValues(cart, data[i].id)}" data-id="${data[i].id}" data-harga="${data[i].harga}" style="padding: .25rem .5rem;font-size: .875rem;line-height: 1.5;border-radius: .2rem;"><i class="fas fa-minus"></i></button>
-                          <button type="button" class="btn btn-primary btn-plus" data-id="${data[i].id}"  data-harga="${data[i].harga}" style="padding: .25rem .5rem;font-size: .875rem;line-height: 1.5;border-radius: .2rem;"><i class="fas fa-plus"></i></button>
+                if(data[i].null === null){
+                  localStorage.clear()
+                  $("#btn-process").remove()
+                  $("#total-harganya").remove()
+                  $("#cart-list").addClass('text-center')
+                  $("#cart-list").html('<h1 class="my-5 mx-auto text-secondary">Keranjang Kosong... <p>Yuk Belanja :)</p></h1>')
+                  $(".count-cart").text('0')
+                  break;
+                }else{
+                  if (unique.includes(data[i].id)) {
+                      var html = `<div class="col-3 my-1 produk-hewan">
+                      <div class="card overflow-hidden">
+                        <button class="rounded-circle btn btn-danger position-absolute btn-cancel" data-peternak="${data[i].id_peternak}" data-harga="${data[i].harga * countValues(cart, data[i].id)}" data-id="${data[i].id}" data-totalcart="${countValues(cart, data[i].id)}" style="width:40px; height:40px; top:-20px; right:-20px;"><i class="fas fa-times"></i></button>
+                        <div class="text-center">
+                        <img src="<?=$_ENV['base_url']?>assets/image/produk/${data[i].id_peternak}/${data[i].img}" class="card-img-top" style="width:200px;">
                         </div>
-                     </div>
-                        <span class="text-primary font-weight-bold d-inline">Rp.<span class="hrg">${rupiah(data[i].harga * countValues(cart, data[i].id))}</span></span>
+                        <div class="card-body">
+                        <small class="card-text"><span class="badge badge-secondary">${data[i].jenis}</span></small>
+                        <h5 class="card-title">${data[i].nama}</h5>
+                        <div class="d-flex justify-content-between">
+                        <h6 class="card-title">Jumlah : <span class="jml"> ${countValues(cart, data[i].id)}</span></h6>
+                          <div>
+                            <button type="button" class="btn btn-primary mr-1 btn-minus" data-totalcart="${countValues(cart, data[i].id)}" data-id="${data[i].id}" data-harga="${data[i].harga}" style="padding: .25rem .5rem;font-size: .875rem;line-height: 1.5;border-radius: .2rem;"><i class="fas fa-minus"></i></button>
+                            <button type="button" class="btn btn-primary btn-plus" data-id="${data[i].id}"  data-harga="${data[i].harga}" style="padding: .25rem .5rem;font-size: .875rem;line-height: 1.5;border-radius: .2rem;"><i class="fas fa-plus"></i></button>
+                          </div>
+                       </div>
+                          <span class="text-primary font-weight-bold d-inline">Rp.<span class="hrg">${rupiah(data[i].harga * countValues(cart, data[i].id))}</span></span>
+                        </div>
+                        </div>
                       </div>
-                      </div>
-                    </div>
-                    </div>`
-                  $("#cart-list").append(html)
+                      </div>`
+                    $("#cart-list").append(html)
+                  }
                 }
               }
               $("#jml").text('Rp.'+rupiah(total))
             }
           });
         
-		  // End Cart
+      // End Cart
         $(document).on('click','.btn-cancel',function(){
           for (var i = 0; i < cart.length; i++) {
             if (cart[i] === $(this).data("id")){
@@ -190,6 +200,6 @@
             }
           })
         })
-    	});
+      });
     </script>
 </html>

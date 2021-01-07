@@ -1,11 +1,16 @@
 <?php 
 	$title="Situs jual beli hewan dan hasil hewan";
 	include"../../config/database.php";
+	$id = explode('-', $_GET['id']);
+	$sqlDetail = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk INNER JOIN tb_kota ON tb_produk.id_kota = tb_kota.id_kota INNER JOIN tb_provinsi ON tb_provinsi.id_provinsi = tb_produk.id_provinsi WHERE id_hewan='".end($id)."'");
+	$sqlRating = mysqli_query($con , "SELECT AVG(rating) FROM tb_rating tr INNER JOIN tb_transaksi tt ON tr.kd_tr_peternak = tt.kd_tr_peternak INNER JOIN tb_produk tp ON tt.id_hewan = tp.id_hewan WHERE tp.id_hewan = '".end($id)."' ");
+	$rating = mysqli_fetch_row($sqlRating);
+	$dataHewan = mysqli_fetch_row($sqlDetail);
+	$img = explode(',', $dataHewan[1]);
+	$jmlImg = count($img);
 	include"../../templates/header.php";
  ?>
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zoomove/1.2.1/zoomove.min.css">
  	<link rel="stylesheet" type="text/css" href="<?=$_ENV['base_url']?>assets/css/detail-produk.css">
   </head>
   <body>
@@ -18,55 +23,60 @@
 				<aside class="col-sm-5 border-right">
 					<article class="gallery-wrap"> 
 					<div class="img-big-wrap">
-						<div> <a href="#"><img src="<?=$_ENV['base_url']?>assets/image/produk/1-min.png"></a></div>
+					  <figure class="zoo-item" data-zoo-image="<?=$_ENV['base_url']?>assets/image/produk/<?=$dataHewan[6].'/'.$img[0]?>"></figure>
 					</div>
 					<div class="img-small-wrap">
 						<div class="img-small-wrap">
-						<div class="item-gallery"> <img src="<?=$_ENV['base_url']?>assets/image/produk/1-min.png"> </div>
-						<div class="item-gallery"> <img src="<?=$_ENV['base_url']?>assets/image/produk/1-min.png"> </div>
-						<div class="item-gallery"> <img src="<?=$_ENV['base_url']?>assets/image/produk/1-min.png"> </div>
-						<div class="item-gallery"> <img src="<?=$_ENV['base_url']?>assets/image/produk/1-min.png"> </div>
+						<?php 
+							for ($i=0; $i < $jmlImg; $i++){
+								?>
+								  <div class="item-gallery">
+								  	<img src="<?=$_ENV['base_url']?>assets/image/produk/<?=$dataHewan[6].'/'.$img[$i]?>" class="item-img">
+								  </div>
+								<?php
+							}
+						?>
 						</div>
 					</div>
 					</article>
 				</aside>
 				<aside class="col-sm-7">
 					<article class="card-body p-5">
-						<h3 class="title mb-3">sapi</h3>
+						<h3 class="title mb-3"><?=$dataHewan[2]?></h3>
 						<p class="price-detail-wrap"> 
 							<span class="price h3 text-warning"> 
-								<span class="currency">Rp.</span><span class="num">400.000,00</span>
+								<span class="currency">Rp.</span><span class="num"><?=number_format($dataHewan[5],2,',','.') ?></span>
 							</span> 
 						</p> <!-- price-detail-wrap .// -->
 					<dl class="item-property">
 					  <dt>Deskripsi</dt>
-					  <dd><p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt, obcaecati.</p></dd>
+					  <dd><p><?=$dataHewan[7]?></p></dd>
 					</dl>
 					<dl class="param param-feature">
 					  <dt>Tipe</dt>
-					  <dd>kambing</dd>
+					  <dd><?=$dataHewan[15]?></dd>
 					</dl>  <!-- item-property-hor .// -->
 					<dl class="param param-feature">
 					  <dt>Daerah</dt>
-					  <dd>RIAU - KOTA PEKANBARU</dd>
+					  <dd><?=$dataHewan[21].' - '.$dataHewan[19]?></dd>
 					</dl>  <!-- item-property-hor .// -->
 					<hr>
 						<div class="row">
 							<div class="col-sm-5">
 								<dl class="param param-inline">
 								  <dt>Quantity: </dt>
-								  <dd>4</dd>
+								  <dd><?=$dataHewan[6]?></dd>
 								</dl>
 							</div>
-							<div class="col-sm-7">
+							<div class="col-sm-5">
 								<dl class="param param-inline">
 								  <dt>Rating</dt>
-								  <dd>4/5</dd>
+								  <dd><?=($rating[0]!==NULL)?round($rating[0],2):'0';?>/5</dd>
 								</dl>
 							</div>
 						</div>
 						<hr>
-						<button class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Tambah ke keranjang </button>
+						<button class="btn btn-lg btn-outline-primary text-uppercase <?=($dataHewan[6]==$_SESSION['user']['id'])?'':'cart'?>" data-id="<?=$dataHewan[0]?>" data-penjual="<?=$dataHewan[6]?>" data-harga="<?=$dataHewan[5]?>"> <i class="fas fa-shopping-cart"></i> Tambah ke keranjang </button>
 					</article> <!-- card-body.// -->
 				</aside> <!-- col.// -->
 			</div> <!-- row.// -->
@@ -75,4 +85,14 @@
     <?php include"../../partials/footer.php"; ?>
   </body>
     <?php include"../../templates/footer.php"; ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zoomove/1.2.1/zoomove.min.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+ 			$('.zoo-item').ZooMove();
+ 			$(".item-img").on('click',function(){
+ 				$('figure').attr('data-zoo-image',$(this).attr('src'))
+ 				$('.zoo-img').css('background-image','url('+$(this).attr('src')+')')
+ 			})
+    	})
+    </script>
 </html>

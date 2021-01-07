@@ -3,7 +3,11 @@
   include"config/database.php";
   include"templates/header.php";
   $sqlCarousel = mysqli_query($con,"SELECT * FROM tb_carousel");
-  $sqlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk WHERE jumlah>0 LIMIT 4");
+  $sqlProduk = mysqli_query($con,"SELECT AVG(rating) as rating , tp.id_peternak , tp.id_hewan , tp.foto_produk , tp.nama_produk , tp.harga ,tp.jumlah , tb_produk_jenis.nama_jenis_produk FROM tb_produk tp 
+LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tp.id_jenis_produk 
+LEFT JOIN tb_transaksi tt ON tp.id_hewan = tt.id_hewan 
+LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 GROUP BY tp.id_hewan LIMIT 4") or die(mysqli_error($con));
+  $sqlKategori = mysqli_query($con,"SELECT * FROM tb_produk_jenis WHERE produk_jenis_img IS NOT NULL");
   $dataCarousel = mysqli_fetch_assoc($sqlCarousel);
 ?>
   </head>
@@ -12,23 +16,23 @@
       include"partials/navbar.php"; 
       include"partials/carousel.php"; 
     ?>
-    <div class="container">
+    <div class="container" id="panel">
 
-      <div class="col-lg-9 info-panel">
+      <div class="col-lg-9 col-sm-12 info-panel">
         <div class="row text-center">
-          <div class="col-lg">
+          <div class="col-lg-4 col-sm-12">
             <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width: 150px;">
             <div class="h5 pb-5">
               Hewan Ternak
             </div>
           </div>
-          <div class="col-lg">
+          <div class="col-lg-4 col-sm-12">
             <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width: 150px;">
             <div class="h5 pb-5">
               Pakan Ternak
             </div>
           </div>
-          <div class="col-lg">
+          <div class="col-lg-4 col-sm-12">
             <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width: 150px;">
             <div class="h5 pb-5">
               Olahan Ternak
@@ -49,7 +53,7 @@
               $img = explode(',', $dataProduk['foto_produk']);
               ?>
               <div class="col-lg-3 col-md-6 col-sm-12 my-1">
-                <a href="<?=$_ENV['base_url']?>p/<?=$dataProduk['id_hewan']?>" style="text-decoration: none; color: inherit;">
+                <a href="<?=$_ENV['base_url']?>p/<?=str_replace(' ','-',$dataProduk['nama_produk']).'-'.$dataProduk['id_hewan']?>" style="text-decoration: none; color: inherit;">
                 <div class="card overflow-hidden">
                   <div class="text-center">
                     <img src="<?=$_ENV['base_url']?>assets/image/produk/<?=$dataProduk['id_peternak'].'/'.$img[0]?>" class="card-img-top" style="width:200px;">
@@ -60,23 +64,23 @@
                     <div class="info-card pb-2">
                       <span class="text-primary font-weight-bold d-inline">Rp.<?=number_format($dataProduk['harga'],2,',','.')?></span>
                       <div class="rating">
-                      	<span>4/5</span>
+                        <span><?=($dataProduk['rating']!==NULL)?round($dataProduk['rating'],2):'0'?>/5</span>
                         (200)
                       </div>
                     </div>
-                </a>
                   </div>
+                  </a>
                     <div class="card-body-hidden text-center pb-4">
                       <div disabled class="btn border btn-sm mb-2 <?=($dataProduk['id_peternak']==$_SESSION['user']['id'])?'':'cart'?>" data-id="<?=$dataProduk['id_hewan']?>" data-penjual="<?=$dataProduk['id_peternak']?>" data-harga="<?=$dataProduk['harga']?>"><i class="bx bxs-cart icon-single"></i> Tambahkan ke keranjang</div>
                     </div>
-                </div>
+                  </div>
               </div>
               <?php
             }
          ?>
 
         <div class="w-100 text-center my-4">
-          <a href="#" class="btn btn-outline-success">Semua Produk <i class="fas fa-chevron-right"></i></a>
+          <a href="<?=$_ENV['base_url']?>produk" class="btn btn-outline-success">Semua Produk <i class="fas fa-chevron-right"></i></a>
         </div>
 
       </div>
@@ -110,21 +114,26 @@
         <div class="w-100 text-center mb-4">
           <h3>Kategori Hewan</h3>
         </div>
+        <?php 
+            while ($dataKat = mysqli_fetch_array($sqlKategori)){
+              ?>
+                <div class="col-lg-3 col-md-6 col-sm-12 col-custom-card my-1">
+                  
+                  <div class="card" style="height: 200px;">
+                      <div class="text-center">
+                        <img src="<?=$_ENV['base_url']?>assets/image/kategori/<?=$dataKat['produk_jenis_img']?>" style="width:200px; z-index: -1">
+                      </div>
+                      <div class="custom-card">
+                        <div class="card-title-custom text-center">
+                          <h4><?=$dataKat['nama_jenis_produk']?></h4>
+                        </div>
+                    </div>
+                  </div>
 
-        <div class="col-lg-3 col-md-6 col-sm-12 col-custom-card my-1">
-          
-          <div class="card" style="height: 200px;">
-              <div class="text-center">
-                <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width:200px; z-index: -1">
-              </div>
-              <div class="custom-card">
-                <div class="card-title-custom text-center">
-                  <h4>Sapi</h4>
                 </div>
-            </div>
-          </div>
-
-        </div>
+              <?php
+            }
+         ?>
         <div class="w-100 text-center my-4">
           <a href="#" class="btn btn-outline-success">Semua Kategori <i class="fas fa-chevron-right"></i></a>
         </div>
