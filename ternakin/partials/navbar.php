@@ -23,9 +23,9 @@
         </ul>
 
         <div class="collapse navbar-collapse">
-          <form class="form-inline my-2 my-lg-0 mx-auto w-75">
+          <form class="form-inline my-2 my-lg-0 mx-auto w-75" method="GET" action="produk">
             <div class="input-group w-100">
-              <input class="form-control" type="search" placeholder="Cari Produk..." aria-label="Search">
+              <input class="form-control" type="search" placeholder="Cari Produk..." name="cari" aria-label="Search">
               <div class="input-group-append">
                 <button class="btn btn-success"><i class="bx bx-search"></i></button>
               </div>
