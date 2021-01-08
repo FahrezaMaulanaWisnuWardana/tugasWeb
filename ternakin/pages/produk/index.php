@@ -40,7 +40,6 @@
                       <span class="text-primary font-weight-bold d-inline">Rp.<?=number_format($dataProduk['harga'],2,',','.')?></span>
                       <div class="rating">
                         <span><?=($dataProduk['rating']!==NULL)?round($dataProduk['rating'],2):'0'?>/5</span>
-                        (200)
                       </div>
                     </div>
                   </div>

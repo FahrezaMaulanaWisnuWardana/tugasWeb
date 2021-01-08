@@ -70,6 +70,12 @@
           return `${count}`;
         }
         let unique = cart.filter((v,i,a)=>a.indexOf(v)===i)
+        var counts = {};
+
+        for (var i = 0; i < peternak.length; i++) {
+          var num = cart[i];
+          counts[num] = counts[num] ? counts[num] + 1 : 1;
+        }
 
         let link ="<?=$_ENV['base_url']?>cms-dashboard/api/produk-cart"
           $.ajax({
@@ -81,15 +87,6 @@
             dataType:'json',
             success:function(data){
               for (var i = 0; i < data.length; i++) {
-                if(data[i].null === null){
-                  localStorage.clear()
-                  $("#btn-process").remove()
-                  $("#total-harganya").remove()
-                  $("#cart-list").addClass('text-center')
-                  $("#cart-list").html('<h1 class="my-5 mx-auto text-secondary">Keranjang Kosong... <p>Yuk Belanja :)</p></h1>')
-                  $(".count-cart").text('0')
-                  break;
-                }else{
                   if (unique.includes(data[i].id)) {
                       var html = `<div class="col-3 my-1 produk-hewan">
                       <div class="card overflow-hidden">
@@ -114,9 +111,8 @@
                       </div>`
                     $("#cart-list").append(html)
                   }
-                }
+                  $("#jml").text('Rp.'+rupiah(total))
               }
-              $("#jml").text('Rp.'+rupiah(total))
             }
           });
         
@@ -181,6 +177,13 @@
               localStorage.setItem('total',total - harga)
             }else{
               localStorage.setItem('total',harga)
+            }
+        }
+        function kurangPeternak(id){
+            i = peternak.indexOf(id);
+            if(i >= 0) {
+               let kurang = peternak.splice(i,1);
+               localStorage.setItem('peternak',JSON.stringify(peternak))
             }
         }
 

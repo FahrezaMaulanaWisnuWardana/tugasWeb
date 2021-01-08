@@ -1,3 +1,6 @@
+.carousel-height{
+	height: 85vh;
+}
 .carousel-control-next, .carousel-control-prev{
   width:25px !important;
 }
@@ -19,6 +22,14 @@
 	border-radius:12px;
 	margin-top:-120px;
 	background-color: white;
+}
+@media(max-width: 768px){
+	.info-panel{
+		margin-top:0px;
+	}
+	.carousel-height{
+		height: auto;
+	}
 }
 .col-custom-card{
 	padding: 0 5px !important;
@@ -86,5 +97,38 @@ ul{
 	list-style-type: none;
 }
 .checked {
-color: orange;
+	color: orange;
+}
+.head-about{
+	background-image: url('../../assets/image/about/1.jpg');
+	background-size: cover;
+	height: 100%;
+	width: 100%;
+}
+.bg-shadow{
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0,0,0,0.2);
+	z-index: 99;
+}
+html {
+  font-size: 1rem;
+}
+
+@include media-breakpoint-up(sm) {
+  html , h1 , h2 h3 , h4 , h5 , h6{
+    font-size: 1.2rem;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  html , h1 , h2 h3 , h4 , h5 , h6{
+    font-size: 1.4rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  html ,h1 , h2 h3 , h4 , h5 , h6{
+    font-size: 1.6rem;
+  }
 }

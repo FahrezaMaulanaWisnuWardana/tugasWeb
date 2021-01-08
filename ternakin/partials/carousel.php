@@ -6,7 +6,7 @@
   $dataSlideLink = explode('|', $dataCarousel['url']);
 ?>
     <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
-      <div class="carousel-inner position-relative overflow-hidden" style="height: 85vh;">
+      <div class="carousel-inner position-relative overflow-hidden carousel-height">
         <div class="carousel-item active">
           <div class="desc position-absolute text-white">
             <div class="h4">
@@ -43,7 +43,7 @@
         </div>
         <div class="carousel-item">
           <div class="desc position-absolute text-white">
-            <div class="h2">
+            <div class="h4">
               <?=$dataSlideJudul[2]?>
             </div>
             <div class="h3">

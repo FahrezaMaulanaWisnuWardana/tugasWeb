@@ -14,18 +14,30 @@
         });
         return `${count}`;
       }
-        let unique = cart.filter((v,i,a)=>a.indexOf(v)===i)
-      $(".cart").on('click',function(){
-        cart.push($(this).data('id'))
-        peternak.push($(this).data('penjual'))
+      let unique = cart.filter((v,i,a)=>a.indexOf(v)===i)
+      <?php 
+        if (isset($_SESSION['user']['id'])){
+          ?>
+            $(".cart").on('click',function(){
+              cart.push($(this).data('id'))
+              peternak.push($(this).data('penjual'))
 
-        localStorage.setItem('id',JSON.stringify(cart))
-        localStorage.setItem('peternak',JSON.stringify(peternak))
-        
-        totalCart($(this).data('harga'))
-        $(".count-cart").text(cart.length)
+              localStorage.setItem('id',JSON.stringify(cart))
+              localStorage.setItem('peternak',JSON.stringify(peternak))
+              
+              totalCart($(this).data('harga'))
+              $(".count-cart").text(cart.length)
 
-      })
+            })
+          <?php
+        }else{
+          ?>
+            $(".cart").on('click',function(){
+              window.location.href='login'
+            })
+          <?php
+        }
+       ?>
       function totalCart(harga){
         let total = localStorage.getItem('total')
         if (total != null) {
