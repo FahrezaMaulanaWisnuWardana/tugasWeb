@@ -167,10 +167,45 @@
 		  			</div>
 		  			<?php
 		  		}else{
-		  			while ($produk = mysqli_fetch_array($sqlProdukku)) {
-		  				?>
-		  				<?php
-		  			}
+		  			?>
+	  				<div class="table-responsive">
+				  		<table class="table">
+						  <thead>
+						    <tr>
+						      <th scope="col">Nama Produk</th>
+						      <th scope="col">Jumlah</th>
+						      <th scope="col">Harga</th>
+						      <th scope="col">Aksi</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+				  			<?php
+				  			while ($produk = mysqli_fetch_array($sqlProdukku)) {
+				  				?>
+				  				<tr>
+				  					<td>
+				  						<a href="<?=$_ENV['base_url']?>p/<?=str_replace(' ','-',$produk['nama_produk']).'-'.$produk['id_hewan']?>">
+					  						<?=$produk['nama_produk']?></td>
+					  					</a>
+				  					<td><?=$produk['jumlah']?></td>
+				  					<td>Rp.<?=number_format($produk['harga'],2,',','.')?></td>
+				  					<td class="text-center">
+				  						<form method="POST" action="<?=$_ENV['base_url']?>pages/profile/aksi">
+				  							<button type="submit" name="aksi" class="btn btn-danger" value="hapus-produk">
+				  								<i class="fas fa-trash"></i>
+				  								<input type="hidden" name="id" value="<?=$produk['id_hewan']?>">
+				  							</button>
+				  							<a href="<?=$_ENV['base_url']?>edit-produk/<?=$produk['id_hewan']?>" class="btn btn-success"><i class="fas fa-pen"></i></a>
+				  						</form>
+				  					</td>
+				  				</tr>
+				  				<?php
+				  			}
+				  			?>
+						  </tbody>
+						</table>
+					</div>
+		  			<?php
 		  		}
 		  	 ?>
 		  </div>

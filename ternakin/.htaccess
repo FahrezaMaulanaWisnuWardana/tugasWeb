@@ -25,9 +25,11 @@ RewriteRule ^cart ./pages/cart/index.php
 RewriteRule ^tentang ./pages/about-us/index.php
 RewriteRule ^produk ./pages/produk/index.php
 RewriteRule ^p/([0-9a-zA-z_-]+) ./pages/produk/detail-produk.php?id=$1
+RewriteRule ^kategori ./pages/kategori/index.php
 
 #Profile Route
 RewriteRule ^profile ./pages/profile/index.php
 RewriteRule ^edit-profile ./pages/profile/edit-profile.php
+RewriteRule ^edit-produk/([0-9]+) ./pages/profile/edit-produk.php?id=$1
 
 php_value date.timezone Asia/Jakarta

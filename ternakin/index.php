@@ -117,24 +117,24 @@ LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 G
             while ($dataKat = mysqli_fetch_array($sqlKategori)){
               ?>
                 <div class="col-lg-3 col-md-6 col-sm-12 col-custom-card my-1">
-                  
-                  <div class="card" style="height: 200px;">
-                      <div class="text-center">
-                        <img src="<?=$_ENV['base_url']?>assets/image/kategori/<?=$dataKat['produk_jenis_img']?>" style="width:200px; z-index: -1">
-                      </div>
-                      <div class="custom-card">
-                        <div class="card-title-custom text-center">
-                          <h4><?=$dataKat['nama_jenis_produk']?></h4>
+                  <a href="<?=$_ENV['base_url']?>produk?kategori=<?=$dataKat['nama_jenis_produk']?>">
+                    <div class="card" style="height: 200px;">
+                        <div class="text-center">
+                          <img src="<?=$_ENV['base_url']?>assets/image/kategori/<?=$dataKat['produk_jenis_img']?>" style="width:200px; z-index: -1">
                         </div>
+                        <div class="custom-card">
+                          <div class="card-title-custom text-center">
+                            <h4><?=$dataKat['nama_jenis_produk']?></h4>
+                          </div>
+                      </div>
                     </div>
-                  </div>
-
+                  </a>
                 </div>
               <?php
             }
          ?>
         <div class="w-100 text-center my-4">
-          <a href="#" class="btn btn-outline-success">Semua Kategori <i class="fas fa-chevron-right"></i></a>
+          <a href="<?=$_ENV['base_url']?>kategori" class="btn btn-outline-success">Semua Kategori <i class="fas fa-chevron-right"></i></a>
         </div>
 
       </div>

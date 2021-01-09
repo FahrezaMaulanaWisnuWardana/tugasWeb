@@ -88,6 +88,48 @@
 				}
 				header("location:{$_ENV['base_url']}profile");
 				break;
+			case 'hapus-produk':
+				$id = $_POST['id'];
+				$sql = mysqli_query($con,"DELETE FROM tb_produk WHERE id_hewan='".$id."'") or die(mysqli_error($con));
+				($sql)?$_SESSION['alert']['berhasil'] ="Berhasil hapus produk":$_SESSION['alert']['gagal'] ="Gagal hapus produk";
+				header("location:{$_ENV['base_url']}profile");
+				break;
+			case 'update-produk':
+					$total = count($_FILES['foto']['name']);
+					$dataFile = implode(',', $_FILES['foto']['name']);
+					$hewan=$_POST['id'];
+					$nama = $_POST['nama_produk'];
+					$jenis = $_POST['jenis'];
+					$jumlah = $_POST['jumlah'];
+					$harga = $_POST['harga'];
+					$peternak = $_SESSION['user']['id'];
+					$deskripsi = $_POST['deskripsi'];
+					$catatan = $_POST['catatan'];
+					$provinsi = $_POST['provinsi'];
+					$kota = $_POST['kota'];
+					$alamat = $_POST['alamat'];
+					if ($_FILES['foto']['name'][0]=="") {
+						$sql = mysqli_query($con,"UPDATE tb_produk SET nama_produk='".$nama."' , id_jenis_produk='".$jenis."' , jumlah='".$jumlah."' , harga='".$harga."' , deskripsi='".$deskripsi."' , catatan='".$catatan."' , id_provinsi='".$provinsi."' , id_kota='".$kota."' , alamat='".$alamat."' WHERE id_hewan='".$hewan."'") or die(mysqli_error($con));
+						($sql)?$_SESSION['alert']['berhasil'] ="Berhasil edit produk":$_SESSION['alert']['gagal'] ="Gagal edit produks";
+					}else{
+						for ($i=0; $i <$total ; $i++) {
+							$tmp = $_FILES['foto']['tmp_name'][$i];
+							$name = $_FILES['foto']['name'][$i];
+							$base_dir = $_SERVER['DOCUMENT_ROOT']."/tugasWeb/ternakin/assets/image/produk/".$id."/";
+							if (!is_dir($base_dir)){
+								mkdir($base_dir);
+							}
+							$upload = move_uploaded_file($tmp, $base_dir.basename($name));
+						}
+						if ($upload) {
+							$sql = mysqli_query($con,"UPDATE tb_produk SET foto_produk='".$dataFile."' , nama_produk='".$nama."' , id_jenis_produk='".$jenis."' , jumlah='".$jumlah."' , harga='".$harga."' , deskripsi='".$deskripsi."' , catatan='".$catatan."' , id_provinsi='".$provinsi."' , id_kota='".$kota."' , alamat='".$alamat."' WHERE id_hewan='".$hewan."'") or die(mysqli_error($con));
+							($sql)?$_SESSION['alert']['berhasil'] ="Berhasil edit produk":$_SESSION['alert']['gagal'] ="Gagal edit produzk";
+						}else{
+							$_SESSION['alert']['gagal'] ="Gagal edit produkc";
+						}
+					}
+					header("location:{$_ENV['base_url']}profile");
+				break;
 		default:
 			header("HTTP/1.0 404 Not Found");
 			break;

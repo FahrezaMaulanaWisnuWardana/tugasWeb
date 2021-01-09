@@ -95,7 +95,18 @@
           </div>
         </div>
       </li>
-      <li class="nav-item">
+      <li class="nav-item <?=($current=="kategori")?'active':'';?>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#master-kategori" aria-expanded="true" aria-controls="master-kategori">
+          <i class="fas fa-fw fa-users"></i>
+          <span>Kategori</span>
+        </a>
+        <div id="master-kategori" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item <?=($current=="kategori")?'active':'';?>" href="<?=$_ENV['base_url']?>cms-dashboard/pages/kategori">Kategori</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item <?=($current=="kontak")?'active':'';?>">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#kontak" aria-expanded="true" aria-controls="kontak">
           <i class="fas fa-fw fa-clipboard"></i>
           <span>Kontak</span>

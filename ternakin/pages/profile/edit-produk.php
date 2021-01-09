@@ -2,15 +2,11 @@
   require_once"../../config/database.php";
   $title="Profile | ".$_SESSION['user']['nama'];
   require_once"../../templates/header.php";
-  $sql = mysqli_query($con,"SELECT id_peternak , nama_lengkap , email , no_hp , alamat , no_rek , id_provinsi , id_kota , level FROM tb_peternak WHERE id_peternak='".$_SESSION['user']['id']."'");
+  $sql = mysqli_query($con,"SELECT * FROM tb_produk WHERE id_hewan='".$_GET['id']."'");
   $data = mysqli_fetch_assoc($sql);
   $sqlProvinsi = mysqli_query($con,"SELECT * FROM tb_provinsi");
   $sqlKota = mysqli_query($con,"SELECT * FROM tb_kota");
   $sqlJenis = mysqli_query($con,"SELECT * FROM tb_produk_jenis WHERE produk_jenis_img IS NULL");
-  if ($data['level']==1) {
-  	$_SESSION['alert']['gagal']="Silahkan daftar menjadi penjual!";
-  	header("location:{$_ENV['base_url']}profile");
-  }
  ?>
  <style type="text/css">
  	.card-profile{
@@ -32,11 +28,12 @@
 			</div>
 		</div>
 		<form method="POST" action="<?=$_ENV['base_url']?>pages/profile/aksi" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="<?=$data['id_hewan']?>">
 			<ul class="list-group list-group-flush mt-2">
 			  <li class="list-group-item">
 			  	<div class="form-group">
 			  		<label>Nama Produk</label>
-			  		<input type="text" name="nama_produk" class="form-control">
+			  		<input type="text" name="nama_produk" class="form-control" value="<?=$data['nama_produk']?>">
 			  	</div>
 			  </li>
 			  <li class="list-group-item">
@@ -52,7 +49,7 @@
 			  			<?php 
 			  				while ($dataJenis = mysqli_fetch_array($sqlJenis)) {
 			  					?>
-			  					<option value="<?=$dataJenis['id_jenis_produk']?>">
+			  					<option value="<?=$dataJenis['id_jenis_produk']?>" <?=($dataJenis['id_jenis_produk']==$data['id_jenis_produk'])?'selected':''?>>
 			  						<?=$dataJenis['nama_jenis_produk'];?>
 			  					</option>
 			  					<?php
@@ -64,7 +61,7 @@
 			  <li class="list-group-item">
 			  	<div class="form-group">
 			  		<label>Jumlah</label>
-			  		<input type="number" name="jumlah" class="form-control">
+			  		<input type="number" name="jumlah" class="form-control" value="<?=$data['jumlah']?>">
 			  	</div>
 			  </li>
 			  <li class="list-group-item">
@@ -75,19 +72,19 @@
 			       <div class="input-group-prepend">
 			          <div class="input-group-text">Rp.</div>
 			       </div>
-			        <input type="number" class="form-control" name="harga">
+			        <input type="number" class="form-control" name="harga" value="<?=$data['harga']?>">
 		      	</div>
 			  </li>
 			  <li class="list-group-item">
 			  	<div class="form-group">
 			  		<label>Deskripsi</label>
-			  		<textarea class="form-control" name="deskripsi"></textarea>
+			  		<textarea class="form-control" name="deskripsi"><?=$data['deskripsi']?></textarea>
 			  	</div>
 			  </li>
 			  <li class="list-group-item">
 			  	<div class="form-group">
 			  		<label>Catatan</label>
-			  		<textarea class="form-control" name="catatan"></textarea>
+			  		<textarea class="form-control" name="catatan"><?=$data['catatan']?></textarea>
 			  	</div>
 			  </li>
 			  <li class="list-group-item">
@@ -98,7 +95,7 @@
 			  			<?php 
 			  				while ($dataProv=mysqli_fetch_array($sqlProvinsi)) {
 			  					?>
-			  						<option value="<?=$dataProv['id_provinsi']?>"><?=$dataProv['nama_provinsi']?></option>
+			  						<option value="<?=$dataProv['id_provinsi']?>" <?=($dataProv['id_provinsi']==$data['id_provinsi'])?'selected':''?>><?=$dataProv['nama_provinsi']?></option>
 			  					<?php
 			  				}
 			  			 ?>
@@ -109,18 +106,25 @@
 	            <div class="form-group">
 	              <label>Kota</label>
 	              <select name="kota" id="kota" class="form-control">
-	              	<option>Silahkan pilih provinsi</option>
+	              	<option <?=($data['id_kota']==NULL)?'selected':''; ?>>Silahkan pilih kota</option>
+			  			<?php 
+			  				while ($dataKota=mysqli_fetch_array($sqlKota)) {
+			  					?>
+			  						<option value="<?=$dataKota['id_kota']?>" <?=($dataKota['id_kota']==$data['id_kota'])?'selected':''?>><?=$dataKota['nama_kota']?></option>
+			  					<?php
+			  				}
+			  			 ?>
 	              </select>
 	            </div>
 			  </li>
 			  <li class="list-group-item">
 			  	<div class="form-group">
 			  		<label>Alamat</label>
-			  		<textarea class="form-control" name="alamat"></textarea>
+			  		<textarea class="form-control" name="alamat"><?=$data['alamat']?></textarea>
 			  	</div>
 			  </li>
 			  <li class="list-group-item">
-	            <button type="submit" name="aksi" value="tambah-produk" class="btn btn-success form-control">Tambah Produk</button>
+	            <button type="submit" name="aksi" value="update-produk" class="btn btn-success form-control">Edit Produk</button>
 			  </li>
 			</ul>
 		</form>

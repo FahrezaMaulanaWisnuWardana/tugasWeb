@@ -8,14 +8,22 @@
     $previous = $halaman - 1;
     $next = $halaman + 1;
     if (isset($_GET['cari'])) {
-      $sqlProduk = mysqli_query($con,"SELECT AVG(rating) as rating , tp.id_peternak , tp.id_hewan , tp.foto_produk , tp.nama_produk , tp.harga ,tp.jumlah , tb_produk_jenis.nama_jenis_produk FROM tb_produk tp LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tp.id_jenis_produk LEFT JOIN tb_transaksi tt ON tp.id_hewan = tt.id_hewan LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 AND tp.nama_produk LIKE %'".$_GET['cari']."'% GROUP BY tp.id_hewan LIMIT $halaman_awal, 8");
+      if ($_GET['cari']!="") {
+      $sqlProduk = mysqli_query($con,"SELECT AVG(rating) as rating , tp.id_peternak , tp.id_hewan , tp.foto_produk , tp.nama_produk , tp.harga ,tp.jumlah , tb_produk_jenis.nama_jenis_produk FROM tb_produk tp LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tp.id_jenis_produk LEFT JOIN tb_transaksi tt ON tp.id_hewan = tt.id_hewan LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 AND tp.nama_produk LIKE '%".$_GET['cari']."%' GROUP BY tp.id_hewan LIMIT $halaman_awal, 8");
         $jmlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk WHERE tb_produk.nama_produk LIKE '%".$_GET['cari']."%'");
-        $jml = mysqli_num_rows($jmlProduk);
+          $cari = $_GET['cari'];
+      }
+    }else if(isset($_GET['kategori'])){
+      if ($_GET['kategori']!="") {
+        $sqlProduk = mysqli_query($con,"SELECT AVG(rating) as rating , tp.id_peternak , tp.id_hewan , tp.foto_produk , tp.nama_produk , tp.harga ,tp.jumlah , tb_produk_jenis.nama_jenis_produk FROM tb_produk tp LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tp.id_jenis_produk LEFT JOIN tb_transaksi tt ON tp.id_hewan = tt.id_hewan LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 AND tb_produk_jenis.nama_jenis_produk LIKE '%".$_GET['kategori']."%' GROUP BY tp.id_hewan LIMIT $halaman_awal, 8");
+          $jmlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk WHERE tb_produk_jenis.nama_jenis_produk LIKE '%".$_GET['kategori']."%'");
+          $cari = $_GET['kategori'];
+      }
     }else{
-      $sqlProduk = mysqli_query($con,"SELECT AVG(rating) as rating , tp.id_peternak , tp.id_hewan , tp.foto_produk , tp.nama_produk , tp.harga ,tp.jumlah , tb_produk_jenis.nama_jenis_produk FROM tb_produk tp LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tp.id_jenis_produk LEFT JOIN tb_transaksi tt ON tp.id_hewan = tt.id_hewan LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 GROUP BY tp.id_hewan LIMIT $halaman_awal, 8");
-      $jmlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk");
-      $jml = mysqli_num_rows($jmlProduk);
+        $sqlProduk = mysqli_query($con,"SELECT AVG(rating) as rating , tp.id_peternak , tp.id_hewan , tp.foto_produk , tp.nama_produk , tp.harga ,tp.jumlah , tb_produk_jenis.nama_jenis_produk FROM tb_produk tp LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tp.id_jenis_produk LEFT JOIN tb_transaksi tt ON tp.id_hewan = tt.id_hewan LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 GROUP BY tp.id_hewan LIMIT $halaman_awal, 8");
+        $jmlProduk = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk");
     }
+    $jml = mysqli_num_rows($jmlProduk);
     $total_halaman = ceil($jml/8);
     $nomor = $halaman_awal+1;
   ?>
@@ -27,18 +35,16 @@
     <div class="container">
       <!-- Produk 8 -->
 
+          <div class="row my-5">
         <?php 
-            if ($sqlProduk == false) {
+            if ($jml < 1) {
               ?>
-              <div class="text-center my-3">
-                <p style="font-size: 2em">Kata Kunci <span class="font-weight-bold"><?=$_GET['cari']?></span> tidak dapat ditemukan</p>
-              </div>
+                <p style="font-size: 2em">Kata Kunci <span class="font-weight-bold"><?=$cari?></span> tidak dapat ditemukan</p>
               <?php
             }else{
               while ($dataProduk = mysqli_fetch_array($sqlProduk)){
                 $img = explode(',', $dataProduk['foto_produk']);
                 ?>
-              <div class="row my-5">
                 <div class="col-lg-3 col-md-6 col-sm-12 my-1">
                   <a href="<?=$_ENV['base_url']?>p/<?=str_replace(' ','-',$dataProduk['nama_produk']).'-'.$dataProduk['id_hewan']?>" style="text-decoration: none; color: inherit;">
                   <div class="card overflow-hidden">

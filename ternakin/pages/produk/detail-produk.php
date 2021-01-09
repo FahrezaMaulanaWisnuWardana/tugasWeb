@@ -5,8 +5,8 @@
 	$sqlDetail = mysqli_query($con,"SELECT * FROM tb_produk LEFT JOIN tb_produk_jenis ON tb_produk_jenis.id_jenis_produk = tb_produk.id_jenis_produk INNER JOIN tb_kota ON tb_produk.id_kota = tb_kota.id_kota INNER JOIN tb_provinsi ON tb_provinsi.id_provinsi = tb_produk.id_provinsi WHERE id_hewan='".end($id)."'");
 	$sqlRating = mysqli_query($con , "SELECT AVG(rating) FROM tb_rating tr INNER JOIN tb_transaksi tt ON tr.kd_tr_peternak = tt.kd_tr_peternak INNER JOIN tb_produk tp ON tt.id_hewan = tp.id_hewan WHERE tp.id_hewan = '".end($id)."' ");
 	$rating = mysqli_fetch_row($sqlRating);
-	$dataHewan = mysqli_fetch_row($sqlDetail);
-	$img = explode(',', $dataHewan[1]);
+	$dataHewan = mysqli_fetch_assoc($sqlDetail);
+	$img = explode(',', $dataHewan['foto_produk']);
 	$jmlImg = count($img);
 	include"../../templates/header.php";
  ?>
@@ -23,7 +23,7 @@
 				<aside class="col-sm-5 border-right">
 					<article class="gallery-wrap"> 
 					<div class="img-big-wrap">
-					  <figure class="zoo-item" data-zoo-image="<?=$_ENV['base_url']?>assets/image/produk/<?=$dataHewan[6].'/'.$img[0]?>"></figure>
+					  <figure class="zoo-item" data-zoo-image="<?=$_ENV['base_url']?>assets/image/produk/<?=$dataHewan['id_peternak'].'/'.$img[0]?>"></figure>
 					</div>
 					<div class="img-small-wrap">
 						<div class="img-small-wrap">
@@ -31,7 +31,7 @@
 							for ($i=0; $i < $jmlImg; $i++){
 								?>
 								  <div class="item-gallery">
-								  	<img src="<?=$_ENV['base_url']?>assets/image/produk/<?=$dataHewan[6].'/'.$img[$i]?>" class="item-img">
+								  	<img src="<?=$_ENV['base_url']?>assets/image/produk/<?=$dataHewan['id_peternak'].'/'.$img[$i]?>" class="item-img">
 								  </div>
 								<?php
 							}
@@ -42,30 +42,30 @@
 				</aside>
 				<aside class="col-sm-7">
 					<article class="card-body p-5">
-						<h3 class="title mb-3"><?=$dataHewan[2]?></h3>
+						<h3 class="title mb-3"><?=$dataHewan['nama_produk']?></h3>
 						<p class="price-detail-wrap"> 
 							<span class="price h3 text-warning"> 
-								<span class="currency">Rp.</span><span class="num"><?=number_format($dataHewan[5],2,',','.') ?></span>
+								<span class="currency">Rp.</span><span class="num"><?=number_format($dataHewan['harga'],2,',','.') ?></span>
 							</span> 
 						</p> <!-- price-detail-wrap .// -->
 					<dl class="item-property">
 					  <dt>Deskripsi</dt>
-					  <dd><p><?=$dataHewan[7]?></p></dd>
+					  <dd><p><?=$dataHewan['deskripsi']?></p></dd>
 					</dl>
 					<dl class="param param-feature">
 					  <dt>Tipe</dt>
-					  <dd><?=$dataHewan[15]?></dd>
+					  <dd><?=$dataHewan['nama_jenis_produk']?></dd>
 					</dl>  <!-- item-property-hor .// -->
 					<dl class="param param-feature">
 					  <dt>Daerah</dt>
-					  <dd><?=$dataHewan[21].' - '.$dataHewan[19]?></dd>
+					  <dd><?=$dataHewan['nama_kota'].' - '.$dataHewan['nama_provinsi']?></dd>
 					</dl>  <!-- item-property-hor .// -->
 					<hr>
 						<div class="row">
 							<div class="col-sm-5">
 								<dl class="param param-inline">
 								  <dt>Quantity: </dt>
-								  <dd><?=$dataHewan[6]?></dd>
+								  <dd><?=$dataHewan['jumlah']?></dd>
 								</dl>
 							</div>
 							<div class="col-sm-5">
@@ -76,7 +76,7 @@
 							</div>
 						</div>
 						<hr>
-						<button class="btn btn-lg btn-outline-primary text-uppercase <?=($dataHewan[6]==$_SESSION['user']['id'])?'':'cart'?>" data-id="<?=$dataHewan[0]?>" data-penjual="<?=$dataHewan[6]?>" data-harga="<?=$dataHewan[5]?>"> <i class="fas fa-shopping-cart"></i> Tambah ke keranjang </button>
+						<button class="btn btn-lg btn-outline-primary text-uppercase <?=($dataHewan['id_peternak']==$_SESSION['user']['id'])?'':'cart'?>" data-id="<?=$dataHewan['id_hewan']?>" data-penjual="<?=$dataHewan['id_peternak']?>" data-harga="<?=$dataHewan['harga']?>"> <i class="fas fa-shopping-cart"></i> Tambah ke keranjang </button>
 					</article> <!-- card-body.// -->
 				</aside> <!-- col.// -->
 			</div> <!-- row.// -->
