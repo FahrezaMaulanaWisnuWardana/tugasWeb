@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2020 at 02:50 PM
+-- Generation Time: Jan 09, 2021 at 12:28 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -712,7 +712,8 @@ INSERT INTO `tb_peternak` (`id_peternak`, `img_profile`, `nama_lengkap`, `email`
 (4, NULL, 'Fahrizal Maulinda Mardial', 'reza11.6a@gmail.com', '$2y$10$nYMpMfvmFL5YlsZgVVQPSuf54IGNqTeJHlEwJcJ0VLHnSMwB2GEZW', '085816504185', 'pelita			  					  		', '08123123', 15, 1508, '2', '2020-12-03 05:54:44'),
 (5, NULL, 'oong suratno', 'useradmin@gmail.com', '$2y$10$lCBQs1eyA9QhxLZv1hWIbuPV78LS82A4IUmX28Rw80ivbc6ZYX0i6', '085818185302', '			  			pelita			  		', '0123123', 31, 3173, '2', '2020-12-03 06:40:56'),
 (6, NULL, 'test', 'test@test.com', '$2y$10$sFvyXzlW2c7SlxR/kd1hCOIJjdRjXILEOqoXiZ55NonW7VPWovAGq', '085816504185', 'pelita', '0823223', 31, 3173, '2', '2020-12-15 09:23:26'),
-(7, NULL, 'reza', 'reza@reza.com', '$2y$10$5JY/YUdzK2ao/dt4x3QwgeR5i.rC/5ZfK5scG8I.dTAf24TarsLG2', '085816504185', 'santawi', '', 15, 1508, '1', '2020-12-15 09:23:38');
+(7, NULL, 'reza', 'reza@reza.com', '$2y$10$5JY/YUdzK2ao/dt4x3QwgeR5i.rC/5ZfK5scG8I.dTAf24TarsLG2', '085816504185', 'santawi', '', 15, 1508, '1', '2020-12-15 09:23:38'),
+(8, NULL, 'a', 'a@a.cm', '$2y$10$L76BZPEV42FZfqA.1qA0quj5phaidCo32SkgfdAawaBbpM1KO8fFq', '0918239123812', NULL, NULL, NULL, NULL, '1', '2021-01-07 22:20:06');
 
 -- --------------------------------------------------------
 
@@ -741,9 +742,7 @@ CREATE TABLE `tb_produk` (
 --
 
 INSERT INTO `tb_produk` (`id_hewan`, `foto_produk`, `nama_produk`, `id_jenis_produk`, `jumlah`, `harga`, `id_peternak`, `deskripsi`, `catatan`, `id_provinsi`, `id_kota`, `alamat`, `created_at`) VALUES
-(6, '1-min.jpg,2-min.jpg,3-min.jpg,Screenshot_1.png', 'test', 1, 4, 400000, 4, 'test', 'testzx', 21, 2105, 'pelita', '2020-12-13 23:30:28'),
-(7, 'Screenshot_1.png,2-min.jpg,3-min.jpg,Screenshot_1.png', 'sapi ghana', 1, 7, 400000, 4, 'wwww', 'www', 14, 1471, 'qwqwqw', '2020-12-25 07:41:41'),
-(8, '3-min.jpg,Screenshot_1.png,Screenshot_2.png,Screenshot_3.png,Screenshot_4.png,Screenshot_9.png', 'sapi ghana bohay', 1, 8, 900000000, 4, 'qw', 'qw', 18, 1809, 'qwqwq', '2020-12-15 09:22:34'),
+(8, 'Screenshot_1.png,Screenshot_2.png,Screenshot_3.png', 'sapi aseli', 4, 10, 90000, 4, 'zxzxc', 'qw', 14, 1406, 'qwqwqasdasdasdsad', '2021-01-09 11:11:02'),
 (9, 'Screenshot_4.png,Screenshot_9.png,Screenshot_10.png,Screenshot_11.png,Screenshot_12.png', 'sapi ghana wagyu', 1, 10, 800000, 4, 'qwqw', 'qwqw', 32, 3203, 'qwqw', '2020-12-13 23:27:01'),
 (10, 'Screenshot_9.png', 'sapi ghana', 1, 7, 400000, 4, 'qwqw', 'qw', 21, 2105, 'qwqqw', '2020-12-13 23:30:48'),
 (11, '1-min.jpg,2-min.jpg,3-min.jpg', 'kambing', 1, 8, 400000, 6, 'test', 'test', 11, 1101, 'pelita', '2020-12-13 23:30:48');
@@ -756,7 +755,6 @@ INSERT INTO `tb_produk` (`id_hewan`, `foto_produk`, `nama_produk`, `id_jenis_pro
 
 CREATE TABLE `tb_produk_jenis` (
   `id_jenis_produk` tinyint(3) NOT NULL,
-  `jenis_produk` enum('1','2','3') NOT NULL COMMENT '1.Hewan\r\n2.Hasil Olahan\r\n3.Pakan Ternak',
   `nama_jenis_produk` varchar(10) NOT NULL,
   `produk_jenis_img` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -765,8 +763,11 @@ CREATE TABLE `tb_produk_jenis` (
 -- Dumping data for table `tb_produk_jenis`
 --
 
-INSERT INTO `tb_produk_jenis` (`id_jenis_produk`, `jenis_produk`, `nama_jenis_produk`, `produk_jenis_img`) VALUES
-(1, '1', 'kambing', NULL);
+INSERT INTO `tb_produk_jenis` (`id_jenis_produk`, `nama_jenis_produk`, `produk_jenis_img`) VALUES
+(1, 'kambing', 'Screenshot_90.png'),
+(2, 'sapi', 'Screenshot_15.png'),
+(4, 'kambing', NULL),
+(5, 'sapi', NULL);
 
 -- --------------------------------------------------------
 
@@ -883,19 +884,6 @@ INSERT INTO `tb_transaksi` (`id_transaksi`, `kd_transaksi`, `kd_tr_peternak`, `i
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_ulasan`
---
-
-CREATE TABLE `tb_ulasan` (
-  `id_ulasan` int(11) NOT NULL,
-  `id_hewan` int(11) NOT NULL,
-  `id_peternak` int(10) NOT NULL,
-  `ulasan` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tb_users`
 --
 
@@ -998,12 +986,6 @@ ALTER TABLE `tb_transaksi`
   ADD PRIMARY KEY (`id_transaksi`);
 
 --
--- Indexes for table `tb_ulasan`
---
-ALTER TABLE `tb_ulasan`
-  ADD PRIMARY KEY (`id_ulasan`);
-
---
 -- Indexes for table `tb_users`
 --
 ALTER TABLE `tb_users`
@@ -1047,7 +1029,7 @@ ALTER TABLE `tb_kontak`
 -- AUTO_INCREMENT for table `tb_peternak`
 --
 ALTER TABLE `tb_peternak`
-  MODIFY `id_peternak` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_peternak` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tb_produk`
@@ -1059,7 +1041,7 @@ ALTER TABLE `tb_produk`
 -- AUTO_INCREMENT for table `tb_produk_jenis`
 --
 ALTER TABLE `tb_produk_jenis`
-  MODIFY `id_jenis_produk` tinyint(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_jenis_produk` tinyint(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tb_rating`
@@ -1072,12 +1054,6 @@ ALTER TABLE `tb_rating`
 --
 ALTER TABLE `tb_transaksi`
   MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT for table `tb_ulasan`
---
-ALTER TABLE `tb_ulasan`
-  MODIFY `id_ulasan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_users`
