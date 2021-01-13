@@ -6,7 +6,7 @@
    <link rel="stylesheet" type="text/css" href="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/datatables/dataTables.bootstrap4.min.css">
   <!-- Query -->
   <?php
-    $sql = mysqli_query($con,"SELECT * FROM tb_transaksi t INNER JOIN tb_hewan hwn ON hwn.id_hewan = t.id_hewan INNER JOIN tb_peternak p ON t.id_peternak = p.id_peternak");
+    $sql = mysqli_query($con,"SELECT * FROM tb_transaksi t INNER JOIN tb_produk hwn ON hwn.id_hewan = t.id_hewan INNER JOIN tb_peternak p ON t.id_peternak = p.id_peternak INNER JOIN tb_peternak pt ON pt.id_peternak = t.id_peternak") or die(mysqli_error($con));
   ?>
   <!-- End Query -->
 </head>
@@ -78,7 +78,7 @@
                               ?>
                                 <tr>
                                   <td><?=$no++?></td>
-                                  <td><?=$data['nama_hewan']?></td>
+                                  <td><?=$data['nama_produk']?></td>
                                   <td>
                                     <?php 
                                         $sqlPeternak = mysqli_query($con,"SELECT * FROM tb_peternak WHERE id_peternak = hwn.id_peternak");
@@ -86,9 +86,9 @@
                                         echo $data_pemilik['nama_lengkap'];
                                      ?>
                                   </td>
-                                  <td><?=$data['nama_hewan']?></td>
+                                  <td><?=$data['nama_lengkap']?></td>
                                   <td><?=$data['kurir']?></td>
-                                  <td><?=$data['resi']?></td>
+                                  <td><?=$data['no_resi']?></td>
                                   <td>
                                     <?php 
                                       if ($data['status']=="1") {
@@ -97,8 +97,14 @@
                                         echo "Proses oleh penjual";
                                       }else if($data['status']=="3"){
                                         echo "Pengiriman";
-                                      }else{
-                                        echo "Selesai";
+                                      }else if ($data['status']=="4") {
+                                        echo"Status pesanan sedang dikirim";
+                                      }else if($data['status']=="5"){
+                                        echo"Pesanan telah sampai";
+                                      }else if($data['status']=="6"){
+                                        echo"Pesanan telah sampai";
+                                      }else if($data['status']=="99"){
+                                        echo"Pesanan telah sampai";
                                       }
                                     ?>
                                   </td>

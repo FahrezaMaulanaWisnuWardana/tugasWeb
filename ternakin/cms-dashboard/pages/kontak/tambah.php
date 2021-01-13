@@ -50,7 +50,7 @@
                     <input type="hidden" name="id_kontak" value="">
                     <div class="form-group">
                       <label>Nama</label>
-                      <input type="text" name="nama" class="form-control" maxlength="35">
+                      <input type="text" name="nama" class="form-control" >
                     </div>
                     <div class="form-group">
                       <label>Icon</label>

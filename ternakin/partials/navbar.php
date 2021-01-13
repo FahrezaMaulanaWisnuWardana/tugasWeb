@@ -13,7 +13,7 @@
         </span>
 
         <a class="navbar-brand" href="#">
-          <h4 class="font-weight-bold">Logo</h4>
+          <h4 class="font-weight-bold"><img src="<?=$_ENV['base_url']?>assets/image/logo/logo2.png" style="max-width: 100px;"></h4>
         </a>
 
         <ul class="navbar-nav ml-auto d-block d-md-none">

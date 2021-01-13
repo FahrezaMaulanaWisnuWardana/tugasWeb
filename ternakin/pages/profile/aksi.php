@@ -2,6 +2,7 @@
 	require_once"../../config/database.php";
 	$aksi = $_POST['aksi'];
 	$id = $_SESSION['user']['id'];
+	$path = $_SERVER['DOCUMENT_ROOT']."/tugasWeb/ternakin/assets/image/";
 	switch ($aksi) {
 		case 'gabung':
 			$sql = mysqli_query($con,"SELECT * FROM tb_peternak WHERE id_peternak='".$id."'");
@@ -26,7 +27,16 @@
 			}
 			break;
 		case 'edit-profile':
+		if (isset($_FILES['foto']['name'])) {
+			$tmp = $_FILES['foto']['tmp_name'];
+			$nama = $_FILES['foto']['name'];
+			$base_dir = $path.'profile/'.$id;
+			if (!is_dir($base_dir)) {
+				mkdir($base_dir,0777,true);
+			}
+			if (move_uploaded_file($tmp, $base_dir.'/'.basename($nama))) {
 				$sql = mysqli_query($con,"UPDATE tb_peternak SET 
+					img_profile='".$nama."',
 					nama_lengkap='".$_POST['nama']."',
 					email='".$_POST['email']."',
 					no_hp='".$_POST['no_hp']."',
@@ -34,14 +44,32 @@
 					no_rek='".$_POST['no_rek']."',
 					id_provinsi= '".$_POST['provinsi']."',
 					id_kota='".$_POST['kota']."'
-					WHERE id_peternak='".$id."'");
+					WHERE id_peternak='".$id."'") or die(mysqli_error($con));
+					if ($sql) {
+						$_SESSION['alert']['berhasil'] ="Berhasil update profile";
+					}else{
+						$_SESSION['alert']['gagal'] ="Gagal update profile";
+					}
+			}else{
+				$_SESSION['alert']['gagal'] ="Gagal update foto profile";
+			}
+		}else{
+			$sql = mysqli_query($con,"UPDATE tb_peternak SET 
+				nama_lengkap='".$_POST['nama']."',
+				email='".$_POST['email']."',
+				no_hp='".$_POST['no_hp']."',
+				alamat='".$_POST['alamat']."',
+				no_rek='".$_POST['no_rek']."',
+				id_provinsi= '".$_POST['provinsi']."',
+				id_kota='".$_POST['kota']."'
+				WHERE id_peternak='".$id."'") or die(mysqli_error($con));
 				if ($sql) {
 					$_SESSION['alert']['berhasil'] ="Berhasil update profile";
-					header("location:{$_ENV['base_url']}profile");
 				}else{
 					$_SESSION['alert']['gagal'] ="Gagal update profile";
-					header("location:{$_ENV['base_url']}profile");
 				}
+		}
+					header("location:{$_ENV['base_url']}profile");
 			break;
 		case 'tambah-produk':
 			$total = count($_FILES['foto']['name']);
@@ -59,7 +87,7 @@
 			for ($i=0; $i <$total ; $i++) {
 				$tmp = $_FILES['foto']['tmp_name'][$i];
 				$name = $_FILES['foto']['name'][$i];
-				$base_dir = $_SERVER['DOCUMENT_ROOT']."/tugasWeb/ternakin/assets/image/produk/".$id."/";
+				$base_dir = $path.'produk/'.$id."/";
 				if (!is_dir($base_dir)){
 					mkdir($base_dir);
 				}
@@ -115,7 +143,7 @@
 						for ($i=0; $i <$total ; $i++) {
 							$tmp = $_FILES['foto']['tmp_name'][$i];
 							$name = $_FILES['foto']['name'][$i];
-							$base_dir = $_SERVER['DOCUMENT_ROOT']."/tugasWeb/ternakin/assets/image/produk/".$id."/";
+							$base_dir = $path.$id."/";
 							if (!is_dir($base_dir)){
 								mkdir($base_dir);
 							}

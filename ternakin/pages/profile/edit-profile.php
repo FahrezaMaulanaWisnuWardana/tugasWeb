@@ -20,7 +20,7 @@
 	<div class="jumbotron">
 		<div class="d-flex justify-content-between">
 			<div class="card card-profile" style="width: 120px;background: #f2f2f2;">
-				<img src="<?=is_null($data['img_profile'])?'https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png':$_ENV['base_url'].'assets/profile/'.$data['id_peternak'].'/'.$_data['img_profile'];?>" style="width: 100%;">
+				<img src="<?=is_null($data['img_profile'])?'https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png':$_ENV['base_url'].'assets/image/profile/'.$data['id_peternak'].'/'.$data['img_profile'];?>" style="width: 100%;">
 			</div>
 			<div class="card-profile d-flex align-items-center">
 				<a href="<?=$_ENV['base_url']?>profile" class="btn btn-success">Profile</a>
@@ -31,7 +31,7 @@
 			  <li class="list-group-item">
 			  	<div class="form-group">
 			  		<label>Foto Profile</label>
-			  		<input type="file" name="file" class="form-control-file">
+			  		<input type="file" name="foto" class="form-control-file">
 			  	</div>
 			  </li>
 			  <li class="list-group-item">

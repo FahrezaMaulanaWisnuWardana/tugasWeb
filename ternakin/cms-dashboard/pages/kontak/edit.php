@@ -53,7 +53,7 @@
                     <input type="hidden" name="id_kontak" value="<?=$data_kontak['id_kontak']?>">
                     <div class="form-group">
                       <label>Nama</label>
-                      <input type="text" name="nama" class="form-control" maxlength="35" value="<?=$data_kontak['nama']?>">
+                      <input type="text" name="nama" class="form-control" value="<?=$data_kontak['nama']?>">
                     </div>
                     <div class="form-group">
                       <label>Icon</label>

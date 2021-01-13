@@ -1,6 +1,7 @@
 <?php 
 	require_once"../../../config/database.php";
 	$aksi = $_POST['aksi'];
+	$path = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image';
 	switch ($aksi) {
 		case 'tambah-artikel':
 			if ($_FILES['foto']['name']!="") {
@@ -14,7 +15,7 @@
 					'id_users' => $_SESSION['user']['id_users'],
 					'id_kategori' => implode(',', $_POST['kategori'])
 				];
-				$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/artikel/';
+				$base_dir = $path.'/artikel/';
 				if (move_uploaded_file($_FILES['foto']['tmp_name'], $base_dir.$foto) ) {
 					$sql = mysqli_query($con,"INSERT INTO tb_artikel VALUES(NULL,'".$arr['judul']."','".$arr['isi']."','".$arr['foto']."','".$arr['slug']."','".$arr['id_users']."','".$arr['id_kategori']."','".date("Y-m-d h:i:s")."')") or die(mysqli_error());
 					($sql)?$_SESSION['alert']['berhasil'] ="Berhasil membuat artikel":$_SESSION['alert']['gagal'] ="Gagal membuat artikel";
@@ -45,7 +46,7 @@
 					'id_users' => $_SESSION['user']['id_users'],
 					'id_kategori' => implode(',', $_POST['kategori'])
 				];
-				$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/artikel/';
+				$base_dir = $path.'/artikel/';
 				if (move_uploaded_file($_FILES['foto']['tmp_name'], $base_dir.$foto) ) {
 					unlink($base_dir.$artSatu['foto']);
 					$sql = mysqli_query($con,"UPDATE tb_artikel SET judul='".$arr['judul']."', isi='".$arr['isi']."',foto='".$arr['foto']."',slug='".$arr['slug']."',id_kategori='".$arr['id_kategori']."' ") or die(mysqli_error());
@@ -81,7 +82,7 @@
 			$kategori = $_POST['kategori'];
 			$file = explode(".", $_FILES['foto']['name']);
 			$foto = microtime(true).'.'.end($file);
-			$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/kategori/';
+			$base_dir = $path.'/kategori/';
 			if ($_FILES['foto']['name']!="") {
 				if (move_uploaded_file($_FILES['foto']['tmp_name'], $base_dir.$foto) ) {
 					$sql = mysqli_query($con,"INSERT INTO tb_kategori VALUES(NULL,'".$kategori."')") or die(mysqli_error($con));
@@ -110,7 +111,7 @@
 
 			$file = explode(".", $_FILES['foto']['name']);
 			$foto = microtime(true).'.'.end($file);
-			$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/kategori/';
+			$base_dir = $path.'/kategori/';
 
 
 				if ($_FILES['foto']['name']!=""){
@@ -133,7 +134,7 @@
 			$sql = mysqli_query($con,"DELETE FROM tb_kategori WHERE id_kategori='".$id."'");
 			$sqlImgKat = mysqli_query($con,"SELECT * FROM tb_kategori_img WHERE id_kategori='".$id."'");
 			$dataImg = mysqli_fetch_assoc($sqlImgKat);
-			$base_dir = $_SERVER['DOCUMENT_ROOT'].'/tugasWeb/ternakin/assets/image/kategori/';
+			$base_dir = $path.'/kategori/';
 				if ($sql) {
 					unlink($base_dir.$dataImg['img_kategori']);
 					$sqlImg = mysqli_query($con,"DELETE FROM tb_kategori_img WHERE id_kategori='".$id."'");

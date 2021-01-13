@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2021 at 12:28 PM
+-- Generation Time: Jan 13, 2021 at 06:17 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -77,16 +77,6 @@ CREATE TABLE `tb_bukti_tf` (
   `img_bukti_tf` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `tb_bukti_tf`
---
-
-INSERT INTO `tb_bukti_tf` (`kd_transaksi`, `img_bukti_tf`) VALUES
-('TR01.4', '3-min.jpg'),
-('TR02.4', '3-min.jpg'),
-('TR02.4', '3-min.jpg'),
-('TR07.6', 'Screenshot_9.png');
-
 -- --------------------------------------------------------
 
 --
@@ -107,7 +97,7 @@ CREATE TABLE `tb_carousel` (
 --
 
 INSERT INTO `tb_carousel` (`id_carousel`, `img_carousel`, `judul`, `sub_judul`, `deskripsi`, `url`) VALUES
-(1, '1-min.jpg,2-min.jpg,3-min.jpg', 'Jual ternak|Jual Pakan ternak|Jual Olahan Ternak', 'Ternak Pilihan peternak|Pakan ternak pilihan peternak|Jual Olahan ternak', 'test|test|test', 'https://www.google.com/|https://www.google.com/|https://www.google.com/');
+(1, '1-min.jpg,2-min.jpg,3-min.jpg', 'Jual ternak|Jual Pakan ternak|Jual Olahan Ternak', 'Ternak Pilihan peternak|Pakan ternak pilihan peternak|Jual Olahan ternak', 'test|test|test', 'produk|produk|produk');
 
 -- --------------------------------------------------------
 
@@ -150,6 +140,16 @@ CREATE TABLE `tb_kontak` (
   `nama` text NOT NULL,
   `icon` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_kontak`
+--
+
+INSERT INTO `tb_kontak` (`id_kontak`, `nama`, `icon`) VALUES
+(1, 'Jl Pelita No 10 , Bondowoso', 'marker.png'),
+(2, '<a href=\"https://www.instagram.com\" class=\"text-white\">Instagram</a>', 'ig.png'),
+(3, '085816504185', 'phone.png'),
+(4, '<a href=\"https://id-id.facebook.com/\" class=\"text-white\">Facebook</a>', 'fb.png');
 
 -- --------------------------------------------------------
 
@@ -709,7 +709,7 @@ CREATE TABLE `tb_peternak` (
 --
 
 INSERT INTO `tb_peternak` (`id_peternak`, `img_profile`, `nama_lengkap`, `email`, `password`, `no_hp`, `alamat`, `no_rek`, `id_provinsi`, `id_kota`, `level`, `created_at`) VALUES
-(4, NULL, 'Fahrizal Maulinda Mardial', 'reza11.6a@gmail.com', '$2y$10$nYMpMfvmFL5YlsZgVVQPSuf54IGNqTeJHlEwJcJ0VLHnSMwB2GEZW', '085816504185', 'pelita			  					  		', '08123123', 15, 1508, '2', '2020-12-03 05:54:44'),
+(4, 'ig.png', 'Fahrizal Maulinda Mardial', 'reza11.6a@gmail.com', '$2y$10$nYMpMfvmFL5YlsZgVVQPSuf54IGNqTeJHlEwJcJ0VLHnSMwB2GEZW', '085816504185', 'pelita			  					  		', '08123123', 15, 1508, '2', '2021-01-13 04:03:38'),
 (5, NULL, 'oong suratno', 'useradmin@gmail.com', '$2y$10$lCBQs1eyA9QhxLZv1hWIbuPV78LS82A4IUmX28Rw80ivbc6ZYX0i6', '085818185302', '			  			pelita			  		', '0123123', 31, 3173, '2', '2020-12-03 06:40:56'),
 (6, NULL, 'test', 'test@test.com', '$2y$10$sFvyXzlW2c7SlxR/kd1hCOIJjdRjXILEOqoXiZ55NonW7VPWovAGq', '085816504185', 'pelita', '0823223', 31, 3173, '2', '2020-12-15 09:23:26'),
 (7, NULL, 'reza', 'reza@reza.com', '$2y$10$5JY/YUdzK2ao/dt4x3QwgeR5i.rC/5ZfK5scG8I.dTAf24TarsLG2', '085816504185', 'santawi', '', 15, 1508, '1', '2020-12-15 09:23:38'),
@@ -859,28 +859,6 @@ CREATE TABLE `tb_transaksi` (
   `status` enum('1','2','3','4','5','6','99') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `tb_transaksi`
---
-
-INSERT INTO `tb_transaksi` (`id_transaksi`, `kd_transaksi`, `kd_tr_peternak`, `id_hewan`, `id_peternak`, `kurir`, `no_resi`, `status`) VALUES
-(1, 'TR01', 'TR01.4', 7, 7, '', '', '6'),
-(2, 'TR02', 'TR02.4', 10, 7, 'jne', 'qwe', '6'),
-(3, 'TR03', 'TR03.4', 8, 7, '123123', 'test', '1'),
-(4, 'TR04', 'TR04.4', 6, 7, 'rere', 'reza', '1'),
-(5, 'TR04', 'TR04.4', 6, 7, 'rere', 'reza', '1'),
-(6, 'TR05', 'TR05.4', 6, 7, NULL, NULL, '1'),
-(7, 'TR05', 'TR05.4', 6, 7, NULL, NULL, '1'),
-(8, 'TR06', 'TR06.4', 6, 7, NULL, NULL, '1'),
-(9, 'TR06', 'TR06.4', 6, 7, NULL, NULL, '1'),
-(10, 'TR06', 'TR06.4', 7, 7, NULL, NULL, '1'),
-(11, 'TR07', 'TR07.6', 11, 7, 'jne', '08123123', '6'),
-(12, 'TR07', 'TR07.6', 11, 7, 'jne', '08123123', '6'),
-(13, 'TR07', 'TR07.4', 10, 7, NULL, NULL, '1'),
-(14, 'TR07', 'TR07.4', 10, 7, NULL, NULL, '1'),
-(15, 'TR08', 'TR08.4', 7, 6, NULL, NULL, '1'),
-(16, 'TR08', 'TR08.4', 8, 6, NULL, NULL, '1');
-
 -- --------------------------------------------------------
 
 --
@@ -1023,7 +1001,7 @@ ALTER TABLE `tb_kategori`
 -- AUTO_INCREMENT for table `tb_kontak`
 --
 ALTER TABLE `tb_kontak`
-  MODIFY `id_kontak` tinyint(1) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kontak` tinyint(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_peternak`

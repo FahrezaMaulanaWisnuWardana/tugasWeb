@@ -1,6 +1,7 @@
 <?php 
 	require_once"../../../config/database.php";
 	$aksi = $_POST['aksi'];
+	$path = $_SERVER['DOCUMENT_ROOT']."/tugasWeb/ternakin/assets/image/kategori/";
 	switch ($aksi) {
 		case 'tambah':
 			$nama		= $_POST['nama'];
@@ -8,7 +9,7 @@
 			$lokasi_file = $_FILES['icon']['tmp_name'];
 			$tipe_file   = $_FILES['icon']['type'];
 			$nama_file   = $_FILES['icon']['name'];
-			$direktori = $_SERVER['DOCUMENT_ROOT']."/tugasWeb/ternakin/assets/image/kategori/".basename($nama_file);
+			$direktori = $path.basename($nama_file);
 			if (!empty($lokasi_file)) {
 				if (move_uploaded_file($lokasi_file,$direktori)) {
 					$query_tambah	= mysqli_query($con,"INSERT INTO tb_produk_jenis VALUES (NULL,  '$nama',  '$nama_file')");
@@ -34,7 +35,7 @@
 			$lokasi_file = $_FILES['icon']['tmp_name'];
 			$tipe_file   = $_FILES['icon']['type'];
 			$nama_file   = $_FILES['icon']['name'];
-			$direktori = $_SERVER['DOCUMENT_ROOT']."/tugasWeb/ternakin/assets/image/kategori/".basename($nama_file);
+			$direktori = $path.basename($nama_file);
 
 			if (!empty($lokasi_file)) {
 				if (move_uploaded_file($lokasi_file,$direktori)) {

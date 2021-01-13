@@ -1,6 +1,7 @@
 <?php 
 	require_once"../../../config/database.php";
 	$aksi = $_POST['aksi'];
+	$path = $_SERVER['DOCUMENT_ROOT']."/tugasWeb/ternakin/assets/image/slider/";
 	switch ($aksi) {
 		case 'edit-tentang':
 			$id = $_POST['id_about'];
@@ -25,7 +26,7 @@
 			for ($i=0; $i < $total; $i++) { 
 				$tmp = $_FILES['foto']['tmp_name'][$i];
 				$name = $_FILES['foto']['name'][$i];
-				$base_dir = $_SERVER['DOCUMENT_ROOT']."/tugasWeb/ternakin/assets/image/slider/".basename($name);
+				$base_dir = $path.basename($name);
 				unlink($base_dir.$carousel[$i]);
 				if (move_uploaded_file($tmp, $base_dir)) {
 					$sql = mysqli_query($con,"UPDATE tb_carousel SET img_carousel='".$data."' , judul='".$judul."' , sub_judul='".$subjudul."' , deskripsi='".$deskripsi."' , url='".$link."' WHERE id_carousel ='".$id."' ") or die(mysqli_error($con));

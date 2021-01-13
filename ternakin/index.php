@@ -19,21 +19,21 @@ LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 G
     <div class="container" id="panel">
 
       <div class="col-lg-9 col-sm-12 info-panel">
-        <div class="row text-center">
-          <div class="col-lg-4 col-sm-12">
-            <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width: 150px;">
+        <div class="row text-center d-flex align-items-center">
+          <div class="col-lg-4 col-sm-12 mt-5">
+            <img src="<?=$_ENV['base_url']?>assets/image/jenis/hewan.png" style="width: 100px;">
             <div class="h5 pb-5">
               Hewan Ternak
             </div>
           </div>
-          <div class="col-lg-4 col-sm-12">
-            <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width: 150px;">
+          <div class="col-lg-4 col-sm-12 mt-5">
+            <img src="<?=$_ENV['base_url']?>assets/image/jenis/rumput.png" style="width: 90px;">
             <div class="h5 pb-5">
               Pakan Ternak
             </div>
           </div>
-          <div class="col-lg-4 col-sm-12">
-            <img src="https://png.pngtree.com/png-vector/20190214/ourmid/pngtree-cow-silhouette-vector-icon--black-angus-vector-illustration-png-image_434156.jpg" style="width: 150px;">
+          <div class="col-lg-4 col-sm-12 mt-5">
+            <img src="<?=$_ENV['base_url']?>assets/image/jenis/meat.png" style="width: 150px;">
             <div class="h5 pb-5">
               Olahan Ternak
             </div>
@@ -84,7 +84,7 @@ LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 G
 
       </div>
       <!-- banner mid -->
-      <div class="row my-5">
+     <!--  <div class="row my-5">
         <div class="col-md-8">
           <div class="d-sm-flex justify-content-between align-items-center overflow-hidden rounded-lg">
             <div class="py-4 my-2 my-md-0 py-md-5 px-4 ml-md-3 text-center text-sm-left">
@@ -105,7 +105,7 @@ LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 G
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- end banner mid -->
       <!-- Kategori -->
       <div class="row my-5">
@@ -142,7 +142,7 @@ LEFT JOIN tb_rating tr ON tr.kd_tr_peternak = tt.kd_tr_peternak WHERE jumlah>0 G
     </div>
     <div class="blog-info-container text-center">
       <h1><i class="fas fa-edit"></i></h1>
-      <h3>Yuk baca artikel ternakin</h3>
+      <h3><a href="<?=$_ENV['base_url']?>artikel" class="link">Yuk baca artikel ternakin</a></h3>
       <p class="text-muted">Artikel terbaru seputar peternakan</p>
     </div>
     <?php include"partials/footer.php"; ?>

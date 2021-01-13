@@ -18,7 +18,7 @@
             <div class="p">
               <?=$dataSlideDeskripsi[0]?>
             </div>
-            <a href="<?=$dataSlideLink[0]?>" class="btn btn-success my-2">
+            <a href="<?=$_ENV['base_url'].$dataSlideLink[0]?>" class="btn btn-success my-2">
               Belanja Sekarang <i class="fas fa-chevron-right"></i>
             </a>
           </div>
@@ -35,7 +35,7 @@
             <div class="p">
               <?=$dataSlideDeskripsi[1]?>
             </div>
-            <a href="<?=$dataSlideLink[1]?>" class="btn btn-success my-2">
+            <a href="<?=$_ENV['base_url'].$dataSlideLink[1]?>" class="btn btn-success my-2">
               Belanja Sekarang <i class="fas fa-chevron-right"></i>
             </a>
           </div>
@@ -52,7 +52,7 @@
             <div class="p">
               <?=$dataSlideDeskripsi[2]?>
             </div>
-            <a href="<?=$dataSlideLink[2]?>" class="btn btn-success my-2">
+            <a href="<?=$_ENV['base_url'].$dataSlideLink[2]?>" class="btn btn-success my-2">
               Belanja Sekarang <i class="fas fa-chevron-right"></i>
             </a>
           </div>

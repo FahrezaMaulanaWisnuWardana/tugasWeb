@@ -9,7 +9,7 @@
   }
  ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="<?=$_ENV['base_url']?>">Logo</a>
+  <a class="navbar-brand" href="<?=$_ENV['base_url']?>"><img src="<?=$_ENV['base_url']?>assets/image/logo/logo.png" style="width: 50px;"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
