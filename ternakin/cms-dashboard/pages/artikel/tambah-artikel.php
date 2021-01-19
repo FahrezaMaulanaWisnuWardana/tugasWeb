@@ -128,7 +128,36 @@
   <script src="<?=$_ENV['base_url']?>cms-dashboard/assets/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
-      $('#summernote').summernote();
+      $('#summernote').summernote({
+        height:200,
+        callbacks:{
+            onImageUpload: function(files) {
+            for (var i = 0; i < files.length; i++) {
+              editor = $(this)
+              $.upload(files[i],editor)
+            }
+          }
+        }
+      });
+
+      $.upload = function(file , editor){
+        let out = new FormData();
+        out.append('file',file,file.name)
+        $.ajax({
+          method:'POST',
+          url:encodeURI("<?=$_ENV['base_url']?>cms-dashboard/api/upload-img-summernote"),
+          contentType:false,
+          cache:false,
+          processData:false,
+          data:out,
+          success:function(img){
+            editor.summernote('insertImage',img);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+              console.error(textStatus + " " + errorThrown);
+          }
+        })
+      }
       $('select').selectpicker();
       function readURL(input){
         if(input.files && input.files[0])
